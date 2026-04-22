@@ -1,0 +1,487 @@
+[
+  {
+    "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108715124",
+    "pull_request_review_id": 4137763998,
+    "id": 3108715124,
+    "node_id": "PRRC_kwDOBEmZvc65Szp0",
+    "diff_hunk": "@@ -33,14 +33,18 @@ namespace experimental {\n \n namespace {\n \n+// POSIX requires sem_open() names to start with '/'. glibc is lenient and\n+// strips a missing leading slash, but stricter implementations (musl, some\n+// older libcs) fail with EINVAL. Always prepend '/' for portability.\n+\n std::string GetSemaphoreObjectName(const std::string &name) {\n-  std::string ret = absl::StrCat(\"obj\", name);\n+  std::string ret = absl::StrCat(\"/obj\", name);",
+    "path": "src/ray/core_worker/experimental_mutable_object_manager.cc",
+    "commit_id": "a4746fe4a332a2f1a504b3c7849f8b57a58c2989",
+    "original_commit_id": "92725a21d63770f50b543cdcf11dc95cb9eb5097",
+    "user": {
+      "login": "gemini-code-assist[bot]",
+      "id": 176961590,
+      "node_id": "BOT_kgDOCow4Ng",
+      "avatar_url": "https://avatars.githubusercontent.com/in/956858?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D",
+      "html_url": "https://github.com/apps/gemini-code-assist",
+      "followers_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "![medium](https://www.gstatic.com/codereviewagent/medium-priority.svg)\n\nThe length check on the following line (`RAY_CHECK_LE(name.size(), PSEMNAMLEN)`) should be updated to check the length of the final semaphore name (`ret.size()`). Prepending `\"/obj\"` adds 4 characters to the length. On platforms with strict limits like macOS (where `PSEMNAMLEN` is typically 30), if `name.size()` is close to the limit, the resulting string will exceed it, causing `sem_open` to fail and the process to crash at the subsequent `RAY_CHECK_NE`.",
+    "created_at": "2026-04-20T06:40:34Z",
+    "updated_at": "2026-04-20T06:40:34Z",
+    "html_url": "https://github.com/ray-project/ray/pull/62762#discussion_r3108715124",
+    "pull_request_url": "https://api.github.com/repos/ray-project/ray/pulls/62762",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108715124"
+      },
+      "html": {
+        "href": "https://github.com/ray-project/ray/pull/62762#discussion_r3108715124"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/62762"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108715124/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 41,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 10,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108715126",
+    "pull_request_review_id": 4137763998,
+    "id": 3108715126,
+    "node_id": "PRRC_kwDOBEmZvc65Szp2",
+    "diff_hunk": "@@ -33,14 +33,18 @@ namespace experimental {\n \n namespace {\n \n+// POSIX requires sem_open() names to start with '/'. glibc is lenient and\n+// strips a missing leading slash, but stricter implementations (musl, some\n+// older libcs) fail with EINVAL. Always prepend '/' for portability.\n+\n std::string GetSemaphoreObjectName(const std::string &name) {\n-  std::string ret = absl::StrCat(\"obj\", name);\n+  std::string ret = absl::StrCat(\"/obj\", name);\n   RAY_CHECK_LE(name.size(), PSEMNAMLEN);\n   return ret;\n }\n \n std::string GetSemaphoreHeaderName(const std::string &name) {\n-  std::string ret = absl::StrCat(\"hdr\", name);\n+  std::string ret = absl::StrCat(\"/hdr\", name);",
+    "path": "src/ray/core_worker/experimental_mutable_object_manager.cc",
+    "commit_id": "a4746fe4a332a2f1a504b3c7849f8b57a58c2989",
+    "original_commit_id": "92725a21d63770f50b543cdcf11dc95cb9eb5097",
+    "user": {
+      "login": "gemini-code-assist[bot]",
+      "id": 176961590,
+      "node_id": "BOT_kgDOCow4Ng",
+      "avatar_url": "https://avatars.githubusercontent.com/in/956858?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D",
+      "html_url": "https://github.com/apps/gemini-code-assist",
+      "followers_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "![medium](https://www.gstatic.com/codereviewagent/medium-priority.svg)\n\nSimilar to `GetSemaphoreObjectName`, the length check on the following line should verify `ret.size()` instead of `name.size()`. The `\"/hdr\"` prefix increases the total length by 4 characters, which may exceed `PSEMNAMLEN` even if the input `name` is within the limit.",
+    "created_at": "2026-04-20T06:40:34Z",
+    "updated_at": "2026-04-20T06:40:34Z",
+    "html_url": "https://github.com/ray-project/ray/pull/62762#discussion_r3108715126",
+    "pull_request_url": "https://api.github.com/repos/ray-project/ray/pulls/62762",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108715126"
+      },
+      "html": {
+        "href": "https://github.com/ray-project/ray/pull/62762#discussion_r3108715126"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/62762"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108715126/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 47,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 17,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108715130",
+    "pull_request_review_id": 4137763998,
+    "id": 3108715130,
+    "node_id": "PRRC_kwDOBEmZvc65Szp6",
+    "diff_hunk": "@@ -621,6 +621,87 @@ TEST(MutableObjectTest, TestReadMultipleAcquireDuringFailure) {\n   }\n }\n \n+// Tests that semaphore names are POSIX-compliant (start with '/').\n+// POSIX requires sem_open() names to start with '/'. Linux enforces this strictly\n+// (sem_open returns EINVAL without it); macOS is lenient. Without the '/' prefix in\n+// GetSemaphoreObjectName/GetSemaphoreHeaderName, this crashes on Linux with strict\n+// glibc (e.g., DGX Spark) via RAY_CHECK_NE(semaphores.object_sem, SEM_FAILED).\n+TEST(MutableObjectTest, TestSemaphoreNameHasLeadingSlash) {\n+  MutableObjectManager manager;\n+  ObjectID object_id = ObjectID::FromRandom();\n+  PlasmaObjectHeader *header;\n+  std::string unique_name;\n+  {\n+    std::unique_ptr<plasma::MutableObject> object = MakeObject();\n+    header = object->header;\n+    header->Init();\n+    unique_name = std::string(header->unique_name);\n+    ASSERT_TRUE(\n+        manager.RegisterChannel(object_id, std::move(object), /*reader=*/true).ok());\n+  }\n+\n+  // If OpenSemaphores used the correct '/obj<name>' format, we can open the same\n+  // semaphore by its POSIX-correct name. This would fail with ENOENT if a non-'/'\n+  // name was used (the semaphore would have been created under a different path).\n+  std::string obj_sem_name = \"/obj\" + unique_name;\n+  std::string hdr_sem_name = \"/hdr\" + unique_name;\n+  sem_t *obj_sem = sem_open(obj_sem_name.c_str(), /*oflag=*/0);\n+  sem_t *hdr_sem = sem_open(hdr_sem_name.c_str(), /*oflag=*/0);\n+  ASSERT_NE(SEM_FAILED, obj_sem)\n+      << \"Semaphore '\" << obj_sem_name\n+      << \"' not found. Missing '/' prefix in semaphore name?\";\n+  ASSERT_NE(SEM_FAILED, hdr_sem)\n+      << \"Semaphore '\" << hdr_sem_name\n+      << \"' not found. Missing '/' prefix in semaphore name?\";\n+  ASSERT_EQ(0, sem_close(obj_sem));\n+  ASSERT_EQ(0, sem_close(hdr_sem));\n+\n+  manager.DestroySemaphores(object_id);\n+  free(header);\n+}\n+\n+// Tests that a reader can register a channel when semaphores_created=kDone is already\n+// set in the header but the named semaphores don't exist on this machine.\n+// This is the cross-node scenario (ray-project/ray#62328): the writer on Node A sets\n+// semaphores_created=kDone in shared memory. A reader on Node B sees kDone and\n+// previously called sem_open(name, 0) without O_CREAT, which failed with ENOENT\n+// because the semaphores were never created on Node B. The fix uses O_CREAT (without\n+// O_EXCL) so that the reader creates the semaphores locally when absent.\n+TEST(MutableObjectTest, TestCrossNodeSemaphoreCreation) {\n+  MutableObjectManager manager;\n+  ObjectID object_id = ObjectID::FromRandom();\n+  PlasmaObjectHeader *header;\n+  {\n+    std::unique_ptr<plasma::MutableObject> object = MakeObject();\n+    header = object->header;\n+    header->Init();\n+\n+    // Simulate the cross-node state: kDone is set (as if the writer on another node\n+    // already finished initialization) but no named semaphores exist on this machine.\n+    header->semaphores_created.store(PlasmaObjectHeader::SemaphoresCreationLevel::kDone,\n+                                     std::memory_order_release);\n+\n+    // With the fix, this must succeed: the reader path uses O_CREAT and creates the\n+    // semaphores locally. Without the fix, sem_open returned ENOENT -> SEM_FAILED ->\n+    // RAY_CHECK_NE(SEM_FAILED, SEM_FAILED) crash.\n+    ASSERT_TRUE(\n+        manager.RegisterChannel(object_id, std::move(object), /*reader=*/true).ok());\n+  }\n+\n+  // Verify the semaphores are usable and were initialized to value=1 (the correct\n+  // initial state for a freshly created mutable object channel).\n+  PlasmaObjectHeader::Semaphores sem{};\n+  ASSERT_TRUE(manager.GetSemaphores(object_id, sem));\n+  int obj_val = -1, hdr_val = -1;\n+  ASSERT_EQ(0, sem_getvalue(sem.object_sem, &obj_val));\n+  ASSERT_EQ(0, sem_getvalue(sem.header_sem, &hdr_val));\n+  ASSERT_EQ(1, obj_val) << \"object_sem should be initialized to 1\";\n+  ASSERT_EQ(1, hdr_val) << \"header_sem should be initialized to 1\";",
+    "path": "src/ray/object_manager/plasma/tests/mutable_object_test.cc",
+    "commit_id": "a816079028009d72479e8d10354d7b15dc323f8a",
+    "original_commit_id": "92725a21d63770f50b543cdcf11dc95cb9eb5097",
+    "user": {
+      "login": "gemini-code-assist[bot]",
+      "id": 176961590,
+      "node_id": "BOT_kgDOCow4Ng",
+      "avatar_url": "https://avatars.githubusercontent.com/in/956858?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D",
+      "html_url": "https://github.com/apps/gemini-code-assist",
+      "followers_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gemini-code-assist%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "![medium](https://www.gstatic.com/codereviewagent/medium-priority.svg)\n\n`sem_getvalue` is not supported on macOS (it returns `-1` and sets `errno` to `ENOSYS`). Since this test file is compiled for both Linux and macOS, these assertions will fail on macOS. Consider wrapping these checks in `#ifdef __linux__` or using an alternative way to verify the initial state if macOS support is required for this test.\n\n```suggestion\n#ifdef __linux__\n  int obj_val = -1, hdr_val = -1;\n  ASSERT_EQ(0, sem_getvalue(sem.object_sem, &obj_val));\n  ASSERT_EQ(0, sem_getvalue(sem.header_sem, &hdr_val));\n  ASSERT_EQ(1, obj_val) << \"object_sem should be initialized to 1\";\n  ASSERT_EQ(1, hdr_val) << \"header_sem should be initialized to 1\";\n#endif\n```",
+    "created_at": "2026-04-20T06:40:34Z",
+    "updated_at": "2026-04-20T06:40:34Z",
+    "html_url": "https://github.com/ray-project/ray/pull/62762#discussion_r3108715130",
+    "pull_request_url": "https://api.github.com/repos/ray-project/ray/pulls/62762",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108715130"
+      },
+      "html": {
+        "href": "https://github.com/ray-project/ray/pull/62762#discussion_r3108715130"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/62762"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108715130/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 695,
+    "original_start_line": 695,
+    "start_side": "RIGHT",
+    "line": 699,
+    "original_line": 699,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 79,
+    "position": 79,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108728489",
+    "pull_request_review_id": 4137778993,
+    "id": 3108728489,
+    "node_id": "PRRC_kwDOBEmZvc65S26p",
+    "diff_hunk": "@@ -621,6 +621,87 @@ TEST(MutableObjectTest, TestReadMultipleAcquireDuringFailure) {\n   }\n }\n \n+// Tests that semaphore names are POSIX-compliant (start with '/').\n+// POSIX requires sem_open() names to start with '/'. Linux enforces this strictly\n+// (sem_open returns EINVAL without it); macOS is lenient. Without the '/' prefix in\n+// GetSemaphoreObjectName/GetSemaphoreHeaderName, this crashes on Linux with strict\n+// glibc (e.g., DGX Spark) via RAY_CHECK_NE(semaphores.object_sem, SEM_FAILED).\n+TEST(MutableObjectTest, TestSemaphoreNameHasLeadingSlash) {\n+  MutableObjectManager manager;\n+  ObjectID object_id = ObjectID::FromRandom();\n+  PlasmaObjectHeader *header;\n+  std::string unique_name;\n+  {\n+    std::unique_ptr<plasma::MutableObject> object = MakeObject();\n+    header = object->header;\n+    header->Init();\n+    unique_name = std::string(header->unique_name);\n+    ASSERT_TRUE(\n+        manager.RegisterChannel(object_id, std::move(object), /*reader=*/true).ok());\n+  }\n+\n+  // If OpenSemaphores used the correct '/obj<name>' format, we can open the same\n+  // semaphore by its POSIX-correct name. This would fail with ENOENT if a non-'/'\n+  // name was used (the semaphore would have been created under a different path).\n+  std::string obj_sem_name = \"/obj\" + unique_name;\n+  std::string hdr_sem_name = \"/hdr\" + unique_name;\n+  sem_t *obj_sem = sem_open(obj_sem_name.c_str(), /*oflag=*/0);\n+  sem_t *hdr_sem = sem_open(hdr_sem_name.c_str(), /*oflag=*/0);\n+  ASSERT_NE(SEM_FAILED, obj_sem)\n+      << \"Semaphore '\" << obj_sem_name\n+      << \"' not found. Missing '/' prefix in semaphore name?\";\n+  ASSERT_NE(SEM_FAILED, hdr_sem)\n+      << \"Semaphore '\" << hdr_sem_name\n+      << \"' not found. Missing '/' prefix in semaphore name?\";\n+  ASSERT_EQ(0, sem_close(obj_sem));\n+  ASSERT_EQ(0, sem_close(hdr_sem));\n+\n+  manager.DestroySemaphores(object_id);\n+  free(header);\n+}\n+\n+// Tests that a reader can register a channel when semaphores_created=kDone is already\n+// set in the header but the named semaphores don't exist on this machine.\n+// This is the cross-node scenario (ray-project/ray#62328): the writer on Node A sets\n+// semaphores_created=kDone in shared memory. A reader on Node B sees kDone and\n+// previously called sem_open(name, 0) without O_CREAT, which failed with ENOENT\n+// because the semaphores were never created on Node B. The fix uses O_CREAT (without\n+// O_EXCL) so that the reader creates the semaphores locally when absent.\n+TEST(MutableObjectTest, TestCrossNodeSemaphoreCreation) {\n+  MutableObjectManager manager;\n+  ObjectID object_id = ObjectID::FromRandom();\n+  PlasmaObjectHeader *header;\n+  {\n+    std::unique_ptr<plasma::MutableObject> object = MakeObject();\n+    header = object->header;\n+    header->Init();\n+\n+    // Simulate the cross-node state: kDone is set (as if the writer on another node\n+    // already finished initialization) but no named semaphores exist on this machine.\n+    header->semaphores_created.store(PlasmaObjectHeader::SemaphoresCreationLevel::kDone,\n+                                     std::memory_order_release);\n+\n+    // With the fix, this must succeed: the reader path uses O_CREAT and creates the\n+    // semaphores locally. Without the fix, sem_open returned ENOENT -> SEM_FAILED ->\n+    // RAY_CHECK_NE(SEM_FAILED, SEM_FAILED) crash.\n+    ASSERT_TRUE(\n+        manager.RegisterChannel(object_id, std::move(object), /*reader=*/true).ok());\n+  }\n+\n+  // Verify the semaphores are usable and were initialized to value=1 (the correct\n+  // initial state for a freshly created mutable object channel).\n+  PlasmaObjectHeader::Semaphores sem{};\n+  ASSERT_TRUE(manager.GetSemaphores(object_id, sem));\n+  int obj_val = -1, hdr_val = -1;\n+  ASSERT_EQ(0, sem_getvalue(sem.object_sem, &obj_val));\n+  ASSERT_EQ(0, sem_getvalue(sem.header_sem, &hdr_val));",
+    "path": "src/ray/object_manager/plasma/tests/mutable_object_test.cc",
+    "commit_id": "a816079028009d72479e8d10354d7b15dc323f8a",
+    "original_commit_id": "92725a21d63770f50b543cdcf11dc95cb9eb5097",
+    "user": {
+      "login": "cursor[bot]",
+      "id": 206951365,
+      "node_id": "BOT_kgDODFXTxQ",
+      "avatar_url": "https://avatars.githubusercontent.com/in/1210556?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/cursor%5Bbot%5D",
+      "html_url": "https://github.com/apps/cursor",
+      "followers_url": "https://api.github.com/users/cursor%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/cursor%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/cursor%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/cursor%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/cursor%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/cursor%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/cursor%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/cursor%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/cursor%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "### `sem_getvalue` unsupported on macOS breaks new test\n\n**Medium Severity**\n\n<!-- DESCRIPTION START -->\n`TestCrossNodeSemaphoreCreation` calls `sem_getvalue()` on lines 696–697, but this function is not implemented on macOS — it returns `-1` with `errno = ENOSYS`. Since the test compiles under `#if defined(__APPLE__) || defined(__linux__)`, the `ASSERT_EQ(0, sem_getvalue(...))` assertions will always fail on macOS, causing a test failure on that platform.\n<!-- DESCRIPTION END -->\n\n<!-- BUGBOT_BUG_ID: ref1_4a669968-ea20-47fe-99de-27a07afebbdd -->\n\n<!-- LOCATIONS START\nsrc/ray/object_manager/plasma/tests/mutable_object_test.cc#L695-L697\nLOCATIONS END -->\n<div><a href=\"https://cursor.com/open?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MiJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9DVVJTT1IiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90OmQ5NjI3Y2E4LWEyNmQtNGZhZC1hYTRmLTgxZGE3OTY3NTQxMiIsImVuY3J5cHRpb25LZXkiOiJTUGVUNnVBYUJEZXRqSnY5d1FWUVdmNFBmbXAwU0wxUjBmQ3BYTWhrWWQ0IiwiYnJhbmNoIjoiZml4LzYyMzI4LXBvc2l4LXNlbWFwaG9yZS1jcmFzaCIsInJlcG9Pd25lciI6InJheS1wcm9qZWN0IiwicmVwb05hbWUiOiJyYXkifSwiaWF0IjoxNzc2NjY3NDMyLCJleHAiOjE3NzkyNTk0MzJ9.dfydnzjQWQ0hFbSbhuxQfz8mAzclRe2OaMcQnxT3rLntiQhbFsA6EIUZoWZUx0gJRqgjoKztru6elGt_1blSm11akmd-wHq5f92_19u1Td7iHjsvwi1mpPJg_8Yy-znDB77iqpROdYHLpxoaRe91IKv0jIRDNJLzADPRgczI7gdx6dh1QTVf07s8K0Om13EXd5xEMdOfJzapQICCiTGYzeKx1oAT2wGCPz5TXNoKqfVTdi8t3mSoC6TqE2a1DdcKn2av8I-qN0oFoL1JRucmA3wWjIKtgvYhVWho7J5rq43-n20vwxDPA_GMEq32jD5vozEL4sRSjxjokpiE87cXkw\" target=\"_blank\" rel=\"noopener noreferrer\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://cursor.com/assets/images/fix-in-cursor-dark.png\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://cursor.com/assets/images/fix-in-cursor-light.png\"><img alt=\"Fix in Cursor\" width=\"115\" height=\"28\" src=\"https://cursor.com/assets/images/fix-in-cursor-dark.png\"></picture></a>&nbsp;<a href=\"https://cursor.com/agents?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MiJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9XRUIiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90OmQ5NjI3Y2E4LWEyNmQtNGZhZC1hYTRmLTgxZGE3OTY3NTQxMiIsImVuY3J5cHRpb25LZXkiOiJTUGVUNnVBYUJEZXRqSnY5d1FWUVdmNFBmbXAwU0wxUjBmQ3BYTWhrWWQ0IiwiYnJhbmNoIjoiZml4LzYyMzI4LXBvc2l4LXNlbWFwaG9yZS1jcmFzaCIsInJlcG9Pd25lciI6InJheS1wcm9qZWN0IiwicmVwb05hbWUiOiJyYXkiLCJwck51bWJlciI6NjI3NjIsImNvbW1pdFNoYSI6IjkyNzI1YTIxZDYzNzcwZjUwYjU0M2NkY2YxMWRjOTVjYjllYjUwOTciLCJwcm92aWRlciI6ImdpdGh1YiJ9LCJpYXQiOjE3NzY2Njc0MzIsImV4cCI6MTc3OTI1OTQzMn0.mL2INGz6trcQTaweQ0Sl9jYhstWhOVVYhvjhNPCL0eZxt-i0wEUyMJ0eQF1bi0Sh1-mZzSVmLCVozlg9z5Sc3a9ZxgeHybc4JrTQlqgchOOLsGJ6JSXgJtSE0RsKclX1wFF_5Ht7Z1UhzrzuA2QlLUmZLPhzKuTPINrE_GhlPWGxNi6wECya8woyQnSY1_uqzbsace5CCa4WsInUStfB1spZOlra_LcuxGWyozbcs6oODZknISJFcQnsgkAccAN4U2t-i9rswtJjoP6tBoH7mbETTsLfOX0xPGBUaCabv3elFv4E4H7mRhSZxNT1lkKeytPRTd6aE69ihKSY6meRYw\" target=\"_blank\" rel=\"noopener noreferrer\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://cursor.com/assets/images/fix-in-web-dark.png\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://cursor.com/assets/images/fix-in-web-light.png\"><img alt=\"Fix in Web\" width=\"99\" height=\"28\" src=\"https://cursor.com/assets/images/fix-in-web-dark.png\"></picture></a></div>\n\n\n<sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 92725a21d63770f50b543cdcf11dc95cb9eb5097. Configure [here](https://www.cursor.com/dashboard/bugbot).</sup>\n",
+    "created_at": "2026-04-20T06:43:53Z",
+    "updated_at": "2026-04-20T06:43:53Z",
+    "html_url": "https://github.com/ray-project/ray/pull/62762#discussion_r3108728489",
+    "pull_request_url": "https://api.github.com/repos/ray-project/ray/pulls/62762",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108728489"
+      },
+      "html": {
+        "href": "https://github.com/ray-project/ray/pull/62762#discussion_r3108728489"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/62762"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108728489/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 697,
+    "original_line": 697,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 77,
+    "position": 77,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108760912",
+    "pull_request_review_id": 4137816755,
+    "id": 3108760912,
+    "node_id": "PRRC_kwDOBEmZvc65S-1Q",
+    "diff_hunk": "@@ -33,15 +33,22 @@ namespace experimental {\n \n namespace {\n \n+// POSIX requires sem_open() names to start with '/'. glibc is lenient and\n+// strips a missing leading slash, but stricter implementations (musl, some\n+// older libcs) fail with EINVAL. Always prepend '/' for portability.\n+\n std::string GetSemaphoreObjectName(const std::string &name) {\n-  std::string ret = absl::StrCat(\"obj\", name);\n-  RAY_CHECK_LE(name.size(), PSEMNAMLEN);\n+  std::string ret = absl::StrCat(\"/obj\", name);\n+  // Bound the *final* semaphore name, not just `name`. On macOS PSEMNAMLEN is\n+  // 30; the '/obj' prefix adds 4 bytes, so a max-length `name` would produce a\n+  // 34-byte `ret` that sem_open() rejects with ENAMETOOLONG.\n+  RAY_CHECK_LE(ret.size(), PSEMNAMLEN);",
+    "path": "src/ray/core_worker/experimental_mutable_object_manager.cc",
+    "commit_id": "a4746fe4a332a2f1a504b3c7849f8b57a58c2989",
+    "original_commit_id": "4792c0ff2a68dc82328acc639976464721ce7fee",
+    "user": {
+      "login": "cursor[bot]",
+      "id": 206951365,
+      "node_id": "BOT_kgDODFXTxQ",
+      "avatar_url": "https://avatars.githubusercontent.com/in/1210556?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/cursor%5Bbot%5D",
+      "html_url": "https://github.com/apps/cursor",
+      "followers_url": "https://api.github.com/users/cursor%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/cursor%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/cursor%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/cursor%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/cursor%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/cursor%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/cursor%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/cursor%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/cursor%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "### Tightened size check crashes for valid semaphore names\n\n**High Severity**\n\n<!-- DESCRIPTION START -->\nThe new `RAY_CHECK_LE(ret.size(), PSEMNAMLEN)` check validates the full prefixed name (`/obj` + name or `/hdr` + name) against `PSEMNAMLEN` (30), but `Init()` still allows `name` to be up to 30 bytes. Since the prefix adds 4 bytes, any `name` longer than 26 bytes will crash here. On 64-bit Linux where `pid_max` defaults to 4194304, a 7-digit PID produces a 27-byte name, making `ret` 31 bytes and triggering the CHECK failure. The old code checked `name.size()` instead of `ret.size()`, so this is a regression for previously valid names.\n<!-- DESCRIPTION END -->\n\n<!-- BUGBOT_BUG_ID: 3b12eb07-9f59-4cab-95ff-09449780be51 -->\n\n<!-- LOCATIONS START\nsrc/ray/core_worker/experimental_mutable_object_manager.cc#L44-L45\nsrc/ray/core_worker/experimental_mutable_object_manager.cc#L50-L51\nLOCATIONS END -->\n<details>\n<summary>Additional Locations (1)</summary>\n\n- [`src/ray/core_worker/experimental_mutable_object_manager.cc#L50-L51`](https://github.com/ray-project/ray/blob/4792c0ff2a68dc82328acc639976464721ce7fee/src/ray/core_worker/experimental_mutable_object_manager.cc#L50-L51)\n\n</details>\n\n<div><a href=\"https://cursor.com/open?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MiJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9DVVJTT1IiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90OjJmMjdhNjNkLWYwNjEtNGRkZS1hYmU2LTUyMTY2M2ZlMzZjMiIsImVuY3J5cHRpb25LZXkiOiJTeHc3T2VkSHVRNElMUFZtQzVHUFZEVDU1X1hLUnowQXhfVkROT2xtLVdnIiwiYnJhbmNoIjoiZml4LzYyMzI4LXBvc2l4LXNlbWFwaG9yZS1jcmFzaCIsInJlcG9Pd25lciI6InJheS1wcm9qZWN0IiwicmVwb05hbWUiOiJyYXkifSwiaWF0IjoxNzc2NjY3ODU0LCJleHAiOjE3NzkyNTk4NTR9.ZvdSlek-qwiNVAKB3t5LgAPnBMmf_zA6Qodr7GjYwsvU588zME9Wreg6Ny1dX4KOZJ70rctrvJmEgvnY1bmKEhySvEGzx0x0IP_tC4CW-RgXaLEvvliUcqmhGWmie0bPDQdT5MypIpc7Go8xRBzLobLzJiAx_m_OtvaP0ZJ2RHr9CoikLP5wEi1NPfe3N0shWTn3Hv3j-nD3REuEKWAW3vDZx9JB_yJCcZpmSzdvQKke8rcHaCM0t3CfkhCPm6gLPkWPLIjYHzcm9KXVytC-jyrRfHVO79arxnUtdAiCZl8WWrs9DRD5L9pQR9xAqCKfOHPCRzp1zyGvXiv-81aeqg\" target=\"_blank\" rel=\"noopener noreferrer\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://cursor.com/assets/images/fix-in-cursor-dark.png\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://cursor.com/assets/images/fix-in-cursor-light.png\"><img alt=\"Fix in Cursor\" width=\"115\" height=\"28\" src=\"https://cursor.com/assets/images/fix-in-cursor-dark.png\"></picture></a>&nbsp;<a href=\"https://cursor.com/agents?data=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImJ1Z2JvdC12MiJ9.eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoiQlVHQk9UX0ZJWF9JTl9XRUIiLCJkYXRhIjp7InJlZGlzS2V5IjoiYnVnYm90OjJmMjdhNjNkLWYwNjEtNGRkZS1hYmU2LTUyMTY2M2ZlMzZjMiIsImVuY3J5cHRpb25LZXkiOiJTeHc3T2VkSHVRNElMUFZtQzVHUFZEVDU1X1hLUnowQXhfVkROT2xtLVdnIiwiYnJhbmNoIjoiZml4LzYyMzI4LXBvc2l4LXNlbWFwaG9yZS1jcmFzaCIsInJlcG9Pd25lciI6InJheS1wcm9qZWN0IiwicmVwb05hbWUiOiJyYXkiLCJwck51bWJlciI6NjI3NjIsImNvbW1pdFNoYSI6IjQ3OTJjMGZmMmE2OGRjODIzMjhhY2M2Mzk5NzY0NjQ3MjFjZTdmZWUiLCJwcm92aWRlciI6ImdpdGh1YiJ9LCJpYXQiOjE3NzY2Njc4NTUsImV4cCI6MTc3OTI1OTg1NX0.jMntm4BorLBrI6v8iqZNOym9Gqec_0-gQzddqQT3LnFvlWNXsc9N5MLe5gz3fULYedhwMYGmxTzqhW7KHqeG2YHmYN_HqOkgbbJB7c4_jJdn4kgZy_cxJsA8Knuedmh9xFuG6v1-PUW6c9LiJLug23X8OqA0HHuSk57ofZ2i-NL0IlXOuKK8oZ4ElJfJ_5Ei22r7iCpdb33fqpCp1PtJep2ulmoprsi9Ncjk85l_FiChXEadxko_uk3xP2BHILSXxMNQ83KKCXaovTRxHtInM4iLAZubHRbds9VOWSfSZmyD4tSIICJ1ItVbSkgEUsuSuefnpp3VyKmLcQGB-Q7Fjg\" target=\"_blank\" rel=\"noopener noreferrer\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://cursor.com/assets/images/fix-in-web-dark.png\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://cursor.com/assets/images/fix-in-web-light.png\"><img alt=\"Fix in Web\" width=\"99\" height=\"28\" src=\"https://cursor.com/assets/images/fix-in-web-dark.png\"></picture></a></div>\n\n\n<sup>Reviewed by [Cursor Bugbot](https://cursor.com/bugbot) for commit 4792c0ff2a68dc82328acc639976464721ce7fee. Configure [here](https://www.cursor.com/dashboard/bugbot).</sup>\n",
+    "created_at": "2026-04-20T06:50:55Z",
+    "updated_at": "2026-04-20T06:50:55Z",
+    "html_url": "https://github.com/ray-project/ray/pull/62762#discussion_r3108760912",
+    "pull_request_url": "https://api.github.com/repos/ray-project/ray/pulls/62762",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108760912"
+      },
+      "html": {
+        "href": "https://github.com/ray-project/ray/pull/62762#discussion_r3108760912"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/62762"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108760912/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 45,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 15,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108943333",
+    "pull_request_review_id": 4138027456,
+    "id": 3108943333,
+    "node_id": "PRRC_kwDOBEmZvc65TrXl",
+    "diff_hunk": "@@ -621,6 +621,87 @@ TEST(MutableObjectTest, TestReadMultipleAcquireDuringFailure) {\n   }\n }\n \n+// Tests that semaphore names are POSIX-compliant (start with '/').\n+// POSIX requires sem_open() names to start with '/'. Linux enforces this strictly\n+// (sem_open returns EINVAL without it); macOS is lenient. Without the '/' prefix in\n+// GetSemaphoreObjectName/GetSemaphoreHeaderName, this crashes on Linux with strict\n+// glibc (e.g., DGX Spark) via RAY_CHECK_NE(semaphores.object_sem, SEM_FAILED).\n+TEST(MutableObjectTest, TestSemaphoreNameHasLeadingSlash) {\n+  MutableObjectManager manager;\n+  ObjectID object_id = ObjectID::FromRandom();\n+  PlasmaObjectHeader *header;\n+  std::string unique_name;\n+  {\n+    std::unique_ptr<plasma::MutableObject> object = MakeObject();\n+    header = object->header;\n+    header->Init();\n+    unique_name = std::string(header->unique_name);\n+    ASSERT_TRUE(\n+        manager.RegisterChannel(object_id, std::move(object), /*reader=*/true).ok());\n+  }\n+\n+  // If OpenSemaphores used the correct '/obj<name>' format, we can open the same\n+  // semaphore by its POSIX-correct name. This would fail with ENOENT if a non-'/'\n+  // name was used (the semaphore would have been created under a different path).\n+  std::string obj_sem_name = \"/obj\" + unique_name;\n+  std::string hdr_sem_name = \"/hdr\" + unique_name;\n+  sem_t *obj_sem = sem_open(obj_sem_name.c_str(), /*oflag=*/0);\n+  sem_t *hdr_sem = sem_open(hdr_sem_name.c_str(), /*oflag=*/0);\n+  ASSERT_NE(SEM_FAILED, obj_sem)\n+      << \"Semaphore '\" << obj_sem_name\n+      << \"' not found. Missing '/' prefix in semaphore name?\";\n+  ASSERT_NE(SEM_FAILED, hdr_sem)\n+      << \"Semaphore '\" << hdr_sem_name\n+      << \"' not found. Missing '/' prefix in semaphore name?\";\n+  ASSERT_EQ(0, sem_close(obj_sem));\n+  ASSERT_EQ(0, sem_close(hdr_sem));\n+\n+  manager.DestroySemaphores(object_id);\n+  free(header);\n+}\n+\n+// Tests that a reader can register a channel when semaphores_created=kDone is already\n+// set in the header but the named semaphores don't exist on this machine.\n+// This is the cross-node scenario (ray-project/ray#62328): the writer on Node A sets\n+// semaphores_created=kDone in shared memory. A reader on Node B sees kDone and\n+// previously called sem_open(name, 0) without O_CREAT, which failed with ENOENT\n+// because the semaphores were never created on Node B. The fix uses O_CREAT (without\n+// O_EXCL) so that the reader creates the semaphores locally when absent.\n+TEST(MutableObjectTest, TestCrossNodeSemaphoreCreation) {\n+  MutableObjectManager manager;\n+  ObjectID object_id = ObjectID::FromRandom();\n+  PlasmaObjectHeader *header;\n+  {\n+    std::unique_ptr<plasma::MutableObject> object = MakeObject();\n+    header = object->header;\n+    header->Init();\n+\n+    // Simulate the cross-node state: kDone is set (as if the writer on another node\n+    // already finished initialization) but no named semaphores exist on this machine.\n+    header->semaphores_created.store(PlasmaObjectHeader::SemaphoresCreationLevel::kDone,\n+                                     std::memory_order_release);\n+\n+    // With the fix, this must succeed: the reader path uses O_CREAT and creates the\n+    // semaphores locally. Without the fix, sem_open returned ENOENT -> SEM_FAILED ->\n+    // RAY_CHECK_NE(SEM_FAILED, SEM_FAILED) crash.\n+    ASSERT_TRUE(\n+        manager.RegisterChannel(object_id, std::move(object), /*reader=*/true).ok());\n+  }\n+\n+  // Verify the semaphores are usable and were initialized to value=1 (the correct\n+  // initial state for a freshly created mutable object channel).\n+  PlasmaObjectHeader::Semaphores sem{};\n+  ASSERT_TRUE(manager.GetSemaphores(object_id, sem));\n+  int obj_val = -1, hdr_val = -1;\n+  ASSERT_EQ(0, sem_getvalue(sem.object_sem, &obj_val));\n+  ASSERT_EQ(0, sem_getvalue(sem.header_sem, &hdr_val));",
+    "path": "src/ray/object_manager/plasma/tests/mutable_object_test.cc",
+    "commit_id": "a816079028009d72479e8d10354d7b15dc323f8a",
+    "original_commit_id": "92725a21d63770f50b543cdcf11dc95cb9eb5097",
+    "user": {
+      "login": "tobby168",
+      "id": 20663962,
+      "node_id": "MDQ6VXNlcjIwNjYzOTYy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20663962?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/tobby168",
+      "html_url": "https://github.com/tobby168",
+      "followers_url": "https://api.github.com/users/tobby168/followers",
+      "following_url": "https://api.github.com/users/tobby168/following{/other_user}",
+      "gists_url": "https://api.github.com/users/tobby168/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/tobby168/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/tobby168/subscriptions",
+      "organizations_url": "https://api.github.com/users/tobby168/orgs",
+      "repos_url": "https://api.github.com/users/tobby168/repos",
+      "events_url": "https://api.github.com/users/tobby168/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/tobby168/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Stale — this review was on an earlier commit. Current HEAD (`a816079028`) wraps both `sem_getvalue` assertions in `#ifdef __linux__` after Gemini flagged the same issue. The `RegisterChannel` success assertion still runs on both platforms.",
+    "created_at": "2026-04-20T07:30:34Z",
+    "updated_at": "2026-04-20T07:30:34Z",
+    "html_url": "https://github.com/ray-project/ray/pull/62762#discussion_r3108943333",
+    "pull_request_url": "https://api.github.com/repos/ray-project/ray/pulls/62762",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108943333"
+      },
+      "html": {
+        "href": "https://github.com/ray-project/ray/pull/62762#discussion_r3108943333"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/62762"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108943333/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 697,
+    "original_line": 697,
+    "side": "RIGHT",
+    "in_reply_to_id": 3108728489,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 77,
+    "position": 77,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108944521",
+    "pull_request_review_id": 4138028976,
+    "id": 3108944521,
+    "node_id": "PRRC_kwDOBEmZvc65TrqJ",
+    "diff_hunk": "@@ -33,15 +33,22 @@ namespace experimental {\n \n namespace {\n \n+// POSIX requires sem_open() names to start with '/'. glibc is lenient and\n+// strips a missing leading slash, but stricter implementations (musl, some\n+// older libcs) fail with EINVAL. Always prepend '/' for portability.\n+\n std::string GetSemaphoreObjectName(const std::string &name) {\n-  std::string ret = absl::StrCat(\"obj\", name);\n-  RAY_CHECK_LE(name.size(), PSEMNAMLEN);\n+  std::string ret = absl::StrCat(\"/obj\", name);\n+  // Bound the *final* semaphore name, not just `name`. On macOS PSEMNAMLEN is\n+  // 30; the '/obj' prefix adds 4 bytes, so a max-length `name` would produce a\n+  // 34-byte `ret` that sem_open() rejects with ENAMETOOLONG.\n+  RAY_CHECK_LE(ret.size(), PSEMNAMLEN);",
+    "path": "src/ray/core_worker/experimental_mutable_object_manager.cc",
+    "commit_id": "a4746fe4a332a2f1a504b3c7849f8b57a58c2989",
+    "original_commit_id": "4792c0ff2a68dc82328acc639976464721ce7fee",
+    "user": {
+      "login": "tobby168",
+      "id": 20663962,
+      "node_id": "MDQ6VXNlcjIwNjYzOTYy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20663962?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/tobby168",
+      "html_url": "https://github.com/tobby168",
+      "followers_url": "https://api.github.com/users/tobby168/followers",
+      "following_url": "https://api.github.com/users/tobby168/following{/other_user}",
+      "gists_url": "https://api.github.com/users/tobby168/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/tobby168/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/tobby168/subscriptions",
+      "organizations_url": "https://api.github.com/users/tobby168/orgs",
+      "repos_url": "https://api.github.com/users/tobby168/repos",
+      "events_url": "https://api.github.com/users/tobby168/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/tobby168/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Valid — confirmed and fixed in `a816079028`. Reverted the check back to `RAY_CHECK_LE(name.size(), PSEMNAMLEN)` to avoid regressing Linux with 7-digit PIDs (pid_max=4194304 can produce a 27-byte name, making `/obj` + name = 31 bytes trip the tighter check even though Linux sem_open accepts much longer names). `Init()` already caps `name.size()`, and `sem_open` returning `SEM_FAILED` on oversized macOS names is caught by the existing `RAY_CHECK_NE(..., SEM_FAILED)` downstream, so the looser bound is still safe. Thanks for catching!",
+    "created_at": "2026-04-20T07:30:48Z",
+    "updated_at": "2026-04-20T07:30:48Z",
+    "html_url": "https://github.com/ray-project/ray/pull/62762#discussion_r3108944521",
+    "pull_request_url": "https://api.github.com/repos/ray-project/ray/pulls/62762",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108944521"
+      },
+      "html": {
+        "href": "https://github.com/ray-project/ray/pull/62762#discussion_r3108944521"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/ray-project/ray/pulls/62762"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/ray-project/ray/pulls/comments/3108944521/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 45,
+    "side": "RIGHT",
+    "in_reply_to_id": 3108760912,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 15,
+    "position": 1,
+    "subject_type": "line"
+  }
+]

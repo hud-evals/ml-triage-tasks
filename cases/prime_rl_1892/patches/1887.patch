@@ -1,0 +1,309 @@
+From fc2370604a031ad2b87903a47d58b962674b03f4 Mon Sep 17 00:00:00 2001
+From: leopold <leopold@tzafon.ai>
+Date: Wed, 25 Feb 2026 16:58:53 +0000
+Subject: [PATCH 1/2] fix: vlm cache
+
+---
+ src/prime_rl/orchestrator/trajectories.py    | 97 +++++++++-----------
+ tests/unit/orchestrator/test_trajectories.py | 70 +++++++++++++-
+ 2 files changed, 110 insertions(+), 57 deletions(-)
+
+diff --git a/src/prime_rl/orchestrator/trajectories.py b/src/prime_rl/orchestrator/trajectories.py
+index 5e1830916b..3cd0277770 100644
+--- a/src/prime_rl/orchestrator/trajectories.py
++++ b/src/prime_rl/orchestrator/trajectories.py
+@@ -149,8 +149,8 @@ def extend_sample(sample: TrainingSample, step: vf.TrajectoryStep, prefix_len: i
+ # =============================================================================
+ 
+ 
+-def _extract_images_from_messages(messages: list) -> list[Image.Image]:
+-    """Extract images from OpenAI-style chat messages."""
++def _extract_images_from_messages(messages: list) -> list[tuple[Image.Image, str]]:
++    """Extract (image, b64_key) pairs from OpenAI-style chat messages."""
+     images = []
+     if not messages or not isinstance(messages, list):
+         return images
+@@ -165,79 +165,78 @@ def _extract_images_from_messages(messages: list) -> list[Image.Image]:
+                         b64_data = url.split(",", 1)[1]
+                         img_bytes = base64.b64decode(b64_data)
+                         img = Image.open(BytesIO(img_bytes))
+-                        images.append(img)
++                        images.append((img, b64_data))
+     return images
+ 
+ 
+ def _extract_images_from_examples(
+     examples: list[tuple[int, vf.RolloutOutput]],
+-) -> tuple[list[Image.Image], dict[int, list[int]]]:
++) -> tuple[list[Image.Image], dict[int, list[list[int]]]]:
+     """
+     Extract images from all trajectory steps of each example.
+ 
+-    Parses OpenAI-style message content looking for image_url items with base64 data URLs
+-    (e.g., "data:image/png;base64,..."). Each trajectory step's prompt is cumulative (contains
+-    full conversation history), so we extract only the NEW images introduced in each step.
++    Parses OpenAI-style message content looking for image_url items with base64 data URLs.
++    Images are deduplicated across the batch by their base64 content. Each step records
++    the indices of its images into the deduplicated all_images list.
+ 
+     Args:
+         examples: List of (cache_key, output) tuples where output contains a "trajectory"
+             list with steps that have "prompt" messages in OpenAI chat format.
+ 
+     Returns:
+-        Tuple of (all_images, images_per_step_per_example)
+-        - all_images: flat list of decoded PIL images, ordered by example then by step
+-        - images_per_step_per_example: dict mapping cache_key to list of cumulative image
+-          counts per step (e.g., [1, 2, 2] means 1 image after step 0, 2 after step 1, 2 after step 2)
++        Tuple of (all_images, step_image_indices_per_example)
++        - all_images: deduplicated flat list of decoded PIL images
++        - step_image_indices_per_example: dict mapping cache_key to per-step lists of
++          indices into all_images (e.g., [[0], [0, 1], [1]] for the decreasing-images case)
+     """
+-    all_images = []
+-    images_per_step_per_example = {}
++    all_images: list[Image.Image] = []
++    image_registry: dict[str, int] = {}  # b64_key -> index in all_images
++    step_image_indices_per_example: dict[int, list[list[int]]] = {}
+ 
+     for eid, output in examples:
+         trajectory = output.get("trajectory", [])
+         if not trajectory:
+-            images_per_step_per_example[eid] = []
++            step_image_indices_per_example[eid] = []
+             continue
+ 
+-        example_images = []
+-        cumulative_counts = []
+-
++        step_image_indices = []
+         for step in trajectory:
+             prompt = step.get("prompt")
+-            # Extract all images from this step's prompt (which is cumulative)
+-            step_images = _extract_images_from_messages(prompt)
+-            # Only take images beyond what we already have (new images in this step)
+-            new_images = step_images[len(example_images) :]
+-            example_images.extend(new_images)
+-            cumulative_counts.append(len(example_images))
++            step_image_pairs = _extract_images_from_messages(prompt)
++            indices = []
++            for img, key in step_image_pairs:
++                if key not in image_registry:
++                    image_registry[key] = len(all_images)
++                    all_images.append(img)
++                indices.append(image_registry[key])
++            step_image_indices.append(indices)
+ 
+-        images_per_step_per_example[eid] = cumulative_counts
+-        all_images.extend(example_images)
++        step_image_indices_per_example[eid] = step_image_indices
+ 
+-    return all_images, images_per_step_per_example
++    return all_images, step_image_indices_per_example
+ 
+ 
+ def _preprocess_images_batched(
+     images: list[Image.Image],
+-    images_per_step_per_example: dict[int, list[int]],
++    step_image_indices_per_example: dict[int, list[list[int]]],
+     processor,
+ ) -> dict[int, list[tuple[list | None, list | None]]]:
+     """
+     Preprocess all images in a single batched call, then distribute results per step.
+ 
+     Args:
+-        images: Flat list of all PIL images
+-        images_per_step_per_example: Dict mapping cache_key to list of cumulative image
+-            counts per step
++        images: Deduplicated flat list of all PIL images
++        step_image_indices_per_example: Dict mapping cache_key to per-step lists of
++            indices into images
+         processor: HuggingFace processor with image_processor attribute
+ 
+     Returns:
+         Dict mapping cache_key to list of (pixel_values, image_grid_thw) per step.
+-        Each step's entry contains cumulative images up to that step.
+     """
+     if not images or processor is None:
+         return {
+-            eid: [(None, None)] * len(counts) if counts else [(None, None)]
+-            for eid, counts in images_per_step_per_example.items()
++            eid: [(None, None)] * max(len(step_indices), 1)
++            for eid, step_indices in step_image_indices_per_example.items()
+         }
+ 
+     image_sizes = [(img.width, img.height) for img in images]
+@@ -251,33 +250,27 @@ def _preprocess_images_batched(
+         f"pixel_values={all_pixel_values.shape}, grid_thw={all_grid_thw.tolist()}"
+     )
+ 
+-    result = {}
+-    img_idx = 0
+-    patch_idx = 0
++    # Pre-compute patch start offset for each image
++    patch_starts = [0]
++    for g in all_grid_thw:
++        patch_starts.append(patch_starts[-1] + int(g[0] * g[1] * g[2]))
+ 
+-    for eid, cumulative_counts in images_per_step_per_example.items():
+-        if not cumulative_counts or cumulative_counts[-1] == 0:
+-            result[eid] = [(None, None)] * max(len(cumulative_counts), 1)
++    result = {}
++    for eid, step_indices_list in step_image_indices_per_example.items():
++        if not step_indices_list:
++            result[eid] = [(None, None)]
+             continue
+ 
+-        total_images = cumulative_counts[-1]
+-        example_grids = all_grid_thw[img_idx : img_idx + total_images]
+-        num_patches = sum(int(g[0] * g[1] * g[2]) for g in example_grids)
+-        example_pixels = all_pixel_values[patch_idx : patch_idx + num_patches]
+-
+-        # Build per-step cumulative entries
+         per_step = []
+-        for cum_count in cumulative_counts:
+-            if cum_count == 0:
++        for indices in step_indices_list:
++            if not indices:
+                 per_step.append((None, None))
+             else:
+-                step_grids = example_grids[:cum_count]
+-                step_patches = sum(int(g[0] * g[1] * g[2]) for g in step_grids)
+-                per_step.append((example_pixels[:step_patches].tolist(), step_grids.tolist()))
++                grids = all_grid_thw[indices]
++                patches = sum([all_pixel_values[patch_starts[i] : patch_starts[i + 1]].tolist() for i in indices], [])
++                per_step.append((patches, grids.tolist()))
+ 
+         result[eid] = per_step
+-        img_idx += total_images
+-        patch_idx += num_patches
+ 
+     return result
+ 
+diff --git a/tests/unit/orchestrator/test_trajectories.py b/tests/unit/orchestrator/test_trajectories.py
+index 05ac1568c4..e96a8b84c7 100644
+--- a/tests/unit/orchestrator/test_trajectories.py
++++ b/tests/unit/orchestrator/test_trajectories.py
+@@ -725,7 +725,7 @@ def test_extract_images_from_messages_single_image():
+     messages = [_create_image_message(image_url)]
+     images = _extract_images_from_messages(messages)
+     assert len(images) == 1
+-    assert isinstance(images[0], Image.Image)
++    assert isinstance(images[0][0], Image.Image)
+ 
+ 
+ def test_extract_images_from_messages_multiple_images():
+@@ -762,7 +762,7 @@ def test_extract_images_from_examples_single_turn():
+     all_images, images_per_step = _extract_images_from_examples([(1, output)])
+ 
+     assert len(all_images) == 1
+-    assert images_per_step == {1: [1]}  # 1 image after step 0
++    assert images_per_step == {1: [[0]]}  # step 0 has image at index 0
+ 
+ 
+ def test_extract_images_from_examples_multi_turn_new_image_each_turn():
+@@ -809,7 +809,7 @@ def test_extract_images_from_examples_multi_turn_new_image_each_turn():
+     all_images, images_per_step = _extract_images_from_examples([(1, output)])
+ 
+     assert len(all_images) == 2  # 2 unique images total
+-    assert images_per_step == {1: [1, 2]}  # 1 after step 0, 2 after step 1
++    assert images_per_step == {1: [[0], [0, 1]]}  # step 0: [red], step 1: [red, green]
+ 
+ 
+ def test_extract_images_from_examples_multi_turn_no_new_images():
+@@ -853,8 +853,68 @@ def test_extract_images_from_examples_multi_turn_no_new_images():
+ 
+     all_images, images_per_step = _extract_images_from_examples([(1, output)])
+ 
+-    assert len(all_images) == 1  # Only 1 unique image
+-    assert images_per_step == {1: [1, 1]}  # 1 after step 0, still 1 after step 1
++    assert len(all_images) == 1  # Only 1 unique image (deduped)
++    assert images_per_step == {1: [[0], [0]]}  # both steps reference the same image
++
++
++def test_extract_images_from_examples_step_with_fewer_images_than_prior_steps():
++    """Test that image counts reflect the prompt's actual images, not a monotonically increasing total.
++
++    When a later step's prompt contains fewer images than the cumulative total from prior steps
++    (i.e. the prompt is not strictly cumulative), the count for that step should match
++    the number of images actually present in that step's prompt.
++    """
++    red_url = _create_test_image("red")
++    green_url = _create_test_image("green")
++
++    output = vf.RolloutOutput(
++        example_id=1,
++        trajectory=[
++            # Step 0: red only
++            vf.TrajectoryStep(
++                prompt=[_create_image_message(red_url)],
++                completion=[],
++                response=MagicMock(),
++                tokens=MagicMock(),
++                reward=None,
++                advantage=None,
++                is_truncated=False,
++                trajectory_id="1",
++                extras={},
++            ),
++            # Step 1: cumulative — red + green
++            vf.TrajectoryStep(
++                prompt=[_create_image_message(red_url), _create_image_message(green_url)],
++                completion=[],
++                response=MagicMock(),
++                tokens=MagicMock(),
++                reward=None,
++                advantage=None,
++                is_truncated=False,
++                trajectory_id="1",
++                extras={},
++            ),
++            # Step 2: only green — fewer images than cumulative total
++            vf.TrajectoryStep(
++                prompt=[_create_image_message(green_url)],
++                completion=[],
++                response=MagicMock(),
++                tokens=MagicMock(),
++                reward=None,
++                advantage=None,
++                is_truncated=False,
++                trajectory_id="1",
++                extras={},
++            ),
++        ],
++        sampling_args={"temperature": 1.0},
++        error=None,
++    )
++
++    _, images_per_step = _extract_images_from_examples([(1, output)])
++
++    # Step 0: [red] → index 0; Step 1: [red, green] → indices [0, 1]; Step 2: [green] → index [1]
++    assert images_per_step == {1: [[0], [0, 1], [1]]}
+ 
+ 
+ def test_vlm_image_cache_get_for_step():
+
+From 07628976bb0c86a6a6d53205ac1335b7f718a8cf Mon Sep 17 00:00:00 2001
+From: leopold <leopold@tzafon.ai>
+Date: Thu, 26 Feb 2026 11:58:26 +0000
+Subject: [PATCH 2/2] ruff format
+
+---
+ src/prime_rl/configs/orchestrator.py | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/src/prime_rl/configs/orchestrator.py b/src/prime_rl/configs/orchestrator.py
+index 704ee14e80..047f3ea4aa 100644
+--- a/src/prime_rl/configs/orchestrator.py
++++ b/src/prime_rl/configs/orchestrator.py
+@@ -899,9 +899,7 @@ def resolve_batching(self):
+             if self.max_inflight_rollouts is not None and self.oversampling_factor is not None:
+                 expected_max_inflight_rollouts = int(self.batch_size * self.oversampling_factor)
+                 if self.max_inflight_rollouts != expected_max_inflight_rollouts:
+-                    raise ValueError(
+-                        "max_inflight_rollouts conflicts with oversampling_factor * batch_size"
+-                    )
++                    raise ValueError("max_inflight_rollouts conflicts with oversampling_factor * batch_size")
+             if self.max_inflight_rollouts is None:
+                 oversampling_factor = self.oversampling_factor if self.oversampling_factor is not None else 1.0
+                 self.max_inflight_rollouts = int(self.batch_size * oversampling_factor)

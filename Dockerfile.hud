@@ -1,0 +1,28 @@
+FROM public.ecr.aws/docker/library/python:3.11-bookworm
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        ripgrep \
+        jq \
+        less \
+        ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN install -d -m 0755 /work
+
+WORKDIR /app
+
+COPY pyproject.toml env.py ./
+RUN pip install --no-cache-dir .
+
+# Cases are baked into /opt/ci_cases/<case_slug>/ — invisible to the agent.
+# At scenario-start the env materialises /work with symlinks to the selected
+# case's children, so the agent's cwd is /work and `ls` just shows repo/,
+# logs/, prs/ etc. — no case slug in any path they see.
+COPY cases /opt/ci_cases
+RUN chmod -R a+rX /opt/ci_cases
+
+WORKDIR /work
+
+CMD ["hud", "dev", "env:env", "--stdio"]

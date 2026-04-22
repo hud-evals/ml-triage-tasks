@@ -1,0 +1,19 @@
+[project]
+name = "ci-triage-tasks"
+version = "0.1.0"
+description = "HUD environment for diagnosing CI failures from scraped artefact bundles"
+requires-python = ">=3.11"
+dependencies = [
+    "hud-python",
+    "openai>=1.40",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["env.py"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"env.py" = "env.py"

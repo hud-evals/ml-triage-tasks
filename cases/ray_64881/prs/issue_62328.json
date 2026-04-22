@@ -1,0 +1,152 @@
+{
+  "url": "https://api.github.com/repos/ray-project/ray/issues/62328",
+  "repository_url": "https://api.github.com/repos/ray-project/ray",
+  "labels_url": "https://api.github.com/repos/ray-project/ray/issues/62328/labels{/name}",
+  "comments_url": "https://api.github.com/repos/ray-project/ray/issues/62328/comments",
+  "events_url": "https://api.github.com/repos/ray-project/ray/issues/62328/events",
+  "html_url": "https://github.com/ray-project/ray/issues/62328",
+  "id": 4200317060,
+  "node_id": "I_kwDOBEmZvc76W8CE",
+  "number": 62328,
+  "title": "[Bug] experimental_mutable_object_manager.cc -  Check failed: RAY_PREDICT_TRUE(_left_ != _right_)  0 vs 0",
+  "user": {
+    "login": "p4ck3t0",
+    "id": 48812495,
+    "node_id": "MDQ6VXNlcjQ4ODEyNDk1",
+    "avatar_url": "https://avatars.githubusercontent.com/u/48812495?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/p4ck3t0",
+    "html_url": "https://github.com/p4ck3t0",
+    "followers_url": "https://api.github.com/users/p4ck3t0/followers",
+    "following_url": "https://api.github.com/users/p4ck3t0/following{/other_user}",
+    "gists_url": "https://api.github.com/users/p4ck3t0/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/p4ck3t0/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/p4ck3t0/subscriptions",
+    "organizations_url": "https://api.github.com/users/p4ck3t0/orgs",
+    "repos_url": "https://api.github.com/users/p4ck3t0/repos",
+    "events_url": "https://api.github.com/users/p4ck3t0/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/p4ck3t0/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "labels": [
+    {
+      "id": 468774484,
+      "node_id": "MDU6TGFiZWw0Njg3NzQ0ODQ=",
+      "url": "https://api.github.com/repos/ray-project/ray/labels/bug",
+      "name": "bug",
+      "color": "f9d0c4",
+      "default": true,
+      "description": "Something that is supposed to be working; but isn't"
+    },
+    {
+      "id": 1805253811,
+      "node_id": "MDU6TGFiZWwxODA1MjUzODEx",
+      "url": "https://api.github.com/repos/ray-project/ray/labels/P1",
+      "name": "P1",
+      "color": "e2bf34",
+      "default": false,
+      "description": "Issue that should be fixed within a few weeks"
+    },
+    {
+      "id": 4015455589,
+      "node_id": "LA_kwDOBEmZvc7vVv1l",
+      "url": "https://api.github.com/repos/ray-project/ray/labels/core",
+      "name": "core",
+      "color": "1C6DCB",
+      "default": false,
+      "description": "Issues that should be addressed in Ray Core"
+    },
+    {
+      "id": 6562102190,
+      "node_id": "LA_kwDOBEmZvc8AAAABhyG7rg",
+      "url": "https://api.github.com/repos/ray-project/ray/labels/stability",
+      "name": "stability",
+      "color": "c2e0c6",
+      "default": false,
+      "description": ""
+    },
+    {
+      "id": 8652677233,
+      "node_id": "LA_kwDOBEmZvc8AAAACA71gcQ",
+      "url": "https://api.github.com/repos/ray-project/ray/labels/community-backlog",
+      "name": "community-backlog",
+      "color": "aaaaaa",
+      "default": false,
+      "description": null
+    },
+    {
+      "id": 9794108850,
+      "node_id": "LA_kwDOBEmZvc8AAAACR8Y9sg",
+      "url": "https://api.github.com/repos/ray-project/ray/labels/contribution-welcome",
+      "name": "contribution-welcome",
+      "color": "7aca22",
+      "default": false,
+      "description": "Community contributions for this issue will be welcomed and prioritized for review."
+    }
+  ],
+  "state": "closed",
+  "locked": false,
+  "assignees": [
+
+  ],
+  "milestone": null,
+  "comments": 5,
+  "created_at": "2026-04-03T12:21:41Z",
+  "updated_at": "2026-04-21T22:04:29Z",
+  "closed_at": "2026-04-21T21:48:50Z",
+  "assignee": null,
+  "author_association": "NONE",
+  "type": null,
+  "active_lock_reason": null,
+  "sub_issues_summary": {
+    "total": 0,
+    "completed": 0,
+    "percent_completed": 0
+  },
+  "issue_dependencies_summary": {
+    "blocked_by": 0,
+    "total_blocked_by": 0,
+    "blocking": 0,
+    "total_blocking": 0
+  },
+  "body": "### What happened + What you expected to happen\n\n## Hardware\n\n2x DGX Sparks\n\n## Software\n\nSee Reproduction script\n\n## Error\n\nThe application starts successfully, when using `curl` to communicate to the app, the following error appears.\n\n```\n...\n(APIServer pid=1) INFO:     Application startup complete.\n(EngineCore pid=107) INFO 04-03 12:10:43 [ray_executor.py:561] RAY_CGRAPH_get_timeout is set to 300\n(EngineCore pid=107) INFO 04-03 12:10:43 [ray_executor.py:565] VLLM_USE_RAY_COMPILED_DAG_CHANNEL_TYPE = nccl\n(EngineCore pid=107) INFO 04-03 12:10:43 [ray_executor.py:569] VLLM_USE_RAY_COMPILED_DAG_OVERLAP_COMM = False\n(EngineCore pid=107) INFO 04-03 12:10:43 [ray_executor.py:634] Using Ray's NCCL communicator for Ray Compiled Graph communication.\n[2026-04-03 12:10:44,576 C 107 107] experimental_mutable_object_manager.cc:177:  An unexpected system state has occurred. You have likely discovered a bug in Ray. Please report this issue at https://github.com/ray-project/ray/issues and we'll work with you to fix it. Check failed: RAY_PREDICT_TRUE(_left_ != _right_)  0 vs 0\n*** StackTrace Information ***\n/usr/local/lib/python3.12/dist-packages/ray/_raylet.so(+0x15e60b8) [0xfb07839560b8] ray::operator<<()\n/usr/local/lib/python3.12/dist-packages/ray/_raylet.so(_ZN3ray6RayLogD1Ev+0x5d8) [0xfb0783958b58] ray::RayLog::~RayLog()\n/usr/local/lib/python3.12/dist-packages/ray/_raylet.so(_ZN3ray12experimental20MutableObjectManager14OpenSemaphoresERKNS_8ObjectIDEPNS_18PlasmaObjectHeaderE+0x574) [0xfb0782d7ba54] ray::experimental::MutableObjectManager::OpenSemaphores()\n/usr/local/lib/python3.12/dist-packages/ray/_raylet.so(_ZN3ray12experimental20MutableObjectManager15RegisterChannelERKNS_8ObjectIDESt10unique_ptrIN6plasma13MutableObjectESt14default_deleteIS7_EEb+0xb4) [0xfb0782d7d3f4] ray::experimental::MutableObjectManager::RegisterChannel()\n/usr/local/lib/python3.12/dist-packages/ray/_raylet.so(_ZN3ray4core12experimental21MutableObjectProvider21RegisterReaderChannelERKNS_8ObjectIDE+0x78) [0xfb0782d71a48] ray::core::experimental::MutableObjectProvider::RegisterReaderChannel()\n/usr/local/lib/python3.12/dist-packages/ray/_raylet.so(_ZN3ray4core10CoreWorker39ExperimentalRegisterMutableObjectReaderERKNS_8ObjectIDE+0x20) [0xfb0782d006a0] ray::core::CoreWorker::ExperimentalRegisterMutableObjectReader()\n/usr/local/lib/python3.12/dist-packages/ray/_raylet.so(+0x8d7000) [0xfb0782c47000] __pyx_pw_3ray_7_raylet_10CoreWorker_49experimental_channel_register_reader()\nVLLM::EngineCore(PyObject_Vectorcall+0x4c) [0x4ce52c] PyObject_Vectorcall\nVLLM::EngineCore(_PyEval_EvalFrameDefault+0x67c) [0x4b2fdc] _PyEval_EvalFrameDefault\nVLLM::EngineCore(PyEval_EvalCode+0x84) [0x5a0f44] PyEval_EvalCode\nVLLM::EngineCore() [0x5f0c0c]\nVLLM::EngineCore() [0x5e97e8]\nVLLM::EngineCore(PyRun_StringFlags+0x70) [0x5e3830] PyRun_StringFlags\nVLLM::EngineCore(PyRun_SimpleStringFlags+0x40) [0x5e3530] PyRun_SimpleStringFlags\nVLLM::EngineCore(Py_RunMain+0x404) [0x5df734] Py_RunMain\nVLLM::EngineCore(Py_BytesMain+0x24) [0x5856f4] Py_BytesMain\n/usr/lib/aarch64-linux-gnu/libc.so.6(+0x27400) [0xfb0948527400]\n/usr/lib/aarch64-linux-gnu/libc.so.6(__libc_start_main+0x98) [0xfb09485274d8] __libc_start_main\nVLLM::EngineCore(_start+0x30) [0x585570] _start\n\n(APIServer pid=1) ERROR 04-03 12:10:44 [core_client.py:667] Engine core proc EngineCore died unexpectedly, shutting down client.\n(APIServer pid=1) ERROR 04-03 12:10:44 [async_llm.py:707] AsyncLLM output_handler failed.\n(APIServer pid=1) ERROR 04-03 12:10:44 [async_llm.py:707] Traceback (most recent call last):\n(APIServer pid=1) ERROR 04-03 12:10:44 [async_llm.py:707]   File \"/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/async_llm.py\", line 663, in output_handler\n(APIServer pid=1) ERROR 04-03 12:10:44 [async_llm.py:707]     outputs = await engine_core.get_output_async()\n(APIServer pid=1) ERROR 04-03 12:10:44 [async_llm.py:707]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n(APIServer pid=1) ERROR 04-03 12:10:44 [async_llm.py:707]   File \"/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/core_client.py\", line 985, in get_output_async\n(APIServer pid=1) ERROR 04-03 12:10:44 [async_llm.py:707]     raise self._format_exception(outputs) from None\n(APIServer pid=1) ERROR 04-03 12:10:44 [async_llm.py:707] vllm.v1.engine.exceptions.EngineDeadError: EngineCore encountered an issue. See stack trace (above) for the root cause.\n(APIServer pid=1) INFO:     192.168.10.1:56784 - \"POST /v1/chat/completions HTTP/1.1\" 500 Internal Server Error\n(APIServer pid=1) INFO:     Shutting down\n(APIServer pid=1) INFO:     Waiting for application shutdown.\n(APIServer pid=1) INFO:     Application shutdown complete.\n(APIServer pid=1) INFO:     Finished server process [1]\n```\n\n## What I already tried\n\nDiffernt types of ENV variables. Also all variations of `VLLM_USE_RAY_COMPILED_DAG_CHANNEL_TYPE`. Also various docker things, but I think its not related to this issue.\n\n### Used Images:\n\n`vllm/vllm-openai:v0.19.0`\n`vllm/vllm-openai:v0.18.1`\n`vllm/vllm-openai:nightly`\n`nvcr.io/nvidia/vllm:26.03-py3`\n`nvcr.io/nvidia/vllm:26.02-py3`\n\n\n## Disclaimer\n\nMaybe, I miss something or I am just dumb and dont know how to deactivate the experimental_mutable_object_manager.\n\n### Versions / Dependencies\n\nRay - experimental_mutable_object_manager.cc:177\n\n### Reproduction script\n\nSpark1:\n```\ndocker run -dit  \\\n\t--name ray \\\n\t--gpus all \\\n\t--shm-size=16GB  \\\n\t--net=host   \\\n\t-e GLOO_SOCKET_IFNAME=enp1s0f0np0 \\\n\t-e NCCL_SOCKET_IFNAME=enp1s0f0np0 \\\n\t-e TP_SOCKET_IFNAME=enp1s0f0np0 \\\n\t-e VLLM_HOST_IP=192.168.10.1 \\\n\t-e VLLM_USE_RAY_WRAPPED_PP_COMM=0 \\\n\t-e RAY_memory_usage_threshold=1.0 \\\n\t-e RAY_memory_monitor_refresh_ms=0 \\\n\t-v ./models/huggingface:/root/.cache/huggingface \\\n\t-v /tmp/ray:/tmp/ray \\\n\t--privileged \\\n\t--entrypoint /bin/bash \\\n\tvllm/vllm-openai:v0.19.0 -c \"pip install ray cupy-cuda12x && ray start --head --block --port=6379 --node-ip-address=192.168.10.1\" \n```\n\nSpark2:\n```\ndocker run -dit --rm  \\\n\t--name ray \\\n\t--gpus all \\\n\t--shm-size=16GB  \\\n\t--net=host   \\\n\t-e GLOO_SOCKET_IFNAME=enp1s0f0np0 \\\n\t-e NCCL_SOCKET_IFNAME=enp1s0f0np0 \\\n\t-e TP_SOCKET_IFNAME=enp1s0f0np0 \\\n\t-e VLLM_HOST_IP=192.168.10.2 \\\n\t-e VLLM_USE_RAY_WRAPPED_PP_COMM=0 \\\n\t-e RAY_memory_usage_threshold=1.0 \\\n\t-e RAY_memory_monitor_refresh_ms=0 \\\n\t-v ./models/huggingface:/root/.cache/huggingface \\\n\t--entrypoint /bin/bash \\\n\t--privileged \\\n\tvllm/vllm-openai:v0.19.0  -c \"pip install ray cupy-cuda12x && ray start --block --node-ip-address=192.168.10.2 --address=192.168.10.1:6379\" \n``` \n\nApplication (Spark1):\n\n```\ndocker run -it --rm  \\\n\t--net=host --gpus all \\\n\t-e VLLM_HOST_IP=192.168.10.1 \\\n\t-e VLLM_USE_RAY_WRAPPED_PP_COMM=0 \\\n\t-e VLLM_USE_RAY_COMPILED_DAG_CHANNEL_TYPE=nccl \\\n\t-e VLLM_ENABLE_V1_MULTIPROCESSING=0 \\\n\t-e NCCL_IB_HCA=rocep1s0f0,rocep1s0f1 \\\n\t-e NCCL_IB_GID_INDEX=3 \\\n\t-e NCCL_DEBUG=INFO \\\n\t-e NCCL_SOCKET_IFNAME=enp1s0f0np0 \\\n\t-e GLOO_SOCKET_IFNAME=enp1s0f0np0 \\\n\t-e TP_SOCKET_IFNAME=enp1s0f0np0 \\\n\t-e RAY_ADDRESS=192.168.10.1:6379 \\\n\t-v /tmp/ray:/tmp/ray \\\n\t-v ./../ray/models/huggingface:/root/.cache/huggingface \\\n\t--entrypoint /bin/bash  \\\n\tvllm/vllm-openai:v0.19.0 -c \"pip install ray cupy-cuda12x && python3 -m vllm.entrypoints.openai.api_server --model deepseek-ai/DeepSeek-R1-Distill-Llama-70B --distributed-executor-backend ray --tensor-parallel-size 2 --max-model-len 8192 --gpu-memory-utilization 0.8 --trust-remote-code --enforce-eager\"\n```\n\n### Issue Severity\n\nHigh: It blocks me from completing my task.",
+  "closed_by": {
+    "login": "edoakes",
+    "id": 9871461,
+    "node_id": "MDQ6VXNlcjk4NzE0NjE=",
+    "avatar_url": "https://avatars.githubusercontent.com/u/9871461?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/edoakes",
+    "html_url": "https://github.com/edoakes",
+    "followers_url": "https://api.github.com/users/edoakes/followers",
+    "following_url": "https://api.github.com/users/edoakes/following{/other_user}",
+    "gists_url": "https://api.github.com/users/edoakes/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/edoakes/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/edoakes/subscriptions",
+    "organizations_url": "https://api.github.com/users/edoakes/orgs",
+    "repos_url": "https://api.github.com/users/edoakes/repos",
+    "events_url": "https://api.github.com/users/edoakes/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/edoakes/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "reactions": {
+    "url": "https://api.github.com/repos/ray-project/ray/issues/62328/reactions",
+    "total_count": 0,
+    "+1": 0,
+    "-1": 0,
+    "laugh": 0,
+    "hooray": 0,
+    "confused": 0,
+    "heart": 0,
+    "rocket": 0,
+    "eyes": 0
+  },
+  "timeline_url": "https://api.github.com/repos/ray-project/ray/issues/62328/timeline",
+  "performed_via_github_app": null,
+  "state_reason": "completed",
+  "pinned_comment": null
+}

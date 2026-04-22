@@ -1,0 +1,125 @@
+{
+  "total_count": 10,
+  "workflows": [
+    {
+      "id": 163722068,
+      "node_id": "W_kwDON7QmxM4JwjNU",
+      "name": "Style",
+      "path": ".github/workflows/style.yaml",
+      "state": "active",
+      "created_at": "2025-05-23T00:02:29.000Z",
+      "updated_at": "2025-05-23T01:05:13.000Z",
+      "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/actions/workflows/163722068",
+      "html_url": "https://github.com/PrimeIntellect-ai/prime-rl/blob/main/.github/workflows/style.yaml",
+      "badge_url": "https://github.com/PrimeIntellect-ai/prime-rl/workflows/Style/badge.svg"
+    },
+    {
+      "id": 163728851,
+      "node_id": "W_kwDON7QmxM4Jwk3T",
+      "name": "Release",
+      "path": ".github/workflows/release.yaml",
+      "state": "active",
+      "created_at": "2025-05-23T01:05:13.000Z",
+      "updated_at": "2025-05-23T01:05:13.000Z",
+      "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/actions/workflows/163728851",
+      "html_url": "https://github.com/PrimeIntellect-ai/prime-rl/blob/main/.github/workflows/release.yaml",
+      "badge_url": "https://github.com/PrimeIntellect-ai/prime-rl/workflows/Release/badge.svg"
+    },
+    {
+      "id": 164436103,
+      "node_id": "W_kwDON7QmxM4JzRiH",
+      "name": "GPU Tests",
+      "path": ".github/workflows/gpu_tests.yaml",
+      "state": "active",
+      "created_at": "2025-05-27T03:14:22.000Z",
+      "updated_at": "2025-05-27T17:13:20.000Z",
+      "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/actions/workflows/164436103",
+      "html_url": "https://github.com/PrimeIntellect-ai/prime-rl/blob/main/.github/workflows/gpu_tests.yaml",
+      "badge_url": "https://github.com/PrimeIntellect-ai/prime-rl/workflows/GPU%20Tests/badge.svg"
+    },
+    {
+      "id": 164436104,
+      "node_id": "W_kwDON7QmxM4JzRiI",
+      "name": "CPU Tests",
+      "path": ".github/workflows/cpu_tests.yaml",
+      "state": "active",
+      "created_at": "2025-05-27T03:14:23.000Z",
+      "updated_at": "2025-05-27T04:53:00.000Z",
+      "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/actions/workflows/164436104",
+      "html_url": "https://github.com/PrimeIntellect-ai/prime-rl/blob/main/.github/workflows/cpu_tests.yaml",
+      "badge_url": "https://github.com/PrimeIntellect-ai/prime-rl/workflows/CPU%20Tests/badge.svg"
+    },
+    {
+      "id": 207380233,
+      "node_id": "W_kwDON7QmxM4MXF8J",
+      "name": "Copilot code review",
+      "path": "dynamic/copilot-pull-request-reviewer/copilot-pull-request-reviewer",
+      "state": "active",
+      "created_at": "2025-11-16T02:59:26.000Z",
+      "updated_at": "2025-11-16T02:59:26.000Z",
+      "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/actions/workflows/207380233",
+      "html_url": "https://github.com/PrimeIntellect-ai/prime-rl/actions/workflows/copilot-pull-request-reviewer/copilot-pull-request-reviewer",
+      "badge_url": "https://github.com/PrimeIntellect-ai/prime-rl/actions/workflows/copilot-pull-request-reviewer/copilot-pull-request-reviewer/badge.svg"
+    },
+    {
+      "id": 212042343,
+      "node_id": "W_kwDON7QmxM4Mo4Jn",
+      "name": "Nightly Tests",
+      "path": ".github/workflows/nightly_tests.yaml",
+      "state": "active",
+      "created_at": "2025-12-02T01:57:53.000Z",
+      "updated_at": "2025-12-04T01:45:00.000Z",
+      "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/actions/workflows/212042343",
+      "html_url": "https://github.com/PrimeIntellect-ai/prime-rl/blob/main/.github/workflows/nightly_tests.yaml",
+      "badge_url": "https://github.com/PrimeIntellect-ai/prime-rl/workflows/Nightly%20Tests/badge.svg"
+    },
+    {
+      "id": 215489044,
+      "node_id": "W_kwDON7QmxM4M2BoU",
+      "name": "Sync Docs to Public Docs",
+      "path": ".github/workflows/sync-docs.yml",
+      "state": "active",
+      "created_at": "2025-12-12T22:31:28.000Z",
+      "updated_at": "2025-12-12T22:31:28.000Z",
+      "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/actions/workflows/215489044",
+      "html_url": "https://github.com/PrimeIntellect-ai/prime-rl/blob/main/.github/workflows/sync-docs.yml",
+      "badge_url": "https://github.com/PrimeIntellect-ai/prime-rl/workflows/Sync%20Docs%20to%20Public%20Docs/badge.svg"
+    },
+    {
+      "id": 224332295,
+      "node_id": "W_kwDON7QmxM4NXwoH",
+      "name": "Trainer Benchmarks",
+      "path": ".github/workflows/benchmarks.yaml",
+      "state": "active",
+      "created_at": "2026-01-16T19:44:20.000Z",
+      "updated_at": "2026-01-16T19:44:20.000Z",
+      "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/actions/workflows/224332295",
+      "html_url": "https://github.com/PrimeIntellect-ai/prime-rl/blob/main/.github/workflows/benchmarks.yaml",
+      "badge_url": "https://github.com/PrimeIntellect-ai/prime-rl/workflows/Trainer%20Benchmarks/badge.svg"
+    },
+    {
+      "id": 234430203,
+      "node_id": "W_kwDON7QmxM4N-R77",
+      "name": "DevX Tag",
+      "path": ".github/workflows/devx_tag.yaml",
+      "state": "active",
+      "created_at": "2026-02-15T00:56:45.000Z",
+      "updated_at": "2026-02-15T00:56:45.000Z",
+      "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/actions/workflows/234430203",
+      "html_url": "https://github.com/PrimeIntellect-ai/prime-rl/blob/main/.github/workflows/devx_tag.yaml",
+      "badge_url": "https://github.com/PrimeIntellect-ai/prime-rl/workflows/DevX%20Tag/badge.svg"
+    },
+    {
+      "id": 243787477,
+      "node_id": "W_kwDON7QmxM4Oh-bV",
+      "name": "Claude Code",
+      "path": ".github/workflows/claude.yaml",
+      "state": "active",
+      "created_at": "2026-03-09T20:00:08.000Z",
+      "updated_at": "2026-03-11T00:43:21.000Z",
+      "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/actions/workflows/243787477",
+      "html_url": "https://github.com/PrimeIntellect-ai/prime-rl/blob/main/.github/workflows/claude.yaml",
+      "badge_url": "https://github.com/PrimeIntellect-ai/prime-rl/workflows/Claude%20Code/badge.svg"
+    }
+  ]
+}

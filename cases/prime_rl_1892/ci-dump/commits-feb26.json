@@ -1,0 +1,84 @@
+[
+  {
+    "sha": "83c21ddac5af2e1d747475e88a7349c2bd319ec7",
+    "node_id": "C_kwDON7QmxNoAKDgzYzIxZGRhYzVhZjJlMWQ3NDc0NzVlODhhNzM0OWMyYmQzMTllYzc",
+    "commit": {
+      "author": {
+        "name": "Matej Sirovatka",
+        "email": "54212263+S1ro1@users.noreply.github.com",
+        "date": "2026-02-26T01:28:13Z"
+      },
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "2026-02-26T01:28:13Z"
+      },
+      "message": "Feat: set default to 8192 (#1892)",
+      "tree": {
+        "sha": "7e90552b96a2c563c29302f1f2809f44f7a99038",
+        "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/git/trees/7e90552b96a2c563c29302f1f2809f44f7a99038"
+      },
+      "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/git/commits/83c21ddac5af2e1d747475e88a7349c2bd319ec7",
+      "comment_count": 0,
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJpn6GtCRC1aQ7uu5UhlAAA5IUQAE6voG4xuqvLUEYmOTUQ3ZKZ\nr+jBCjqVKseYIZWluD2xccZY6lAE9P7Ut+QQAxushEPQXLCqqMPDqssQ3UXkK0vR\n13/89QxWCQHQHnaEhqS0wk9+cALj1N+/x6TrRfkLJFJoqqIWUoeHfE5T8BPxBkNu\nx16YJt1EEVq1bqiPuVTXSXMKDHewCyt3++vtDT5SLPDDeXGKsrOu2ZggxD+ZGfLE\nwXejnhJNW7yA3yDZk9H5/Petb+oD2sg798A79F0DCwAGFoxWJJCp5/qzoQjU+qsX\n44pVTMC4EtcDMAkTXrCU4VZWcb+bkCfZcK0czKb9xA5Qnd4GVjWDgsiJXVR7Q7Oo\nciJidCUlSubsLka1DeDpgDM2m64v4D5mpQV5E0FE63Ic5tZGcjDbKp03GQcIln0F\nqUCfyWz4712tLpo55+VRuVXOcq9QpvWJvbDaYKOEfWCkeUd/S4WwrmC3MFPHlDYO\nmEgE/BGAH2fc0rQMrSi1HIs3avHI+NCUiTPChugZbxLtXdMHihChAUIbH7B86zzv\nO9MdNYzw8NTk5VjNkAZ6wugRO0TD+8zUpsvQ5vL8Y/cEEl3izC6AEWEpXrwsKxWc\nCv1RdqO1+p7ZXBbpHbSCJVs2m9tKllki9FoEBb/SqdDOPEXDo4/Jac+AP0+d4C/i\nvlVcpzRVxCw4WZn+6Vp0\n=2ZCt\n-----END PGP SIGNATURE-----\n",
+        "payload": "tree 7e90552b96a2c563c29302f1f2809f44f7a99038\nparent 5f2dc0fe42bdfc0e8b4295f65321d3febef7f812\nauthor Matej Sirovatka <54212263+S1ro1@users.noreply.github.com> 1772069293 +0100\ncommitter GitHub <noreply@github.com> 1772069293 +0100\n\nFeat: set default to 8192 (#1892)\n\n",
+        "verified_at": "2026-02-26T01:28:14Z"
+      }
+    },
+    "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/commits/83c21ddac5af2e1d747475e88a7349c2bd319ec7",
+    "html_url": "https://github.com/PrimeIntellect-ai/prime-rl/commit/83c21ddac5af2e1d747475e88a7349c2bd319ec7",
+    "comments_url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/commits/83c21ddac5af2e1d747475e88a7349c2bd319ec7/comments",
+    "author": {
+      "login": "S1ro1",
+      "id": 54212263,
+      "node_id": "MDQ6VXNlcjU0MjEyMjYz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/54212263?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/S1ro1",
+      "html_url": "https://github.com/S1ro1",
+      "followers_url": "https://api.github.com/users/S1ro1/followers",
+      "following_url": "https://api.github.com/users/S1ro1/following{/other_user}",
+      "gists_url": "https://api.github.com/users/S1ro1/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/S1ro1/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/S1ro1/subscriptions",
+      "organizations_url": "https://api.github.com/users/S1ro1/orgs",
+      "repos_url": "https://api.github.com/users/S1ro1/repos",
+      "events_url": "https://api.github.com/users/S1ro1/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/S1ro1/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "web-flow",
+      "id": 19864447,
+      "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/web-flow",
+      "html_url": "https://github.com/web-flow",
+      "followers_url": "https://api.github.com/users/web-flow/followers",
+      "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+      "organizations_url": "https://api.github.com/users/web-flow/orgs",
+      "repos_url": "https://api.github.com/users/web-flow/repos",
+      "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/web-flow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "5f2dc0fe42bdfc0e8b4295f65321d3febef7f812",
+        "url": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl/commits/5f2dc0fe42bdfc0e8b4295f65321d3febef7f812",
+        "html_url": "https://github.com/PrimeIntellect-ai/prime-rl/commit/5f2dc0fe42bdfc0e8b4295f65321d3febef7f812"
+      }
+    ]
+  }
+]
