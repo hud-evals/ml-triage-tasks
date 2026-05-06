@@ -1,0 +1,75 @@
+# #420 Miniseries v2 (Dense-first) — Base Config
+#
+# This is the "research" base config, not the speedrun config. The miniseries
+# runner sweeps a single dial (depth) and *overrides* architecture + horizon.
+# Keep this file focused on invariants (data, logging, eval, basic optimizer).
+#
+# Run:
+#   python -m nmoe.research.miniseries
+#
+# Data paths are intentionally the same as speedrun for now (HF→shards pipeline).
+
+preset = "m420v2_dense"
+experiment_id = "m420v2_dense"
+
+# Token stream
+tokenizer = "gpt2"
+vocab_size = 50304  # 50257 padded to next multiple of 128
+eos_token_id = 50256
+loss_mask_eos = false
+
+# Data
+data_path = "/data/speedrun/train"
+
+# Validation
+validation_enabled = true
+validation_data_path = "/data/speedrun/val"
+validation_every = 128
+validation_steps = 20
+validation_log_bpb = true
+
+# Model placeholders (overridden by miniseries)
+attn = "sdpa"
+dim = 768
+n_layers = 12
+n_heads = 12
+inter_dim = 3072
+n_dense_layers = 12
+max_position_embeddings = 2048
+rope_theta = 10000.0
+
+# Training placeholders (overridden by miniseries)
+dtype = "bf16"
+seq_len = 2048
+batch_size = 256
+steps = 1
+
+# Optimizer (baseline; miniseries may override lr scaling per depth)
+use_muon = false
+lr_dense = 1.8e-3
+lr_router = 1.8e-3
+lr_expert = 1.8e-3
+weight_decay = 0.0
+adam_beta1 = 0.8
+adam_beta2 = 0.95
+adam_eps = 1e-8
+
+# Schedule placeholders (overridden by miniseries; floor must stay > 0)
+warmup_steps = 1
+hold_tokens = 0
+decay_tokens = 1
+decay_floor = 1e-6
+
+# Checkpointing + logging
+resume = false
+checkpoint_every = 999999999
+log_every = 100
+
+# CORE eval (run at end of training by default for miniseries)
+eval_enabled = true
+eval_every = 0
+eval_tasks = "core"
+eval_tasks_file = "configs/eval/core.toml"
+eval_budget_max_examples = 500
+eval_budget_max_time_s = 0
+

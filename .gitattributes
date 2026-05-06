@@ -1,0 +1,16 @@
+# Large binaries under cases/ stream via Git LFS so the env repo stays
+# small. After cloning, run: `git lfs install && git lfs pull`.
+
+cases/**/*.parquet              filter=lfs diff=lfs merge=lfs -text
+cases/**/*.npy                  filter=lfs diff=lfs merge=lfs -text
+cases/**/*.npz                  filter=lfs diff=lfs merge=lfs -text
+cases/**/*.db                   filter=lfs diff=lfs merge=lfs -text
+cases/**/*.sqlite               filter=lfs diff=lfs merge=lfs -text
+cases/**/*.bin                  filter=lfs diff=lfs merge=lfs -text
+cases/**/*.tar.gz               filter=lfs diff=lfs merge=lfs -text
+cases/**/*.zip                  filter=lfs diff=lfs merge=lfs -text
+cases/**/prs/*.json             filter=lfs diff=lfs merge=lfs -text
+cases/**/ci-logs/**             filter=lfs diff=lfs merge=lfs -text
+cases/**/*.jsonl                filter=lfs diff=lfs merge=lfs -text
+cases/**/.git/objects/pack/*.pack  filter=lfs diff=lfs merge=lfs -text
+cases/**/.git/objects/pack/*.idx   filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,42 @@
+# GPT-2 Large (774M) — architecture-only config
+#
+# Notes:
+# - GPT-2 context is 1024.
+# - Optimizer/schedule values here are "sane defaults", not a faithful GPT-2 paper repro.
+
+preset = "gpt2"
+experiment_id = "gpt2_large"
+
+tokenizer = "gpt2"
+vocab_size = 50304
+eos_token_id = 50256
+loss_mask_eos = false
+
+data_path = "/data/fineweb10B_gpt2_npy/train"
+validation_enabled = true
+validation_data_path = "/data/fineweb10B_gpt2_npy/valid"
+validation_every = 1000
+validation_steps = 10
+
+# Model (GPT-2 large)
+dim = 1280
+n_layers = 36
+n_heads = 20
+inter_dim = 5120
+n_dense_layers = 36
+
+attn = "sdpa"
+
+dtype = "bf16"
+seq_len = 1024
+batch_size = 256
+
+use_muon = false
+lr_dense = 2.5e-4
+lr_router = 2.5e-4
+lr_expert = 2.5e-4
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+

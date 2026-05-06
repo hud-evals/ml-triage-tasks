@@ -1,0 +1,501 @@
+HOTEL_NAME,DIM_HOTEL_CITY,HOTEL_STARS_RATING,SUM(BASE_PRICE),SUM(TOTAL_ROOM_NIGHTS)
+Days Inn by Wyndham 100 Mile House,101 Mile House,2.5,164.58,2.0
+Hesperia A Coruña Centro,A Coruna,4.0,2450.57,20.0
+ibis budget Aachen City,Aachen,3.0,1409.15,21.0
+Boutique Hotel Sonne Seuzach,Aadorf,3.5,378.74,2.0
+Hotel Jomfru Ane,Aalborg,3.0,83.19,1.0
+Athome Apartments,Aarhus,3.0,782.75,11.0
+Best Western Abbeville Inn & Suites,Abbeville,2.5,379.41,4.0
+Best Western Plus Regency Inn & Conference Centre,Abbotsford,3.0,2444.51,17.0
+Rox Hotel,Aberdeen,4.0,326.83,4.0
+Hampton Inn & Suites Southern Pines-Pinehurst,Aberdeen,2.5,5721.81,34.0
+Village Hotel Aberdeen,Aberdeen,4.0,3541.76,34.0
+Roots Hotel Apartments,Abidjan,4.0,1626.23,13.0
+Rixos Marina Abu Dhabi,Abu Dhabi,5.0,1386.5,4.0
+The Africa Regent,Accra,4.0,3787.58,22.0
+4 Spa Resort Hotel,Aci Castello,4.0,254.07,2.0
+Ibis Styles Catania Acireale,Acireale,4.0,327.04,3.0
+Americas Best Value Inn Addison Dallas,Addison,2.0,135.4,2.0
+Comfort Inn & Suites Sombrero,Adelaide,3.0,1886.59,17.0
+Mawson Lakes,Adelaide,4.0,6319.89,67.0
+Parkhotel Schmid,Adelsried,4.0,1423.47,15.0
+Sheraton Agoura Hills Hotel,Agoura Hills,3.5,67995.63,394.0
+Fiesta Inn Aguascalientes,Aguascalientes,3.5,474.0,6.0
+Pension Leonardo Aidenbach,Aidenbach,3.0,179.84,3.0
+Fairfield Inn & Suites Airdrie,Airdrie,2.5,1559.42,12.0
+Novotel Aix Pont De L'arc,Aix En Provence,0.0,286.2,2.0
+L'entrecasteaux,Aix En Provence,3.0,424.42,5.0
+Les Loges du Park,Aix Les Bains,3.0,501.46,4.0
+ibis Aix-en-Provence,AixenProvence,3.0,1630.76,12.0
+Hotel Cardinal,AixenProvence,2.0,320.04,3.0
+"The Ritz-Carlton Ras Al Khaimah, Al Hamra Beach",Al Hamra Village,5.0,1239.86,2.0
+Comfort Inn & Suites Alamosa,Alamosa,2.5,868.36,6.0
+Morgan State House,Albany,3.5,2008.47,10.0
+Campanile Albi Centre,Albi,3.0,501.96,7.0
+Royal Extended Stay Alcoa By Magnuson Worldwide,Alcoa,2.5,60.81,1.0
+Alexandra Heights Motel,Alexandra,4.0,329.78,3.0
+Romance Alexandria Hotel,Alexandria,4.0,263.38,4.0
+Sheraton Montazah,Alexandria,5.0,3003.2,28.0
+Aparthotel Albufera,Alfafar,4.0,216.79,2.0
+Hotel Catalunya,Alghero,4.0,2280.56,21.0
+Snooze Apartments Alling,Alling,3.0,234.82,2.0
+Sonesta ES Suites Atlanta Alpharetta Avalon,Alpharetta,3.0,6133.56,69.0
+Rössle,Alpirsbach,3.0,699.13,9.0
+Klingelhöffer,Alsfeld,3.0,3747.48,41.0
+Hotel Cristallo,Alta Badia,4.0,1471.48,3.0
+Embassy Suites Orlando North,Altamonte Springs,3.5,38048.67,259.0
+Hotel Gondel,Altenkunstadt,3.0,55.39,1.0
+Fairfield Inn & Suites Des Moines Altoona,Altoona,2.5,102937.82,699.0
+Hyatt Place Altoona Des Moines,Altoona,3.0,54638.42,426.0
+SureStay Plus Hotel by Best Western Alvin,Alvin,2.5,143.98,2.0
+Motel L Älvsjö,Alvsjo,3.0,1514.63,13.0
+Parkhotel Krone,Alzenau,3.0,184.26,2.0
+Hampton Inn & Suites Amarillo East,Amarillo,2.5,9861.61,65.0
+Tru By Hilton Amarillo West,Amarillo,2.5,4638.5,50.0
+Hotel La Locanda dell’Angelo,Ameglia,4.0,126.53,1.0
+Grand Hyatt Amman,Amman,5.0,3265.86,21.0
+InterContinental Amman (Jordan),Amman,5.0,9907.88,66.0
+Golden Tulip Amneville,Amneville,4.0,898.83,7.0
+Aldiana Club Ampflwang,Ampflwang,4.0,374.91,3.0
+Hotel2Stay,Amsterdam,3.0,5639.27,44.0
+Hotel Victorie,Amsterdam,3.0,2627.93,21.0
+Sir Albert,Amsterdam,4.0,150998.42,542.0
+Cityden BoLo District,Amsterdam,4.0,3685.24,17.0
+Waldorf Astoria Amsterdam,Amsterdam,5.0,1263.11,1.0
+Owl,Amsterdam,3.0,1621.59,9.0
+Max Brown Hotel Canal District,Amsterdam,3.0,3313.14,21.0
+Extended Stay America Orange County Anaheim Convention Center,Anaheim,2.5,3776.96,23.0
+Cortona Inn & Suites Anaheim Resort,Anaheim,2.5,3205.86,21.0
+The Lemon Tree Hotel,Anaheim,3.0,4235.6,26.0
+DoubleTree Suites by Hilton Hotel Anaheim Resort - Convention Center,Anaheim,3.5,29493.31,151.0
+The Westin Anaheim Resort,Anaheim,4.5,44480.44,104.0
+Hilton Garden Inn Anchorage,Anchorage,3.0,17368.54,61.0
+Hotel della Vittoria,Ancona,3.0,78.2,1.0
+Dc Hotel & Restaurant Brussels South,Anderlecht,3.0,934.0,9.0
+Hampton Inn Anderson,Anderson,2.5,1990.89,16.0
+"Country Inn & Suites by Radisson, Anderson, SC",Anderson,2.5,4107.09,83.0
+NH Andorra La Vella,Andorra La Vella,4.0,4004.22,23.0
+Homewood Suites by Hilton Boston / Andover,Andover,3.0,40978.92,276.0
+L'Hotel Du Garage Des Cevennes,Anduze,0.0,105.38,1.0
+Suit'home Commerce,Angers,3.0,272.15,2.0
+Grand Hotel de la Gare,Angers,3.0,1727.71,15.0
+Angra Beach Hotel,Angra dos Reis,3.5,215.57,3.0
+New Park Ankara Hotel,Ankara,5.0,358.68,4.0
+Holiday Inn Ankara - Cukurambar,Ankara,5.0,266.35,2.0
+Hotel Anklamer Hof,Anklam,0.0,106.64,1.0
+Bell Tower Hotel,Ann Arbor,3.5,8517.4,33.0
+Comfort Inn & Suites University South,Ann Arbor,2.5,2133.5,17.0
+Hampton Inn Ann Arbor-North,Ann Arbor,2.5,6075.84,41.0
+SpringHill Suites Annapolis,Annapolis,3.0,17817.98,121.0
+Hôtel du Centre Annemasse,Annemasse,3.0,105.66,1.0
+Landgasthof Schwarzes Ross,Ansbach,3.0,484.13,5.0
+Hotel SU,Antalya,5.0,464.73,4.0
+Santa Rosa Boutique,Antigua,3.5,419.39,4.0
+Smartflats Design - Theatre,Antwerp,4.0,852.46,4.0
+Gasthof Bucksande,Apen,3.0,60.01,1.0
+Holiday Inn Htl Stes Apodaca,Apodaca,3.5,4610.14,39.0
+Holiday Inn Htl Stes Apodaca,Apodaca,5.0,2194.16,11.0
+Best Western Appleby Park Hotel,Appleby Magna,3.0,1344.79,17.0
+CopperLeaf Boutique Hotel & Spa,Appleton,3.5,14295.37,102.0
+ibis Aracaju,Aracaju,3.0,161.75,4.0
+Hotel Club Saraceno,Arbatax,4.0,1552.55,5.0
+Appart-Hôtel Le Trianon,Arcachon,4.0,101.7,1.0
+Holiday Inn Express Hotel & Suites Arcadia,Arcadia,2.5,4314.81,28.0
+Motel 6 Arcata Humboldt University,Arcata,2.0,407.97,3.0
+De Maasparel,Arcen,4.0,250.34,2.0
+Hvm Medinasalim ***,Arcos de Jalon Soria,3.0,110.7,1.0
+Casa Andina Standard,Arequipa,3.0,291.69,5.0
+Ayenda Virreinal Aqp,Arequipa,2.5,540.0,4.0
+Continentale,Arezzo,4.0,377.94,3.0
+Zum Ochsen,Arlesheim,4.0,235.23,1.0
+Van der Valk Luxembourg-Arlon,Arlon,4.0,2941.68,16.0
+Van der Valk Luxembourg-Arlon,Arlon,3.5,635.58,3.0
+Bella Vita B&B,Arona,3.0,254.0,2.0
+Hotel Le Crouesty,Arzon,3.0,147.53,1.0
+Hotel Park Residenz,Aschersleben,4.0,255.75,3.0
+Hotel Zur Heidschnucke,Asendorf,4.0,1934.49,21.0
+Hilton Garden Inn Dulles North,Ashburn,3.0,41610.89,315.0
+Foundry Hotel Asheville Curio Collection by Hilton,Asheville,4.0,5266.09,15.0
+Premier Inn Ashford North,Ashford,3.0,152.73,2.0
+Wingate by Wyndham Ashland,Ashland,2.5,512.37,5.0
+Ashland Hills Hotel & Suites,Ashland,3.0,2559.79,18.0
+Royal Garden,Assago,4.0,510.83,4.0
+Innkeeper's Lodge Aylesbury East Aston Clinton,Aston Clinton,4.0,1379.86,11.0
+Sonesta Nouba Hotel Aswan,Aswan,3.5,755.55,6.0
+Athens Green Apartments,Athens,4.0,117.59,1.0
+Hestia - Kolokotroni 23,Athens,0.0,2146.73,13.0
+Dinostratus House,Athens,4.0,160.35,2.0
+SpotApart Residences,Athens,4.0,428.28,6.0
+Athenian Sensations Apartments & Suites,Athens,0.0,357.33,3.0
+Athenian Sensations Apartments & Suites,Athens,4.0,1180.71,12.0
+Dinostratus House,Athens,3.5,372.62,5.0
+Athens4,Athens,3.5,366.38,2.0
+Ater Albus By K&k,Athens,4.0,108.63,1.0
+Swara Acacia Lodge,Athi River,3.5,324.48,4.0
+Antigua Hotel Boutique,Atizapan de Zaragoza,3.5,552.09,6.0
+Four Seasons Hotel Atlanta,Atlanta,5.0,64557.77,109.0
+Courtyard Atlanta Downtown,Atlanta,3.0,33024.34,173.0
+Omni Atlanta Hotel at CNN Center,Atlanta,4.0,86158.13,309.0
+Sheraton Atlanta Perimeter North,Atlanta,3.5,26974.87,213.0
+"Inn At The Peachtrees, an Ascend Hotel Collection Member",Atlanta,2.5,1973.09,15.0
+Extended Stay America Atlanta Perimeter Hammond Drive,Atlanta,2.5,236.97,3.0
+noemys Pont de l'Etoile,Aubagne,3.0,539.59,7.0
+Hilton Garden Inn Auburn Riverwatch,Auburn,3.0,15585.81,97.0
+Les Maisons Du Pont,Aubusson,3.0,123.6,1.0
+ibis budget Auckland Central,Auckland,3.5,351.75,5.0
+Tru By Hilton Audubon Valley Forge,Audubon,2.5,6693.75,53.0
+Microtel Inn & Suites by Wyndham Augusta Riverwatch,Augusta,2.0,165.39,3.0
+Affordable Suites Augusta,Augusta,2.0,372.0,4.0
+Thermal-Hotel Aulendorf,Aulendorf,3.0,1171.48,11.0
+ibis Aulnay Paris Nord Expo,AulnaysousBois,3.0,8746.12,76.0
+Treebo Trend Aroma Executive,Aurangabad,3.0,28.85,1.0
+Kasa Austin Lady Bird Lake Apartments,Austin,4.0,4992.04,23.0
+Origin Austin A Wyndham Hotel,Austin,3.0,64863.91,333.0
+Hampton Inn Austin NW near The Domain,Austin,2.5,25240.15,189.0
+Hyatt Centric Congress Avenue Austin,Austin,4.0,653118.25,2716.0
+Canopy by Hilton Austin Downtown,Austin,4.0,460970.87,1571.0
+Lone Star Court,Austin,4.0,163940.27,784.0
+Sonesta Select Austin North,Austin,3.0,26288.06,305.0
+The Carpenter Hotel,Austin,3.5,129077.22,547.0
+Sonesta Simply Suites Austin South,Austin,3.0,7966.18,73.0
+Avenida 60 Prime Suites,Aveiro,4.5,109.24,1.0
+Best Western Thurrock Hotel,Aveley,3.0,2024.73,22.0
+Foresteria Country House,Avellino,0.0,1098.55,5.0
+Foresteria Country House,Avellino,4.0,358.96,1.0
+Hôtel Mercure Pont d'Avignon Centre,Avignon,4.0,1062.09,9.0
+Novotel Avignon Centre,Avignon,4.0,1741.6,10.0
+Hotel II Castillas Avila,Avila,4.0,556.0,8.0
+Extended Stay America Select Suites - Cleveland - Avon,Avon,2.5,124.99,1.0
+"The Westin Riverfront Resort & Spa, Avon, Vail Valley",Avon,4.0,14024.91,34.0
+Hotel La Cascata,Azzano San Paolo,3.0,555.11,6.0
+Cala Moresca Hotel,Bacoli,3.0,641.48,5.0
+Cala Moresca Hotel,Bacoli,4.0,193.87,2.0
+Park Inn by Radisson Bacolod,Bacolod,4.0,18071.47,209.0
+Hotel Brunnenhaus Schloss Landau,Bad Arolsen,4.0,2080.72,20.0
+Wirtshaus Himberg Pension,Bad Honnef,3.0,120.94,2.0
+Hotel the YARD Bad Honnef,Bad Honnef,4.0,238.18,2.0
+Royal Garden,Bad Iburg,0.0,134.91,3.0
+Alpha Hotel,Bad Langensalza,3.0,153.39,2.0
+Solewerk Hotel,Bad Salzungen,0.0,412.11,4.0
+Teinachtal,Bad Teinach,0.0,110.08,1.0
+U Kozicky Superior Penzion,Bad Teplice,4.0,3649.95,53.0
+Tannenblick,Bad Vilbel,3.0,168.81,2.0
+Hotel Pension Petra,Bad Zwischenahn,0.0,233.93,2.0
+Hotel Badalona Tower,Badalona,4.0,706.29,5.0
+Holiday Inn Express Baden-Baden,BadenBaden,3.5,4593.34,37.0
+Hotel Bischoff,BadenBaden,3.0,93.23,1.0
+Corendon Village Hotel Amsterdam,Badhoevedorp,0.0,402.83,2.0
+Cap1 Boardinghouse,Baesweiler,0.0,162.41,2.0
+Palacio De Los Salcedo,Baeza,4.0,77.28,1.0
+The Orchard Hotel Baguio,Baguio,3.5,432.47,6.0
+Amber Hotel,Baku,4.0,26.46,1.0
+Olf Hotel,Baku,3.0,312.47,2.0
+Hilton Garden Inn Krakow Airport,Balice,4.0,22065.66,153.0
+Hotel Kamilla,Balmazujvaros,4.0,350.45,2.0
+Hotel Do Bosque,Balneario Camboriu,3.0,330.92,4.0
+The Vines,Bampton,3.5,230.35,2.0
+Hermes Palace Hotel,Banda Aceh,3.5,61.86,1.0
+Four Points by Sheraton Bandung,Bandung,4.0,1445.62,17.0
+Aston Pasteur,Bandung,4.0,116.66,3.0
+Novotel Bandung,Bandung,4.0,253.19,5.0
+Olive Service Apartments HSR Layout,Bangalore,4.0,380.03,6.0
+Pride Hotel Bengaluru,Bangalore,4.0,335.95,6.0
+Crest Executive Suites,Bangalore,3.0,3008.92,45.0
+Hilton Garden Inn Bengaluru Embassy Manyata Business Park,Bangalore,3.5,13942.44,116.0
+Hilton Garden Inn Bengaluru Embassy Manyata Business Park,Bangalore,5.0,13921.73,96.0
+Kings Suits By Treebo,Bangalore,3.0,120.04,4.0
+Hyatt Centric MG Road Bangalore,Bangalore,5.0,53668.28,450.0
+Sanctum Suites Domlur Bangalore,Bangalore,3.0,767.02,24.0
+Justa Off Mg Road Bangalore,Bangalore,3.5,272.02,6.0
+Four Seasons Hotel Bangkok at Chao Phraya River,Bangkok,5.0,8416.98,16.0
+Mercure Bangkok Surawong,Bangkok,4.0,659.38,9.0
+Siam Kempinski Hotel Bangkok,Bangkok,5.0,8750.12,29.0
+Ascott Embassy Sathorn Bangkok,Bangkok,5.0,4740.81,45.0
+Crowne Plaza Bangkok Lumpini Park,Bangkok,5.0,6612.76,49.0
+Anajak Bangkok,Bangkok,4.0,1715.01,18.0
+Riva Arun Bangkok,Bangkok,4.0,1439.12,13.0
+Courtyard Bangor,Bangor,3.0,17359.8,85.0
+Holiday Inn Express Banning,Banning,2.5,2268.07,23.0
+Urpin City Residence,Banska Bystrica,3.0,168.21,2.0
+Hotel Chalet Val de Ruda,Baqueira,4.0,761.34,3.0
+NH Barcelona Diagonal Center,Barcelona,3.5,57195.1,305.0
+Yurbban Trafalgar,Barcelona,3.0,19765.63,83.0
+The Level at Meliá Barcelona Sky,Barcelona,5.0,32426.61,105.0
+Hostemplo Sagrada Familia,Barcelona,3.5,1553.98,9.0
+Motel One Barcelona-Ciutadella,Barcelona,3.0,15328.96,85.0
+Hotel Acta BCN 40,Barcelona,2.0,145.72,1.0
+Gran Hotel Havanna,Barcelona,4.5,15755.55,87.0
+Apartamentos Gran Vía by The Streets,Barcelona,4.0,677.72,3.0
+Silken Ramblas,Barcelona,4.0,2988.0,13.0
+chic&basic Habana Hoose,Barcelona,3.0,8431.82,42.0
+Nouvel,Barcelona,3.0,6217.64,31.0
+Barcelona Century Hotel,Barcelona,3.0,2193.17,8.0
+Niu Barcelona,Barcelona,3.0,8351.59,23.0
+Condes De Barcelona,Barcelona,4.0,16834.53,59.0
+Renaissance Barcelona Fira Hotel,Barcelona,4.5,31715.82,114.0
+H10 Urquinaona Plaza,Barcelona,4.0,1155.14,5.0
+ITC Barcelona by Soho Boutique,Barcelona,2.0,1461.1,8.0
+Ocean Drive Barcelona,Barcelona,5.0,19217.61,74.0
+Bardstown Motor Lodge,Bardstown,3.5,290.55,2.0
+The Nicolaus Hotel Bari,Bari,4.0,8008.45,50.0
+B&B Oz,Bari,3.0,88.39,1.0
+B&B HOTEL Magdeburg-Barleben,Barleben,0.0,2465.92,32.0
+Hotel ibis Styles Barnsley,Barnsley South Yorkshire,3.0,6002.57,83.0
+Hush Lodge & Cottages,Barrys Bay,3.0,410.7,2.0
+Sporthotel Fuchsbachtal,Barsinghausen,4.0,1990.95,17.0
+Les Tonnelles,BarsurSeine,3.0,86.76,1.0
+Armiñe,Basauri,3.0,165.8,2.0
+Holel Marthof,Basel,4.0,23752.95,78.0
+HITrental Messe Apartment,Basel,3.0,812.29,6.0
+Krafft,Basel,4.0,8017.14,28.0
+Der Teufelhof Basel,Basel,3.0,1988.76,10.0
+Favehotel Nagoya - Batam,Batam Island,2.0,431.07,6.0
+Hampton by Hilton Bath City,Bath,3.0,3760.74,25.0
+Travelodge Bath City Centre (Bath Spa),Bath,0.0,154.61,1.0
+Hotel O.Galogre,Batumi,4.0,126.4,2.0
+Comfort Hotel Bauru,Bauru,3.0,252.11,4.0
+De Brunville,Bayeux,3.0,256.79,2.0
+Homewood Suites by Hilton Cleveland-Beachwood,Beachwood,3.0,27063.72,157.0
+Winyard's Gap Inn,Beaminster,4.0,130.67,1.0
+Best Western Plus Newark/Christiana Inn,Bear,2.5,3158.6,32.0
+Carlton,BeaulieusurMer,4.0,937.56,2.0
+Hampton Inn Beaumont,Beaumont,2.5,2708.12,25.0
+AmericInn by Wyndham Beaver Dam,Beaver Dam,2.5,569.58,5.0
+Holiday Inn Express & Suites Dayton East - Beavercreek,Beavercreek,2.5,28354.89,207.0
+Hilton Garden Inn Portland/Beaverton,Beaverton,3.0,45753.06,309.0
+Lairds House,Bedlington,3.0,287.48,3.0
+Hampton Inn Beeville,Beeville,2.5,1368.62,9.0
+Crowne Plaza Beijing International Airport,Beijing,4.5,455.02,5.0
+Beira Terrace Hotel,Beira,4.0,242.13,4.0
+Travelodge by Wyndham Belen,Belen,2.0,516.0,5.0
+Fireside Inn & Suites Ocean's Edge,Belfast,3.0,1606.33,7.0
+Mercure Belfort Centre,Belfort,4.0,2827.42,22.0
+Native By Chancery Hotels,Belgaum,3.0,113.1,3.0
+Calisi,Belgrade,4.0,3163.12,26.0
+Feel Belgrade Aparthotel,Belgrade,4.0,3667.59,33.0
+Hyatt Regency Bellevue on Seattle's Eastside,Bellevue,4.0,341748.44,995.0
+BH Raja Hotel,Belo Horizonte,3.5,120.35,2.0
+Hotel Abades Benacazon,Benacazon,4.0,1526.56,24.0
+The Oxford Hotel Bend,Bend,4.0,7669.04,25.0
+Red Lion Inn & Suites Deschutes River Bend,Bend,2.5,3965.42,28.0
+besttime Hotel Bendorf,Bendorf,0.0,1247.7,25.0
+Hostellerie de la Charrue,BenfeldSand,3.0,2374.62,20.0
+Zip By Spree Hotels Purple Orchid Whitefield,Bengaluru,4.0,189.2,6.0
+The Inn at Benicia Bay,Benicia,3.0,1004.4,4.0
+Best Western Plus Heritage Inn,Benicia,2.5,8511.19,64.0
+Parkhotel Krone,Bensheim,4.0,1654.96,13.0
+Courtyard Bentonville,Bentonville,3.0,37511.23,159.0
+Super 8 by Wyndham Bentonville,Bentonville,2.5,787.93,10.0
+Landhaus Marienstein,Bergen,4.0,2071.14,25.0
+Grand Hotel De Draak,Bergen op Zoom,4.0,905.65,8.0
+Hotel-Gasthof Maria Plain,Bergheim,4.0,1923.34,24.0
+Yggotel Ravn,Berlin,3.0,2913.63,26.0
+The Mandala Hotel,Berlin,5.0,66525.43,236.0
+Hotel Landhaus Schlachtensee,Berlin,3.0,1257.63,11.0
+Hotel Berlin Köpenick by Leonardo Hotels,Berlin,4.0,15803.66,132.0
+Holiday Inn Express Berlin City Centre,Berlin,3.0,4102.64,18.0
+Hotel Goldmarie,Berlin,3.0,10886.99,119.0
+Hotel Atrium Charlottenburg,Berlin,3.0,356.78,4.0
+Hotel Transit Loft,Berlin,2.0,609.98,5.0
+mk hotel berlin,Berlin,2.5,665.59,5.0
+B&B HOTEL Berlin-Tiergarten,Berlin,0.0,7190.85,37.0
+FLOTTWELL BERLIN Hotel,Berlin,3.0,7550.06,52.0
+Locke at East Side Gallery,Berlin,3.0,8705.49,72.0
+Mercure Berlin City,Berlin,4.0,46378.34,294.0
+B&B HOTEL Berlin-Tiergarten,Berlin,2.0,3895.99,23.0
+aletto Hotel Kudamm,Berlin,3.0,3650.12,28.0
+Holiday Inn Express Berlin City Centre,Berlin,3.5,11813.12,63.0
+Delta,Berlin,3.0,7269.5,58.0
+Berne's Altstadthotel,Besigheim,0.0,325.19,3.0
+The Sayre Mansion,Bethlehem,3.5,833.0,5.0
+Holiday Inn Express Hotel & Suites Bethlehem Airport - Allentown Area,Bethlehem,2.5,9013.73,71.0
+Cobblestone Hotel & Suites Beulah,Beulah,3.0,2586.02,22.0
+Giovanni Suites,Bhopal,4.0,85.59,3.0
+Manjeet,Bhopal,4.0,57.61,2.0
+Fabhotel Prime Purple Orchid,Bhopal,3.0,25.12,1.0
+Tom & Tom,Bialogard,3.0,181.22,3.0
+Sure Hotel by Best Western Biarritz Aéroport,Biarritz,3.0,627.76,6.0
+Lahn Hotel,Biedenkopf,3.0,776.01,8.0
+Hotel Im Winkel,Bielefeld,0.0,243.33,3.0
+Best Western Big Bear Chateau,Big Bear Lake,3.5,9062.95,61.0
+TownePlace Suites Big Spring,Big Spring,3.0,6058.63,44.0
+Miro,Bilbao,4.0,3778.42,30.0
+Carlton,Bilbao,5.0,9136.72,57.0
+Meliá Bilbao,Bilbao,5.0,4472.64,22.0
+Hilton Garden Inn Billings,Billings,3.0,25518.85,117.0
+Holiday Inn Express & Suites Billings,Billings,2.5,20375.27,115.0
+Hampton Inn Biloxi,Biloxi,2.5,12752.48,108.0
+DORMERO Strandhotel Rugen,Binz,4.0,11436.57,122.0
+Great Barr,Birmingham,3.0,7870.32,86.0
+B&B HOTEL Birmingham Centre,Birmingham,4.0,9201.13,69.0
+Royal George Hotel,Birmingham,3.0,108.24,2.0
+Holiday Inn Birmingham Airport - NEC,Birmingham,4.0,44000.93,257.0
+Holiday Inn Express Birmingham - City Centre,Birmingham,3.5,18674.65,145.0
+Best Western Plough & Harrow Hotel,Birmingham,3.5,780.01,7.0
+Mercure Sunshine Coast Kawana Waters,Birtinya,4.5,413.79,3.0
+Candlewood Suites Bismarck,Bismarck,2.5,2704.31,30.0
+Bismarck Hotel and Conference Center,Bismarck,3.0,1396.93,9.0
+Hünerbein's Posthotel,Bissendorf,3.0,1837.73,19.0
+Hôtel Nour Congress & Resort,Bizerte,4.0,189.77,3.0
+Comfort Inn & Suites Black River Falls I-94,Black River Falls,2.5,3434.25,25.0
+Radisson Blu Hotel Toulouse Airport,Blagnac,4.0,6753.83,33.0
+Campanile Toulouse - Blagnac,Blagnac,3.0,1634.45,17.0
+Villa Costanza,Blevio,4.0,1620.06,3.0
+BON Hotel Bloemfontein Central,Bloemfontein,3.0,42.54,1.0
+Ramada Limited Bloomington,Bloomington,2.0,201.45,3.0
+Homewood Suites by Hilton Minneapolis-Mall of America,Bloomington,3.0,11706.26,82.0
+Holiday Inn Express Bloomington West,Bloomington,2.5,18364.15,152.0
+ibis budget Blumenau,Blumenau,2.0,568.75,7.0
+Schwanen,Boblingen,3.0,852.75,9.0
+Hyatt Place Boca Raton/Downtown,Boca Raton,3.5,59638.57,228.0
+Cabrera Imperial,Bogota,4.0,1498.43,11.0
+GHL Hamilton,Bogota,3.0,505.7,6.0
+Hotel Estelar Parque de la 93,Bogota,4.0,12547.78,84.0
+Hab Hotel,Bogota,4.0,389.85,5.0
+Hampton Inn & Suites Boise/Spectrum,Boise,2.5,22034.67,123.0
+Elizabeth Lifestyle Hotel Bologna,Bologna,4.0,2174.27,12.0
+Mary's Tower,Bologna,0.0,320.67,3.0
+Ostseehotel Boltenhagen,Boltenhagen,3.0,252.86,3.0
+Lindner Hotel Boltenhagen,Boltenhagen,4.5,310.9,2.0
+Lindner Hotel Boltenhagen,Boltenhagen,4.0,572.3,2.0
+Svenska Mumbai,Bombay Mumbai,4.5,304.76,2.0
+IRA By Orchid Mumbai T2 International Airport,Bombay Mumbai,4.0,6421.05,75.0
+"Taj Lands End, Mumbai",Bombay Mumbai,0.0,882.7,5.0
+The Orchid,Bombay Mumbai,5.0,17580.43,189.0
+"Taj Lands End, Mumbai",Bombay Mumbai,5.0,85992.74,461.0
+"ITC Grand Central, A Luxury Collection Hotel, Mumbai",Bombay Mumbai,5.0,36441.96,206.0
+Ringhotel Rheinhotel Dreesen,Bonn,4.0,2030.97,12.0
+Holiday Inn Express Boone,Boone,2.5,4031.07,35.0
+Hampton Inn & Suites Boone,Boone,2.5,6901.35,42.0
+Rob and Freds Resort,Boracay Island,3.0,93.77,3.0
+Mercure Dolomiti Hotel Boite,Borca di Cardore,4.0,111.91,1.0
+Appart Hôtel Mer & Golf City Bordeaux Lac,Bordeaux,3.0,3318.27,29.0
+Hôtel Mercure Bordeaux Lac,Bordeaux,4.0,2729.4,19.0
+De La Presse,Bordeaux,3.0,2583.03,26.0
+Holiday Inn Express Bordentown - Trenton South,Bordentown,2.5,3099.68,27.0
+Hotel De Reiskoffer,Bosschenhoofd,4.0,111.8,1.0
+Hotel De Reiskoffer,Bosschenhoofd,3.5,331.01,3.0
+DoubleTree by Hilton Boston Logan Airport Chelsea,Boston,4.0,48687.33,219.0
+Residence Inn Boston Watertown,Boston,3.0,81555.0,300.0
+Sonder At Pierce Boston,Boston,4.0,6197.48,18.0
+Element Lexington,Boston,3.0,19097.89,87.0
+Queens Hotel & Spa,Bournemouth,4.0,159.65,2.0
+Village Hotel Club Bournemouth,Bournemouth,3.5,3415.34,28.0
+The Norfolk Royale Hotel,Bournemouth,4.0,288.69,2.0
+"Bluewater Harbour Motel, Bowen",Bowen,3.0,2943.76,28.0
+Best Motel Bowling Green,Bowling Green,2.5,143.08,2.0
+Art Series - The Chen,Box Hill,4.5,2404.41,22.0
+Hampton Inn & Suites Boynton Beach,Boynton Beach,3.0,52960.44,385.0
+Hotel Asterix,Bozen Bolzano,3.0,4525.06,29.0
+Tru by Hilton Bradenton I 75,Bradenton,2.5,18355.04,96.0
+Clarion Cedar Court Bradford Hotel,Bradford,4.0,792.81,10.0
+Hilton Garden Inn Toronto/Brampton,Brampton,3.0,10707.51,71.0
+Holiday Inn Express Tampa-Brandon,Brandon,2.5,23277.58,152.0
+Hampton Inn Branson - Branson Hills,Branson,2.5,2260.85,16.0
+Club Wyndham Branson at The Meadows,Branson,3.5,1376.17,14.0
+Esplanada Brasilia Hotel,Brasilia,3.5,928.01,9.0
+Penzión Berg,Bratislava,2.0,244.75,3.0
+Adapt Apartments Braunschweig,Braunschweig,3.0,127.63,1.0
+Main Street Station by Hyatt Residence Club Breckenridge,Breckenridge,4.0,1982.75,7.0
+Parkhotel Bremen,Bremen,5.0,3041.77,21.0
+Dorint City-Hotel Bremen,Bremen,4.0,120.17,1.0
+Dorint City-Hotel Bremen,Bremen,4.5,1710.4,13.0
+H10 Taburiente Playa,Brena Baja,4.0,340.61,4.0
+Holiday Inn Express & Suites Brentwood,Brentwood,2.5,30009.67,186.0
+Areadocks Boutique Hotel,Brescia,4.0,921.57,4.0
+Hotel Franciacorta s.r.l,Brescia,4.0,241.85,3.0
+Vittoria,Brescia,5.0,514.5,5.0
+Hôtel Escale Oceania Brest Aéroport,Brest,3.0,2589.22,24.0
+Penzion Zámek Rozsochatec,Brevnice,3.0,36.5,1.0
+Cedar Breaks Lodge & Spa,Brian Head,3.0,3766.03,20.0
+Best Western Plus Bridgeport Inn,Bridgeport,2.5,98.99,1.0
+Homewood Suites by Hilton Brighton,Brighton,3.0,3831.52,32.0
+Malmaison Brighton,Brighton and Hove,4.0,5514.14,30.0
+Kennigo Hotel Brisbane,Brisbane,4.0,2810.6,23.0
+Best Western Henbury Lodge Hotel,Bristol,3.0,1534.18,11.0
+Victoria Square Hotel,Bristol,2.0,696.35,5.0
+Arnos Manor,Bristol,3.0,3450.09,30.0
+Deltour Hotel,BrivesCharensac,3.0,3813.15,49.0
+Fairhotel,BrnBrna,4.0,1582.68,12.0
+Hotel Victory Brünn,BrnBrna,4.0,165.36,2.0
+Aruba Surf Resort,Broadbeach,3.5,164.66,2.0
+Opus Broadbeach,Broadbeach,4.0,265.35,1.0
+Holiday Inn Express Hotel & Suites Tulsa S Broken Arrow Hwy 51,Broken Arrow,2.5,5668.24,52.0
+Forenom Aparthotel Stockholm Bromma,Bromma,3.0,259.57,2.0
+Hampton Inn Milwaukee Brookfield,Brookfield,2.5,6535.35,46.0
+Blue Coast Inn and Suites,Brookings,2.0,152.28,2.0
+Courtyard Brownsville,Brownsville,3.0,25484.07,147.0
+B&B HOTEL Béthune Bruay-la-Buissière,BruaylaBuissiere,3.0,78.66,1.0
+Hotel Landskron,Bruck An Der Mur,4.0,3878.37,32.0
+Appart-Hôtel Mer & Golf City Bordeaux - Bruges,Bruges,3.0,2367.35,20.0
+Value Stay Bruges,Bruges,2.0,54.41,1.0
+ibis Styles Zeebrugge Hotel,Bruges,3.0,257.98,2.0
+Hotel Bonprix,Bruhl,3.0,176.15,2.0
+B&B HOTEL Braunschweig-City,Brunswick Braunschweig,3.0,352.48,5.0
+Hotel Restaurant Jägerhof,Brunswick Braunschweig,3.0,520.26,5.0
+IntercityHotel Braunschweig,Brunswick Braunschweig,4.0,1564.11,12.0
+Pfälzer Hof,Brunswick Braunschweig,3.0,118.68,1.0
+B&B HOTEL Braunschweig-City,Brunswick Braunschweig,2.0,528.1,6.0
+Centerstay Brussels,Brussels,3.0,612.47,4.0
+International Bucharest,Bucharest,4.0,1960.3,17.0
+YMY Boutique Residence,Bucharest,4.0,2879.74,30.0
+Fort Knox Park Inn,Bucksport,2.0,156.94,1.0
+Stories Hotel Budapest,Budapest,4.0,6558.61,48.0
+Clarion Congress Hotel Ceské Budejovice,Budweis,4.0,326.16,4.0
+San Telmo Luxury Suites,Buenos Aires,3.5,1423.04,11.0
+Byblos Palermo Soho,Buenos Aires,3.5,650.7,8.0
+Libertad Hotel Buenos Aires,Buenos Aires,4.0,1271.74,8.0
+Lenox Hotel and Suites,Buffalo,3.0,510.0,3.0
+La Quinta Inn & Suites by Wyndham Buffalo Amherst,Buffalo,2.5,1413.01,14.0
+Vangohh Eminent Hotel & Spa,Bukit Mertajam,5.0,274.58,4.0
+Bunbury Motel And Apartments,Bunbury,3.5,3376.89,28.0
+Villa Mirasol Motor Inn,Bundaberg,4.0,224.57,2.0
+Aqua Hotel Burgas,Burgas,4.0,750.14,11.0
+Fletcher Duinhotel Burgh Haamstede,BurghHaamstede,4.0,106.02,1.0
+Sercotel Corona de Castilla,Burgos,4.0,57.41,1.0
+Fairfield Inn & Suites Burley,Burley,2.5,6868.66,42.0
+Hampton Inn Burley,Burley,2.5,40284.9,193.0
+Holiday Inn Express Burlington,Burlington,2.5,6506.1,35.0
+"Candlewood Suites Burlington Conference Centre, An Ihg Hotel",Burlington,2.5,480.8,4.0
+Hilton Vancouver Metrotown,Burnaby,4.0,65904.44,257.0
+South Pacific Resort,Burnt Pine,3.0,406.08,4.0
+Gale Street Motel & Villas Busselton,Busselton,3.0,423.9,4.0
+Wingate By Wyndham Butte City Center I-15/I-90,Butte,3.0,106.29,1.0
+Wingate By Wyndham Butte City Center I-15/I-90,Butte,2.0,191.06,2.0
+Aquarius Backpacker Resort,Byron Bay,2.5,917.31,6.0
+Abbie's Byron Bay Villa,Byron Bay,5.0,121.49,1.0
+Extremadura,Caceres,4.0,196.13,2.0
+Marina di Castello,Cagliari,4.0,665.97,4.0
+Inturotel Sa Marina,Cala dOr,4.5,643.49,4.0
+The Anza A Calabasas Hotel,Calabasas,3.5,19303.41,136.0
+Residenza San Matteo,Calenzano,3.0,267.88,3.0
+First,Calenzano,4.0,206.53,2.0
+Hampton Inn Calera,Calera,2.5,1931.29,13.0
+Hotel Dann Carlton,Cali,3.5,522.47,6.0
+La Quinta Inn & Suites by Wyndham Lexington Park - Patuxent,California,2.5,494.83,5.0
+Villa Roma Resort Lodges,Callicoon,3.0,1364.66,6.0
+Quality Inn Calvert City - Paducah East,Calvert City,2.5,537.56,8.0
+Hotel Bonanza Park,Calvia,4.0,972.62,5.0
+Rössle,Calw,0.0,463.66,4.0
+Travelodge Camborne Redruth,Camborne,0.0,172.59,2.0
+Fenners Hotel,Cambridge,2.0,145.83,2.0
+Pousada Zama,Camburi,3.0,152.57,1.0
+Camden Riverhouse Hotel,Camden,2.5,520.2,2.0
+"Penn Harris Hotel, Trademark Collection by Wyndham",Camp Hill,3.5,1403.92,16.0
+Courtyard San Jose Campbell,Campbell,3.0,587973.46,2229.0
+Go Inn Campinas,Campinas,3.0,1201.95,18.0
+Hotel Euro Suit Campinas,Campinas,3.0,30.44,1.0
+Hotel BQ Apolo,Can Pastilla,4.0,303.92,2.0
+Rydges Canberra,Canberra,4.0,3458.48,21.0
+Krystal Urban Hotels Cancun Centro,Cancun,3.5,691.0,6.0
+Paradisus Cancún,Cancun,4.5,4498.5,13.0
+Hotel Arcea Los Lagos Nature,Cangas de Onis,3.0,98.54,1.0
+Le Cavendish,Cannes,4.0,508.12,3.0
+Novotel Suites Cannes Centre,Cannes,4.0,6092.26,24.0
+Fairfield Inn & Suites Canton Riverstone Parkway,Canton,2.5,3577.3,24.0
+La Quinta Inn by Wyndham Detroit Canton,Canton,2.5,4143.56,47.0
+Modern Elegance Unwind In Style New Heated Pool Villa,Cape Coral,4.0,357.6,3.0
+Drury Suites Cape Girardeau,Cape Girardeau,3.0,797.94,6.0
+The Residences Crystal Towers,Cape Town,4.0,15597.93,177.0
+The Capital 15 on Orange,Cape Town,4.0,16304.78,85.0
+Hotel Verde,Cape Town,4.0,2196.78,19.0

@@ -1,0 +1,48 @@
+# GPT-3 175B — Table 2.1 / Appendix B (arXiv:2005.14165v4)
+#
+# See `configs/gpt3/gpt3_125m.toml` for mapping notes.
+
+preset = "gpt3"
+experiment_id = "gpt3_175b"
+
+tokenizer = "gpt2"
+vocab_size = 50304
+eos_token_id = 50256
+loss_mask_eos = false
+
+data_path = "/data/fineweb10B_gpt2_npy/train"
+validation_enabled = true
+validation_data_path = "/data/fineweb10B_gpt2_npy/valid"
+validation_every = 2000
+validation_steps = 5
+
+# Model (GPT-3 175B)
+dim = 12288
+n_layers = 96
+n_heads = 96
+inter_dim = 49152
+n_dense_layers = 96
+
+attn = "sdpa"
+
+dtype = "bf16"
+seq_len = 2048
+
+# ~3.2M tokens/update (paper) → 1536 * 2048 = 3,145,728
+batch_size = 1536
+steps = 95368
+
+use_muon = false
+lr_dense = 6.0e-5
+lr_router = 6.0e-5
+lr_expert = 6.0e-5
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+
+warmup_steps = 120
+hold_tokens = 0
+decay_tokens = 260_000_000_000
+decay_floor = 6.0e-6
+

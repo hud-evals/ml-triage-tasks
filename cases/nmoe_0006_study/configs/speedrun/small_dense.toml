@@ -1,0 +1,80 @@
+# Speedrun: Small Dense Baseline (Full Run)
+#
+# Goal: Hit 3.28 val loss with validated HP transfer settings.
+#
+# Key settings:
+#   - LR 1.8e-3 (validated via 50M transfer from June 2024 AdamW baseline)
+#   - 6200 steps (~2.4B tokens, matches Oct 2024 horizon)
+#   - Warmup 200 steps, hold until step 5200, warmdown last 1000 steps
+#   - Warmdown: 1.8e-3 → 1.8e-4 (0.1×)
+#
+# Run:
+#   torchrun --nproc_per_node=8 -m nmoe.train configs/speedrun/small_dense.toml
+
+preset = "speedrun_small_dense"
+experiment_id = "speedrun_small_dense_lr18_full"
+
+# Benchmark token stream (GPT-2, padded to 128 for vectorization)
+tokenizer = "gpt2"
+vocab_size = 50304  # 50257 padded to next multiple of 128
+eos_token_id = 50256
+loss_mask_eos = false
+
+# Data
+data_path = "/data/speedrun/train"
+validation_enabled = true
+validation_data_path = "/data/speedrun/val"
+validation_every = 250
+# Match modded-nanogpt val_tokens=10,485,760:
+# 10,485,760 / (batch_size * seq_len) = 10,485,760 / 393,216 = 26.666... -> 27 steps
+validation_steps = 27
+
+# Model (GPT-2 small shape from modded-nanogpt)
+dim = 768
+n_layers = 12
+n_heads = 6
+inter_dim = 3072
+
+# Dense-only: all layers use dense MLP (no MoE).
+n_dense_layers = 12
+
+# Attention: global/local mix
+attn = "mla"
+attn_local = "swa"
+attn_global_every = 3
+attn_local_window = 256
+
+# Training (match Oct 2024 nanogpt baseline)
+dtype = "bf16"
+seq_len = 2048
+batch_size = 192  # 192 * 2048 = 393K tokens/step
+steps = 6200      # Full run to match Oct 2024 baseline horizon
+
+# Optimizer (AdamW - DeepSeek-style, scaled by Complete(d)P formula)
+use_muon = false  # Pure AdamW for formula alignment
+
+lr_dense = 1.8e-3   # June 2024 AdamW baseline (predicted optimal from 50M transfer)
+lr_expert = 1.8e-3
+lr_router = 1.8e-3
+weight_decay = 0.0  # June 2024 baseline used wd=0
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+
+# Schedule (warmup 200, hold until step 5200, warmdown last 1000 steps)
+warmup_steps = 200
+# Total tokens: 6200 * 192 * 2048 = 2.44B
+# Hold until step 5200, then decay over last 1000 steps (~16% warmdown)
+hold_tokens = 2_040_000_000    # ~step 5200
+decay_tokens = 400_000_000     # ~1000 steps warmdown
+decay_floor = 1.8e-4           # 0.1× of peak LR
+
+# Speedrun: minimal overhead
+resume = false
+checkpoint_every = 999999999
+log_every = 100
+
+# Target loss for speedrun (stop when val_loss <= target)
+# Note: 3.28 is modded-nanogpt's target with vanilla attention + tricks.
+# Our MLA/SWA architecture may achieve different loss - this is a comparison baseline.
+target_loss = 3.28

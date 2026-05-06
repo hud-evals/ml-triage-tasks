@@ -1,0 +1,51 @@
+# Track 1: Speedrun HPO (ASHA-style)
+#
+# Run:
+#   python -m nmoe.sweep configs/sweeps/speedrun_small_moe.toml
+
+[base]
+base_config = "configs/speedrun/small_moe.toml"
+project = "speedrun"
+name = "small_moe_sweep"
+metric = "speedrun/train_time_ms_to_target"
+mode = "min"
+target_loss = 3.28
+max_steps = 1300
+
+# Storage/provenance
+experiments_db = "/data/experiments.db"
+sweeps_dir = "/data/sweeps"
+
+# Execution
+max_concurrent_trials = 1
+nproc_per_trial = 8
+
+[rungs]
+steps = [250, 500, 750, 1000, 1300]
+
+[sampler]
+method = "halton"
+seed = 0
+n_trials = 24
+
+[asha]
+reduction = 3
+min_trials_per_rung = 6
+kill_margin = 0.05
+
+[train_overrides]
+# Make rung points land exactly on validations.
+validation_enabled = true
+validation_every = 250
+
+[search_space]
+# Start narrow around known-good DeepSeek-aligned baseline.
+lr_dense = { type = "log_uniform", low = 0.0001, high = 0.003 }
+weight_decay = { type = "log_uniform", low = 0.001, high = 0.05 }
+router_bias_update_rate = { type = "log_uniform", low = 0.0001, high = 0.01 }
+route_scale = { type = "uniform", low = 1.0, high = 3.0 }
+
+[[ties]]
+src = "lr_dense"
+dst = ["lr_expert", "lr_router"]
+

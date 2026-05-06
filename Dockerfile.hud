@@ -6,23 +6,51 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         ripgrep \
         jq \
         less \
+        sqlite3 \
+        git \
         ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-RUN install -d -m 0755 /work
+# The agent's only visible root is /workspace, owned by uid 1000. The env
+# process itself still starts as root so it can read baked cases from
+# /opt/ci_cases; every bash command the agent issues is demoted to uid
+# 1000 before exec (see env.py::_demote_preexec).
+RUN install -d -m 0755 -o 1000 -g 1000 /workspace
 
 WORKDIR /app
 
 COPY pyproject.toml env.py ./
 RUN pip install --no-cache-dir .
 
-# Cases are baked into /opt/ci_cases/<case_slug>/ — invisible to the agent.
-# At scenario-start the env materialises /work with symlinks to the selected
-# case's children, so the agent's cwd is /work and `ls` just shows repo/,
-# logs/, prs/ etc. — no case slug in any path they see.
-COPY cases /opt/ci_cases
-RUN chmod -R a+rX /opt/ci_cases
+# Some cases ship parquet + sqlite data that agents need a reader stack
+# to analyse (duckdb + pyarrow). Bake them in since runs have no internet.
+RUN pip install --no-cache-dir \
+        "pyarrow>=16" \
+        "pandas>=2" \
+        "duckdb>=1" \
+        "numpy>=1.26"
 
-WORKDIR /work
+# Cases are baked at /opt/ci_cases, invisible to the agent. At scenario-
+# start the env hard-copies the selected case's children into /workspace
+# and chowns them to uid 1000, so `ls` just shows the case contents with
+# no slug prefix. Large binaries inside cases/ travel via Git LFS — see
+# the .gitattributes at the env root.
+COPY cases /opt/ci_cases
+
+# Lock everything uid 1000 should not be able to read or traverse:
+#   - /app: leftover build source (grader + pyproject live here too).
+#     Installed grader module is in site-packages; the /app copy is
+#     redundant but readable by default.
+#   - /opt/ci_cases: baked case data for every case. Only root (env
+#     process) traverses in.
+#   - site-packages env.py: the installed grader module. Parent dir
+#     stays readable so other packages load, but the file itself is
+#     0600 root so uid 1000 cannot cat it.
+RUN chmod 0700 /app \
+ && chmod 0700 /opt/ci_cases \
+ && find /usr/local/lib -name 'env.py' -path '*/site-packages/env.py' -print0 \
+    | xargs -0 -I {} chmod 0600 {}
+
+WORKDIR /workspace
 
 CMD ["hud", "dev", "env:env", "--stdio"]

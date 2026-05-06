@@ -1,0 +1,118 @@
+# =============================================================================
+# nmoe: gitignore (public repo hygiene)
+# =============================================================================
+
+# Python bytecode / caches
+__pycache__/
+*.py[cod]
+*.pyd
+
+# Native build outputs
+*.o
+*.a
+*.so
+*.ptx
+*.cubin
+*.dylib
+
+# Python packaging artifacts
+build/
+dist/
+*.egg-info/
+
+# Virtualenvs
+.venv/
+venv/
+
+# Local / editor tooling
+.claude/
+.vscode/
+.idea/
+
+# Local env/config (never commit secrets)
+.env
+.env.*
+*.env
+*.local.*
+
+# Allow committing template/example env files.
+!.env.example
+!nviz/.env.example
+
+# nviz local env (contains local endpoints)
+nviz/.env.local
+
+# Internal-only ops notes
+AGENTS.md.local
+
+# Internal-only debug/handoff docs (do not publish)
+AI_WORKFLOW.md
+SPEEDRUN*.md
+*_handoff*.md
+HANDOFF.md
+PIPELINE_TEST_RESULTS.md
+
+# Research docs (unpublished research, internal notes)
+docs/
+nmoe/research/physics/HARNESS_VALIDATION.md
+nmoe/research/physics/CANON_REPLICATION_PLAN.md
+
+# Internal-only research code
+nmoe/ks2d.py
+nmoe/research/physics/experiment.py
+nmoe/research/physics/poy_experiment.py
+nmoe/research/physics/poy_rigorous.py
+nmoe/research/physics/freeze_experiment.py
+nmoe/research/physics/scale_sweep.py
+nmoe/research/physics/sweep.py
+nmoe/research/physics/probe_run.py
+nmoe/research/physics/probe/atlas.py
+nmoe/research/physics/probe/gain.py
+nmoe/research/physics/probe/overlap.py
+nmoe/research/physics/probe/trajectory.py
+
+# Claim ledger (internal audit surface, not v1 public)
+repro/claim_ledger/
+
+# Research notebooks (internal)
+notebooks/
+
+# Blog (generated / not shipped)
+blog/
+
+# Third-party working trees (not shipped; only patches ship)
+third_party/nvshmem/
+third_party/flash_attn/
+
+# nviz build outputs
+nviz/node_modules/
+nviz/.next/
+nviz/out/
+nviz/.turbo/
+nviz/tsconfig.tsbuildinfo
+
+# Profiling artifacts (never commit)
+*.nsys-rep
+*.ncu-rep
+*.qdrep
+*.sqlite
+*.sqlite3
+*.duckdb
+torch_prof_*.tgz
+
+# Local scratch / snapshots
+tmp/
+
+# Vendor reference kernels (not shipped)
+nmoe/serve/*vllm*.cu
+nmoe/serve/*sglang*.cu
+nmoe/serve/kernels/*vllm*.cu
+nmoe/serve/kernels/*sglang*.cu
+
+# Backup files
+*.bak
+
+# OS junk
+.DS_Store
+Thumbs.db
+.tmp/

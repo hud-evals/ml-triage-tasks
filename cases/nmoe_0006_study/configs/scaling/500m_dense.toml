@@ -1,0 +1,97 @@
+# 500M Dense Model - Transfer Validation Step 1
+#
+# Purpose: Validate width/depth transfer from 50M dense.
+# Transfer chain: 50M dense → [500M dense] → 500M MoE → 3B MoE
+#
+# Architecture (~520M params):
+#   - Embedding: 2 × 50304 × 1280 = 129M
+#   - Layers: 20 × 12 × 1280² = 393M
+#   - Total: ~522M parameters
+#
+# HP Transfer from 50M (using Complete(d)P formula):
+#   - 50M: dim=384, layers=6, lr=1.31e-3
+#   - 500M: dim=1280, layers=20
+#   - lr_500m = lr_50m × (384/1280)^0.35 × (6/20)^0.58
+#   - lr_500m = 1.31e-3 × 0.656 × 0.498 = 4.28e-4
+#
+# Run:
+#   torchrun --nproc_per_node=8 -m nmoe.train configs/scaling/500m_dense.toml
+
+preset = "scaling_500m_dense"
+experiment_id = "scaling_500m_dense"
+
+# Tokenizer
+tokenizer = "gpt2"
+vocab_size = 50304
+eos_token_id = 50256
+loss_mask_eos = false
+
+# Data
+data_path = "/data/fineweb10B_gpt2_npy/train"
+validation_enabled = true
+validation_data_path = "/data/fineweb10B_gpt2_npy/valid"
+validation_every = 250
+validation_steps = 20
+
+# =============================================================================
+# Model Architecture (~520M params)
+# =============================================================================
+dim = 1280
+n_layers = 20
+n_heads = 16
+inter_dim = 5120  # 4x dim
+
+# Dense-only
+n_dense_layers = 20
+
+# Attention (MLA)
+attn = "mla"
+q_lora_rank = 1536
+kv_lora_rank = 512
+qk_nope_head_dim = 128
+qk_rope_head_dim = 64
+v_head_dim = 128
+
+# RoPE
+rope_theta = 10000.0
+max_position_embeddings = 4096
+
+# Normalization
+rms_norm_eps = 1e-6
+
+# =============================================================================
+# Training
+# =============================================================================
+dtype = "bf16"
+seq_len = 2048
+batch_size = 128  # 128 × 2048 = 262K tokens/step
+steps = 5000      # ~1.3B tokens
+
+# =============================================================================
+# Optimizer (HP transferred from 50M)
+# Predicted: lr = 1.31e-3 × 0.326 = 4.28e-4
+# =============================================================================
+use_muon = false
+
+lr_dense = 4.28e-4   # Transferred from 50M
+lr_expert = 4.28e-4
+lr_router = 4.28e-4
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+
+# =============================================================================
+# Schedule (DeepSeek-style)
+# =============================================================================
+warmup_steps = 500
+hold_tokens = 838_860_800   # 80%
+decay_tokens = 209_715_200  # 20%
+decay_floor = 4.28e-5  # 0.1× of base LR
+
+# =============================================================================
+# Checkpointing
+# =============================================================================
+resume = false
+checkpoint_every = 1000
+log_every = 10

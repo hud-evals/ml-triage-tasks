@@ -1,0 +1,3 @@
+method: wratio
+scorer: WRatio
+gt_path: ground_truth/gt.json

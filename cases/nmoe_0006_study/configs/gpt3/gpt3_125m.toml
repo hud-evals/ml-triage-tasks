@@ -1,0 +1,54 @@
+# GPT-3 Small (125M) — Table 2.1 / Appendix B (arXiv:2005.14165v4)
+#
+# Approximations / caveats:
+# - Paper batch sizes are reported in tokens (e.g. "0.5M"); we choose the nearest
+#   clean multiple for nmoe: `batch_size * seq_len` with `seq_len=2048`.
+# - Paper uses cosine decay to 10% over 260B tokens + token-based warmup (375M);
+#   we approximate with WSD: warmup_steps + decay_tokens + decay_floor.
+# - Batch-size ramp (32k → full) is not represented here.
+
+preset = "gpt3"
+experiment_id = "gpt3_125m"
+
+tokenizer = "gpt2"
+vocab_size = 50304
+eos_token_id = 50256
+loss_mask_eos = false
+
+data_path = "/data/fineweb10B_gpt2_npy/train"
+validation_enabled = true
+validation_data_path = "/data/fineweb10B_gpt2_npy/valid"
+validation_every = 2000
+validation_steps = 5
+
+# Model (GPT-3 125M)
+dim = 768
+n_layers = 12
+n_heads = 12
+inter_dim = 3072
+n_dense_layers = 12
+
+attn = "sdpa"
+
+dtype = "bf16"
+seq_len = 2048
+
+# ~0.5M tokens/update (paper) → 256 * 2048 = 524,288
+batch_size = 256
+steps = 572205  # ~= 300B tokens / 524,288 tokens/step
+
+use_muon = false
+lr_dense = 6.0e-4
+lr_router = 6.0e-4
+lr_expert = 6.0e-4
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+
+# Schedule: warmup 375M tokens; cosine-ish decay to 10% over 260B tokens.
+warmup_steps = 716
+hold_tokens = 0
+decay_tokens = 260_000_000_000
+decay_floor = 6.0e-5
+

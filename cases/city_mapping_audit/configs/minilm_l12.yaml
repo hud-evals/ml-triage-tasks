@@ -1,0 +1,6 @@
+# EXPERIMENTAL: MiniLM-L12 variant. No artifacts yet — embeddings path
+# is a placeholder referenced by runs/minilm_l12_ablation.json.
+method: minilm_l12
+embedding_hotels_path: embeddings/minilm_l12_hotels.npy
+embedding_cities_path: embeddings/minilm_l12_cities.npy
+gt_path: ground_truth/gt.json

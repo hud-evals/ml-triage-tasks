@@ -1,0 +1,47 @@
+# Speedrun (benchmark-compatible): Medium Sparse MoE (Moonlight-like)
+#
+# Run:
+#   torchrun --nproc_per_node=8 -m nmoe.train configs/speedrun/medium_moe.toml
+
+preset = "speedrun_medium_moe"
+experiment_id = "speedrun_medium_moe"
+
+# Benchmark token stream (GPT-2, padded to 128 for vectorization)
+tokenizer = "gpt2"
+vocab_size = 50304  # 50257 padded to next multiple of 128
+eos_token_id = 50256
+loss_mask_eos = false
+
+data_path = "/data/speedrun/train"
+validation_enabled = true
+validation_data_path = "/data/speedrun/val"
+validation_every = 250
+validation_steps = 20
+
+dim = 1024
+n_layers = 16
+n_heads = 8
+inter_dim = 4096
+
+n_dense_layers = 1
+n_routed_experts = 64
+n_shared_experts = 2
+n_activated_experts = 6
+moe_inter_dim = 512
+
+attn = "mla"
+attn_local = "swa"
+attn_global_every = 3
+attn_local_window = 256
+
+dtype = "nvfp4"
+seq_len = 1024
+batch_size = 512
+steps = 4740
+resume = false
+
+checkpoint_every = 1000000000
+checkpoint_keep_last_n = 1
+
+# Target loss for speedrun (stop when val_loss <= target)
+target_loss = 3.28

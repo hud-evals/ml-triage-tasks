@@ -1,0 +1,87 @@
+# Speedrun config (4096 routed experts).
+#
+# Active params match dense baseline:
+#   - Dense: 12 layers × 3072 inter = 7.08M FFN/layer
+#   - Super: 8 activated (7 routed + 1 shared) × 384 = 3072 = dense inter_dim
+#
+# Run:
+#   torchrun --nproc_per_node=8 -m nmoe.train configs/speedrun/small_moe_super.toml
+
+preset = "speedrun_small_moe_super"
+experiment_id = "speedrun_small_moe_super"
+
+# Benchmark token stream
+tokenizer = "gpt2"
+vocab_size = 50304
+eos_token_id = 50256
+loss_mask_eos = false
+
+# Data
+data_path = "/data/speedrun/train"
+validation_enabled = true
+validation_data_path = "/data/speedrun/val"
+validation_every = 128
+validation_steps = 20
+
+# =============================================================================
+# Model Architecture (matched active params to dense)
+# =============================================================================
+dim = 768
+n_layers = 12
+n_heads = 12
+inter_dim = 3072
+
+# Super-Sparse MoE: 4096 routed experts, top-7 routed + 1 shared = 8 total
+n_dense_layers = 0
+n_routed_experts = 4096
+n_shared_experts = 1
+n_activated_experts = 7
+moe_inter_dim = 384  # 8 × 384 = 3072 = dense inter_dim
+
+# Attention: SDPA (MLA unstable at high LR)
+attn = "sdpa"
+
+# =============================================================================
+# Training
+# =============================================================================
+dtype = "bf16"
+seq_len = 2048
+batch_size = 256    # 524K tokens/step
+steps = 12000       # ~6.3B tokens
+
+# =============================================================================
+# Optimizer (match June 2024)
+# =============================================================================
+use_muon = false
+
+lr_dense = 1.8e-3
+lr_expert = 1.8e-3
+lr_router = 1.8e-3
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+
+# =============================================================================
+# Schedule (warmup=256, warmdown=2048, same ratios as MoE-64)
+# =============================================================================
+warmup_steps = 256
+hold_tokens = 5_083_545_600    # 9696 steps × 524288 tokens/step
+decay_tokens = 1_073_741_824   # 2048 steps × 524288 tokens/step
+decay_floor = 1e-6
+
+# =============================================================================
+# Load Balancing
+# =============================================================================
+router_bias_update_rate = 1e-4
+aux_loss_alpha = 0.0
+
+# =============================================================================
+# Checkpointing & Logging
+# =============================================================================
+resume = false
+checkpoint_every = 999999999
+log_every = 100
+experiments_db = "/tmp/experiments_super.db"
+
+target_loss = 3.28

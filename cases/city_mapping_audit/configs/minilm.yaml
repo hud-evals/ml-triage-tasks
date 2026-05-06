@@ -1,0 +1,4 @@
+method: minilm
+embedding_hotels_path: embeddings/minilm_hotels.npy
+embedding_cities_path: embeddings/minilm_cities.npy
+gt_path: ground_truth/gt.json

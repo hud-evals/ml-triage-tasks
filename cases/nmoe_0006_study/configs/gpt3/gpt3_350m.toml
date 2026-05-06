@@ -1,0 +1,48 @@
+# GPT-3 Medium (350M) — Table 2.1 / Appendix B (arXiv:2005.14165v4)
+#
+# See `configs/gpt3/gpt3_125m.toml` for mapping notes.
+
+preset = "gpt3"
+experiment_id = "gpt3_350m"
+
+tokenizer = "gpt2"
+vocab_size = 50304
+eos_token_id = 50256
+loss_mask_eos = false
+
+data_path = "/data/fineweb10B_gpt2_npy/train"
+validation_enabled = true
+validation_data_path = "/data/fineweb10B_gpt2_npy/valid"
+validation_every = 2000
+validation_steps = 5
+
+# Model (GPT-3 350M)
+dim = 1024
+n_layers = 24
+n_heads = 16
+inter_dim = 4096
+n_dense_layers = 24
+
+attn = "sdpa"
+
+dtype = "bf16"
+seq_len = 2048
+
+# ~0.5M tokens/update (paper) → 256 * 2048 = 524,288
+batch_size = 256
+steps = 572205
+
+use_muon = false
+lr_dense = 3.0e-4
+lr_router = 3.0e-4
+lr_expert = 3.0e-4
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+
+warmup_steps = 716
+hold_tokens = 0
+decay_tokens = 260_000_000_000
+decay_floor = 3.0e-5
+

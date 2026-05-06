@@ -1,0 +1,9 @@
+{
+  "method": "wratio",
+  "eval_script": "src/eval.py",
+  "eval_n": 3000,
+  "gt_path": "ground_truth/gt.json",
+  "top_1": 0.4223,
+  "top_2": 0.474,
+  "top_3": 0.4803
+}

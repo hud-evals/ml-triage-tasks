@@ -1,0 +1,48 @@
+# GPT-2 Small (117M) — architecture-only config
+#
+# Notes:
+# - GPT-2 context is 1024.
+# - This repo uses a padded GPT-2 vocab (50304) for chunked CE.
+# - Optimizer/schedule values here are "sane defaults", not a faithful GPT-2 paper repro.
+
+preset = "gpt2"
+experiment_id = "gpt2_small"
+
+# Token stream (GPT-2, padded for vectorization)
+tokenizer = "gpt2"
+vocab_size = 50304
+eos_token_id = 50256
+loss_mask_eos = false
+
+# Data (FineWeb GPT-2 tokenized shards)
+data_path = "/data/fineweb10B_gpt2_npy/train"
+validation_enabled = true
+validation_data_path = "/data/fineweb10B_gpt2_npy/valid"
+validation_every = 1000
+validation_steps = 10
+
+# Model (GPT-2 small)
+dim = 768
+n_layers = 12
+n_heads = 12
+inter_dim = 3072
+n_dense_layers = 12
+
+# Attention (standard causal attention)
+attn = "sdpa"
+
+# Training defaults (override as needed)
+dtype = "bf16"
+seq_len = 1024
+batch_size = 256
+
+# Optimizer defaults
+use_muon = false
+lr_dense = 6.0e-4
+lr_router = 6.0e-4
+lr_expert = 6.0e-4
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+

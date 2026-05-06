@@ -1,0 +1,6 @@
+# openai_3large — produced by departed contractor (Jordan).
+# Still in repo while we investigate the 69.8% run.
+method: openai_3large
+embedding_hotels_path: embeddings/openai3large_hotels.npy
+embedding_cities_path: embeddings/openai3large_cities.npy
+gt_path: ground_truth/gt.json

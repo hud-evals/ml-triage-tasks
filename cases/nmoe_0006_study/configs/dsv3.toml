@@ -1,0 +1,62 @@
+# DSv3: DeepSeek-V3 672B/38B MoE (4 nodes × 8 GPUs = 32 GPUs)
+#
+# Usage:
+#   # Multi-node with torchrun (see k8s/dist-train.yaml)
+#   torchrun --nnodes=4 --nproc_per_node=8 ... -m nmoe.train configs/dsv3.toml
+#
+# Reference: https://github.com/deepseek-ai/DeepSeek-V3
+
+preset = "dsv3"
+experiment_id = "dsv3_dev"
+
+# =============================================================================
+# Model Architecture
+# =============================================================================
+vocab_size = 163840
+tokenizer = "o200k_harmony"
+dim = 7168
+inter_dim = 18432
+moe_inter_dim = 2048
+n_layers = 61
+n_dense_layers = 3
+n_heads = 128
+n_routed_experts = 256
+n_shared_experts = 1
+n_activated_experts = 8
+route_scale = 2.5
+
+# MLA
+q_lora_rank = 1536
+kv_lora_rank = 512
+qk_nope_head_dim = 128
+qk_rope_head_dim = 64
+v_head_dim = 128
+
+# RoPE
+max_position_embeddings = 8192
+rope_theta = 50000.0
+rms_norm_eps = 1e-5
+
+# =============================================================================
+# Data
+# =============================================================================
+data_path = "/data/fineweb_edu"
+
+# =============================================================================
+# Optimizer
+# =============================================================================
+lr_dense = 1.2e-4
+lr_router = 1.2e-4
+lr_expert = 1.2e-4
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+
+# =============================================================================
+# Training (32 GPUs, batch_size is global)
+# =============================================================================
+steps = 2000
+dtype = "nvfp4"
+batch_size = 256
+seq_len = 4096
+resume = false

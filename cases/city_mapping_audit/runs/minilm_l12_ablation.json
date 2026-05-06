@@ -1,0 +1,12 @@
+{
+  "method": "minilm_l12",
+  "eval_script": "src/eval.py",
+  "eval_n": 3000,
+  "gt_path": "ground_truth/gt.json",
+  "embedding_hotels_path": "embeddings/minilm_l12_hotels.npy",
+  "embedding_cities_path": "embeddings/minilm_l12_cities.npy",
+  "top_1": 0.3452,
+  "top_2": 0.4080,
+  "top_3": 0.4275,
+  "note": "Ablation per retro_2025q1. MiniLM L12 variant."
+}

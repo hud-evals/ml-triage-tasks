@@ -1,0 +1,9 @@
+# dev config used by Mei during calibration; points at the same canonical
+# embeddings + gt but enables verbose timing. Differs from
+# configs/openai3small.yaml only in logging — results are identical.
+method: openai_3small
+embedding_hotels_path: embeddings/openai3small_hotels.npy
+embedding_cities_path: embeddings/openai3small_cities.npy
+gt_path: ground_truth/gt.json
+verbose: true
+log_per_batch: true

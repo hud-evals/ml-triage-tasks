@@ -1,0 +1,103 @@
+# DeepSeek-V3 9B Configuration
+# Based on DeepSeek's published hyperparameters (Table 5)
+#
+# Run:
+#   torchrun --nproc_per_node=8 -m nmoe.train configs/deepseek/9b.toml
+
+preset = "deepseek_9b"
+experiment_id = "deepseek_9b"
+
+# Tokenizer (o200k_harmony - matches moonlight)
+vocab_size = 201088
+tokenizer = "o200k_harmony"
+eos_token_id = 199999
+
+# Data (OLMo3 mixture with 5.93T tokens available)
+mixture_toml = "configs/mixtures/olmo3_1025.toml"
+flow_profiles_toml = "configs/flow_profiles.toml"
+flow_mode = "full_train"
+
+# =============================================================================
+# Model Architecture (DeepSeek 9B: 1.66B active, 9.18B total)
+# =============================================================================
+dim = 1920
+n_layers = 18
+n_heads = 24
+inter_dim = 1280  # Dense FFN dimension
+
+# MoE Configuration
+n_dense_layers = 1  # Leading dense layers
+n_routed_experts = 64
+n_activated_experts = 6
+n_shared_experts = 2
+moe_inter_dim = 1280
+
+# Attention (MLA)
+attn = "mla"
+q_lora_rank = 1536
+kv_lora_rank = 512
+qk_nope_head_dim = 128
+qk_rope_head_dim = 64
+v_head_dim = 128
+
+# RoPE
+rope_theta = 10000.0
+max_position_embeddings = 4096
+
+# Normalization
+rms_norm_eps = 1e-20
+
+# =============================================================================
+# Training
+# =============================================================================
+seq_len = 4096
+batch_size = 512
+steps = 50000
+
+# Precision
+dtype = "bf16"
+
+# =============================================================================
+# Optimizer (AdamW - DeepSeek settings)
+# =============================================================================
+use_muon = false  # DeepSeek uses pure AdamW
+
+lr_dense = 5.9e-4
+lr_expert = 5.9e-4
+lr_router = 5.9e-4
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-20
+
+# =============================================================================
+# Schedule (Step decay at 80% and 90% of training)
+# =============================================================================
+warmup_steps = 2000
+
+# Step decay: 0.316x at 80%, 0.1x at 90%
+# For 50000 steps: decay at step 40000 and 45000
+# Total tokens: 50000 * 512 * 4096 = 105B
+hold_tokens = 83_886_080_000    # 80% of total
+decay_tokens = 20_971_520_000   # 20% remaining
+decay_floor = 5.9e-5         # 0.1x of base LR
+
+# =============================================================================
+# Load Balancing (Loss-Free method)
+# =============================================================================
+router_bias_update_rate = 1e-4
+aux_loss_alpha = 0.0  # No aux loss - Loss-Free method
+
+# =============================================================================
+# mHC (Multi-stream HyperConnections) - if implemented
+# =============================================================================
+# mhc_expansion_rate = 4
+# mhc_gating_init = 0.01
+# mhc_sinkhorn_iterations = 20
+
+# =============================================================================
+# Checkpointing
+# =============================================================================
+resume = false
+checkpoint_every = 1000
+log_every = 10

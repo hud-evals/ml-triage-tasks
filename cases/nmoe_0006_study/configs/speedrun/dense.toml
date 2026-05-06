@@ -1,0 +1,69 @@
+# nmoe Speedrun: Dense Baseline
+#
+# Calibrated against June 2024 modded-nanogpt (SHA b6b0a0d).
+# Target: 3.28 loss @ ~10B tokens
+#
+# Run: n speedrun dense
+
+preset = "speedrun_dense"
+experiment_id = "speedrun_dense"
+
+# Tokenizer (GPT-2, padded to 128)
+tokenizer = "gpt2"
+vocab_size = 50304
+eos_token_id = 50256
+loss_mask_eos = false
+
+# Data - paths set dynamically by CLI via --data_root
+# (train: {data_root}/speedrun/train, val: {data_root}/speedrun/val)
+validation_enabled = true
+validation_every = 128
+validation_steps = 20
+
+# =============================================================================
+# Model: Dense 124M
+# =============================================================================
+dim = 768
+n_layers = 12
+n_heads = 12
+inter_dim = 3072
+n_dense_layers = 12  # All dense
+
+attn = "sdpa"
+
+# =============================================================================
+# Training
+# =============================================================================
+dtype = "nvfp4"
+seq_len = 2048
+batch_size = 256    # 524K tokens/step
+steps = 50000       # High limit - early stopping at target_loss=3.28
+
+# =============================================================================
+# Optimizer
+# =============================================================================
+use_muon = false
+lr_dense = 1.8e-3
+lr_expert = 1.8e-3
+lr_router = 1.8e-3
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+
+# =============================================================================
+# Schedule (WSD) - Open-ended for speedrun (hold until target_loss reached)
+# =============================================================================
+warmup_steps = 256
+hold_tokens = 100_000_000_000_000  # 100T - effectively infinite (stay at peak LR)
+decay_tokens = 0                    # No decay for speedruns
+decay_floor = 1e-4                  # Safety floor (won't be reached)
+
+# =============================================================================
+# Checkpointing
+# =============================================================================
+resume = false
+checkpoint_every = 999999999
+log_every = 100
+
+target_loss = 3.28

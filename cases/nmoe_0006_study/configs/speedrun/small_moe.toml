@@ -1,0 +1,90 @@
+# Speedrun: Small Sparse MoE (June 2024 calibrated)
+#
+# Active params match dense baseline:
+#   - Dense: 12 layers × 3072 inter = 7.08M FFN/layer
+#   - MoE: 8 activated (6 routed + 2 shared) × 384 = 7.08M FFN/layer
+#
+# Tokens/expert at 5B tokens (9536 steps):
+#   - Each expert sees: 5B × (6/64) = 469M tokens
+#
+# Run:
+#   torchrun --nproc_per_node=8 -m nmoe.train configs/speedrun/small_moe.toml
+
+preset = "speedrun_small_moe"
+experiment_id = "speedrun_small_moe_june2024"
+
+# Benchmark token stream (GPT-2, padded to 128 for vectorization)
+tokenizer = "gpt2"
+vocab_size = 50304  # 50257 padded to next multiple of 128
+eos_token_id = 50256
+loss_mask_eos = false
+
+# Data
+data_path = "/data/speedrun/train"
+experiments_db = "/data/experiments_nvfp4.db"
+validation_enabled = true
+validation_data_path = "/data/speedrun/val"
+validation_every = 128          # Match June 2024
+validation_steps = 20           # ~10.5M val tokens
+
+# =============================================================================
+# Model Architecture (matched active params to dense)
+# =============================================================================
+dim = 768
+n_layers = 12
+n_heads = 12        # Match SDPA dense (head_dim=64)
+inter_dim = 3072
+
+# MoE: 64 routed experts, top-6 routed + 2 shared = 8 total/token
+n_dense_layers = 1
+n_routed_experts = 64
+n_shared_experts = 2
+n_activated_experts = 6
+moe_inter_dim = 384  # 8 × 384 = 3072 = dense inter_dim
+
+# Attention: SDPA (MLA unstable at high LR)
+attn = "sdpa"
+
+# =============================================================================
+# Training (match June 2024 dense)
+# =============================================================================
+dtype = "nvfp4"
+seq_len = 2048
+batch_size = 256    # 524K tokens/step
+steps = 9536        # Match June 2024 (5B tokens)
+
+# =============================================================================
+# Optimizer (match June 2024)
+# =============================================================================
+use_muon = false
+
+lr_dense = 1.8e-3
+lr_expert = 1.8e-3
+lr_router = 1.8e-3
+weight_decay = 0.1              # Match June 2024
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+
+# =============================================================================
+# Schedule (match June 2024: warmup=256, warmdown=2048, total=9536)
+# =============================================================================
+warmup_steps = 256
+hold_tokens = 3_925_721_344     # 7488 steps × 524288 tokens/step
+decay_tokens = 1_073_741_824    # 2048 steps × 524288 tokens/step
+decay_floor = 1e-6
+
+# =============================================================================
+# Load Balancing (Loss-Free method - DeepSeek style)
+# =============================================================================
+router_bias_update_rate = 1e-4
+aux_loss_alpha = 0.0  # No aux loss - Loss-Free method
+
+# =============================================================================
+# Checkpointing & Logging
+# =============================================================================
+resume = false
+checkpoint_every = 999999999
+log_every = 100
+
+target_loss = 3.28

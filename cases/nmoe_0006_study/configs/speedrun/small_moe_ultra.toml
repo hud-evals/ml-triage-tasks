@@ -1,0 +1,94 @@
+# Speedrun: Ultra-Sparse MoE (iso-tokens/expert with MoE-64)
+#
+# Ultra-sparse: 256 experts (vs 64 in standard), all MoE layers (no dense).
+#
+# Active params match dense baseline:
+#   - Dense: 12 layers × 3072 inter = 7.08M FFN/layer
+#   - Ultra: 8 activated (7 routed + 1 shared) × 384 = 7.08M FFN/layer
+#
+# Tokens/expert scaling (to match MoE-64's 469M tokens/expert):
+#   - MoE-64 at 9536 steps: 5B × (6/64) = 469M tokens/expert
+#   - Ultra-256 needs: 469M × (256/7) = 17.2B tokens = ~32,800 steps
+#   - NOTE: This wraps the 10B dataset ~1.7× (need more unique data for proper test)
+#
+# Run:
+#   torchrun --nproc_per_node=8 -m nmoe.train configs/speedrun/small_moe_ultra.toml
+
+preset = "speedrun_small_moe_ultra"
+experiment_id = "speedrun_small_moe_ultra_isotpe"
+
+# Benchmark token stream
+tokenizer = "gpt2"
+vocab_size = 50304
+eos_token_id = 50256
+loss_mask_eos = false
+
+# Data
+data_path = "/data/speedrun/train"
+validation_enabled = true
+validation_data_path = "/data/speedrun/val"
+validation_every = 128          # Match June 2024
+validation_steps = 20           # ~10.5M val tokens
+
+# =============================================================================
+# Model Architecture (matched active params to dense)
+# =============================================================================
+dim = 768
+n_layers = 12
+n_heads = 12        # Match SDPA dense (head_dim=64)
+inter_dim = 3072
+
+# Ultra-Sparse MoE: 256 routed experts, top-7 routed + 1 shared = 8 total
+n_dense_layers = 0  # All layers are MoE
+n_routed_experts = 256
+n_shared_experts = 1
+n_activated_experts = 7
+moe_inter_dim = 384  # 8 × 384 = 3072 = dense inter_dim
+
+# Attention: SDPA (MLA unstable at high LR)
+attn = "sdpa"
+
+# =============================================================================
+# Training (scaled for iso-tokens/expert with MoE-64)
+# =============================================================================
+dtype = "bf16"
+seq_len = 2048
+batch_size = 256    # 524K tokens/step
+steps = 32800       # ~17.2B tokens (matches MoE-64's 469M tokens/expert)
+
+# =============================================================================
+# Optimizer (match June 2024)
+# =============================================================================
+use_muon = false
+
+lr_dense = 1.8e-3
+lr_expert = 1.8e-3
+lr_router = 1.8e-3
+weight_decay = 0.1              # Match June 2024
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+
+# =============================================================================
+# Schedule (scaled proportionally: warmup=880, warmdown=7040, total=32800)
+# Ratio = 32800/9536 = 3.44×
+# =============================================================================
+warmup_steps = 880
+hold_tokens = 13_505_904_640    # 25760 steps × 524288 tokens/step
+decay_tokens = 3_690_987_520    # 7040 steps × 524288 tokens/step
+decay_floor = 1e-6
+
+# =============================================================================
+# Load Balancing
+# =============================================================================
+router_bias_update_rate = 1e-4
+aux_loss_alpha = 0.0
+
+# =============================================================================
+# Checkpointing & Logging
+# =============================================================================
+resume = false
+checkpoint_every = 999999999
+log_every = 100
+
+target_loss = 3.28

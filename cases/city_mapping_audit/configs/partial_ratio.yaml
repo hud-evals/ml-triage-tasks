@@ -1,0 +1,3 @@
+method: partial_ratio
+scorer: partial_ratio
+gt_path: ground_truth/gt.json

@@ -1,0 +1,110 @@
+# 500M MoE Model - Transfer Validation Step 2
+#
+# Purpose: Validate dense→MoE transfer (our novel γ=0.17 sparsity term).
+# Transfer chain: 50M dense → 500M dense → [500M MoE] → 3B MoE
+#
+# Architecture (~2B total, ~400M activated):
+#   - Matches DeepSeek 3B structure but smaller dim
+#   - 64 experts, top-6 (same sparsity as DeepSeek 3B)
+#
+# HP Transfer from 500M dense (adding sparsity term):
+#   - 500M dense: dim=1280, layers=20, dense (sparsity=1), lr=4.28e-4
+#   - 500M MoE: dim=1024, layers=12, sparsity=64/6=10.67
+#   - Width term: (1280/1024)^0.35 = 1.084
+#   - Depth term: (20/12)^0.58 = 1.40
+#   - Sparsity term: (10.67/1)^0.17 = 1.49 (dense→MoE boost)
+#   - lr_moe = 4.28e-4 × 1.084 × 1.40 × 1.49 = 9.30e-4
+#
+# Chain: 50M dense (1.31e-3) → 500M dense (4.28e-4) → 500M MoE (9.30e-4)
+#
+# Run:
+#   torchrun --nproc_per_node=8 -m nmoe.train configs/scaling/500m_moe.toml
+
+preset = "scaling_500m_moe"
+experiment_id = "scaling_500m_moe"
+
+# Tokenizer
+tokenizer = "gpt2"
+vocab_size = 50304
+eos_token_id = 50256
+loss_mask_eos = false
+
+# Data
+data_path = "/data/fineweb10B_gpt2_npy/train"
+validation_enabled = true
+validation_data_path = "/data/fineweb10B_gpt2_npy/valid"
+validation_every = 250
+validation_steps = 20
+
+# =============================================================================
+# Model Architecture (~2B total, ~400M activated)
+# =============================================================================
+dim = 1024
+n_layers = 12
+n_heads = 16
+inter_dim = 896  # Dense FFN dim (matches moe_inter_dim)
+
+# MoE: 64 experts, top-6 (matches DeepSeek 3B sparsity)
+n_dense_layers = 1
+n_routed_experts = 64
+n_activated_experts = 6
+n_shared_experts = 2
+moe_inter_dim = 896
+
+# Attention (MLA)
+attn = "mla"
+q_lora_rank = 1536
+kv_lora_rank = 512
+qk_nope_head_dim = 128
+qk_rope_head_dim = 64
+v_head_dim = 128
+
+# RoPE
+rope_theta = 10000.0
+max_position_embeddings = 4096
+
+# Normalization
+rms_norm_eps = 1e-6
+
+# =============================================================================
+# Training
+# =============================================================================
+dtype = "bf16"
+seq_len = 2048
+batch_size = 128
+steps = 5000
+
+# =============================================================================
+# Optimizer (transferred from 500M dense via Complete(d)P+MoE)
+# lr = 4.28e-4 × 2.175 = 9.30e-4
+# =============================================================================
+use_muon = false
+
+lr_dense = 9.30e-4
+lr_expert = 9.30e-4
+lr_router = 9.30e-4
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+
+# =============================================================================
+# Schedule (DeepSeek-style)
+# =============================================================================
+warmup_steps = 500
+hold_tokens = 838_860_800
+decay_tokens = 209_715_200
+decay_floor = 9.30e-5  # 0.1× of base LR
+
+# =============================================================================
+# Load Balancing
+# =============================================================================
+router_bias_update_rate = 1e-4
+aux_loss_alpha = 0.0
+
+# =============================================================================
+# Checkpointing
+# =============================================================================
+resume = false
+checkpoint_every = 1000
+log_every = 10

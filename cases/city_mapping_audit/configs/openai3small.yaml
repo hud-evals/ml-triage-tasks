@@ -1,0 +1,4 @@
+method: openai_3small
+embedding_hotels_path: embeddings/openai3small_hotels.npy
+embedding_cities_path: embeddings/openai3small_cities.npy
+gt_path: ground_truth/gt.json

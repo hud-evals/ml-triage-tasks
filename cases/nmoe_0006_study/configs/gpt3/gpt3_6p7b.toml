@@ -1,0 +1,48 @@
+# GPT-3 6.7B — Table 2.1 / Appendix B (arXiv:2005.14165v4)
+#
+# See `configs/gpt3/gpt3_125m.toml` for mapping notes.
+
+preset = "gpt3"
+experiment_id = "gpt3_6p7b"
+
+tokenizer = "gpt2"
+vocab_size = 50304
+eos_token_id = 50256
+loss_mask_eos = false
+
+data_path = "/data/fineweb10B_gpt2_npy/train"
+validation_enabled = true
+validation_data_path = "/data/fineweb10B_gpt2_npy/valid"
+validation_every = 2000
+validation_steps = 5
+
+# Model (GPT-3 6.7B)
+dim = 4096
+n_layers = 32
+n_heads = 32
+inter_dim = 16384
+n_dense_layers = 32
+
+attn = "sdpa"
+
+dtype = "bf16"
+seq_len = 2048
+
+# ~2.0M tokens/update (paper) → 1024 * 2048 = 2,097,152
+batch_size = 1024
+steps = 143052
+
+use_muon = false
+lr_dense = 1.2e-4
+lr_router = 1.2e-4
+lr_expert = 1.2e-4
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+
+warmup_steps = 179
+hold_tokens = 0
+decay_tokens = 260_000_000_000
+decay_floor = 1.2e-5
+

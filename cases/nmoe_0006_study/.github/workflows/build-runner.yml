@@ -1,0 +1,120 @@
+name: Build train + runner images
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'docker/Dockerfile.runner'
+      - 'docker/Dockerfile.train'
+      - 'docker/Dockerfile.base'
+      - '.github/workflows/build-runner.yml'
+  workflow_dispatch:
+    inputs:
+      runner_version:
+        description: 'GitHub Actions runner version (e.g. 2.330.0) or "latest"'
+        required: false
+        default: '2.330.0'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: noumena-network/nmoe
+
+jobs:
+  build:
+    runs-on: builder
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PUBLISH_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        run: |
+          SHA=$(git rev-parse --short HEAD)
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+          echo "date=$(date -u +%Y%m%d)" >> $GITHUB_OUTPUT
+
+      - name: Resolve build inputs
+        id: inputs
+        run: |
+          set -euo pipefail
+
+          RV_IN="${{ github.event.inputs.runner_version }}"
+          if [ -z "${RV_IN}" ]; then
+            RV_IN="2.330.0"
+          fi
+
+          if [ "${RV_IN}" = "latest" ]; then
+            RV_TAG="$(curl -fsSL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/actions/runner/releases/latest | sed -n 's/.*\"tag_name\"[[:space:]]*:[[:space:]]*\"\\([^\"]*\\)\".*/\\1/p')"
+            if [ -z "${RV_TAG}" ]; then
+              echo "failed to resolve latest runner version" >&2
+              exit 2
+            fi
+            RV="${RV_TAG#v}"
+          else
+            RV="${RV_IN#v}"
+          fi
+
+          echo "runner_version=${RV}" >> $GITHUB_OUTPUT
+
+      - name: Build and push base image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/Dockerfile.base
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base-${{ steps.meta.outputs.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base-latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push train image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/Dockerfile.train
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:train-${{ steps.meta.outputs.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:train-latest
+          build-args: |
+            BASE_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base-${{ steps.meta.outputs.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push runner image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/Dockerfile.runner
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:runner-${{ steps.meta.outputs.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:runner-latest
+          build-args: |
+            BASE_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:train-${{ steps.meta.outputs.sha }}
+            RUNNER_VERSION=${{ steps.inputs.outputs.runner_version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Summary
+        run: |
+          echo "### Train + runner images built" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Base**: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base-${{ steps.meta.outputs.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Train**: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:train-${{ steps.meta.outputs.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Runner**: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:runner-${{ steps.meta.outputs.sha }}\` (runner: \`${{ steps.inputs.outputs.runner_version }}\`)" >> $GITHUB_STEP_SUMMARY
+          echo "- **SHA**: \`${{ steps.meta.outputs.sha }}\`" >> $GITHUB_STEP_SUMMARY

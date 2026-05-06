@@ -1,0 +1,9 @@
+{
+  "method": "openai_3small",
+  "eval_script": "src/eval_v2.py",
+  "eval_n": 3000,
+  "gt_path": "ground_truth/gt.json",
+  "top_1": 0.4817,
+  "top_2": 0.5227,
+  "top_3": 0.5297
+}

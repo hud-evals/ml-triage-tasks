@@ -1,0 +1,96 @@
+# nmoe Speedrun: Super MoE-256
+#
+# 256 routed experts, top-7 + 1 shared = 8 active per token.
+# Active params matched to dense baseline.
+#
+# Run: n speedrun super
+
+preset = "speedrun_super"
+experiment_id = "speedrun_super_256"
+
+# Tokenizer (GPT-2, padded to 128)
+tokenizer = "gpt2"
+vocab_size = 50304
+eos_token_id = 50256
+loss_mask_eos = false
+
+# Data
+data_path = "/data/speedrun/train"
+validation_enabled = true
+validation_data_path = "/data/speedrun/val"
+validation_every = 128
+validation_steps = 20
+experiments_db = "/data/experiments_nvfp4.db"
+
+# =============================================================================
+# Model: MoE-256
+# =============================================================================
+dim = 768
+n_layers = 12
+n_heads = 12
+inter_dim = 3072
+
+# NVFP4 uses the same unit-gain I/O contract as bf16/fp8 by default.
+
+# MoE: 256 routed experts, top-7 routed + 1 shared = 8 total/token
+n_dense_layers = 0   # All MoE
+n_routed_experts = 256
+n_shared_experts = 1
+n_activated_experts = 7
+moe_inter_dim = 384  # 8 × 384 = 3072 = dense inter_dim
+
+attn = "sdpa"
+
+# =============================================================================
+# Training (iso-tokens/expert scaling)
+# =============================================================================
+dtype = "nvfp4"
+seq_len = 2048
+batch_size = 256    # 524K tokens/step
+steps = 12000       # Match working run
+
+# =============================================================================
+# Optimizer
+# =============================================================================
+use_muon = false
+lr_dense = 1.8e-3
+lr_expert = 1.8e-3
+lr_router = 1.8e-3
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_beta2_expert = 0.99  # Higher for experts (fewer samples)
+adam_eps = 1e-8
+
+# =============================================================================
+# Schedule (WSD) - Matched to working run_1768020935_777308
+# =============================================================================
+warmup_steps = 880
+hold_tokens = 13_505_904_640       # ~25760 steps at 524288 tokens/step
+decay_tokens = 3_690_987_520       # ~7040 steps decay
+decay_floor = 1e-6
+
+# =============================================================================
+# Load Balancing
+# =============================================================================
+router_bias_update_rate = 1e-3   # 10x boost for faster bias correction
+aux_loss_alpha = 0.001           # Switch-style aux loss as gradient backup
+
+# =============================================================================
+# CORE Eval (runs automatically at target_loss or end of training)
+# =============================================================================
+eval_enabled = true
+eval_tasks = "core"
+eval_tasks_file = "configs/eval/core.toml"
+eval_bundle_dir = "/data/eval/eval_bundle"
+eval_budget_max_examples = 1000
+eval_budget_max_time_s = 1800  # 30 min max
+
+# =============================================================================
+# Checkpointing
+# =============================================================================
+resume = false
+checkpoint_every = 999999999
+log_every = 100
+
+target_loss = 3.28

@@ -1,0 +1,1204 @@
+# eval_full_run_2025-09-04 — full log stream
+# operator: mei.c@internal
+# commit: 4f7c2a1 (pre-ADR-001)
+# NOTE: this is the canonical eval-log artifact. It is large on
+# purpose — every batch every method is recorded inline. Use
+# `grep -E 'top_1|writing|aggregated'` to find summary lines.
+
+[openai_3small] src/eval.py --config configs/openai_3small.yaml
+[openai_3small] loading artifacts ...
+[openai_3small]   eval_n=3000  gt_path=ground_truth/gt.json
+[openai_3small] building similarity matrix ...
+[openai_3small] batch   1/120  top_1~0.4757  top_2~0.5247  top_3~0.5347
+[openai_3small] batch   2/120  top_1~0.4697  top_2~0.5187  top_3~0.5397
+[openai_3small] batch   3/120  top_1~0.4767  top_2~0.5297  top_3~0.5447
+[openai_3small] batch   4/120  top_1~0.4707  top_2~0.5237  top_3~0.5307
+[openai_3small] batch   5/120  top_1~0.4777  top_2~0.5177  top_3~0.5357
+[openai_3small] batch   6/120  top_1~0.4717  top_2~0.5287  top_3~0.5407
+[openai_3small] batch   7/120  top_1~0.4787  top_2~0.5227  top_3~0.5457
+[openai_3small] batch   8/120  top_1~0.4727  top_2~0.5167  top_3~0.5317
+[openai_3small] batch   9/120  top_1~0.4797  top_2~0.5277  top_3~0.5367
+[openai_3small] batch  10/120  top_1~0.4737  top_2~0.5217  top_3~0.5417
+[openai_3small] batch  11/120  top_1~0.4807  top_2~0.5157  top_3~0.5467
+[openai_3small] batch  12/120  top_1~0.4747  top_2~0.5267  top_3~0.5327
+[openai_3small] batch  13/120  top_1~0.4687  top_2~0.5207  top_3~0.5377
+[openai_3small] batch  14/120  top_1~0.4757  top_2~0.5147  top_3~0.5427
+[openai_3small] batch  15/120  top_1~0.4697  top_2~0.5257  top_3~0.5477
+[openai_3small] batch  16/120  top_1~0.4767  top_2~0.5197  top_3~0.5337
+[openai_3small] batch  17/120  top_1~0.4707  top_2~0.5137  top_3~0.5387
+[openai_3small] batch  18/120  top_1~0.4777  top_2~0.5247  top_3~0.5437
+[openai_3small] batch  19/120  top_1~0.4717  top_2~0.5187  top_3~0.5297
+[openai_3small] batch  20/120  top_1~0.4787  top_2~0.5297  top_3~0.5347
+[openai_3small]   (interim aggregation check)
+[openai_3small]   running mean top_1 = 0.4689
+[openai_3small] batch  21/120  top_1~0.4727  top_2~0.5237  top_3~0.5397
+[openai_3small] batch  22/120  top_1~0.4797  top_2~0.5177  top_3~0.5447
+[openai_3small] batch  23/120  top_1~0.4737  top_2~0.5287  top_3~0.5307
+[openai_3small] batch  24/120  top_1~0.4807  top_2~0.5227  top_3~0.5357
+[openai_3small] batch  25/120  top_1~0.4747  top_2~0.5167  top_3~0.5407
+[openai_3small] batch  26/120  top_1~0.4687  top_2~0.5277  top_3~0.5457
+[openai_3small] batch  27/120  top_1~0.4757  top_2~0.5217  top_3~0.5317
+[openai_3small] batch  28/120  top_1~0.4697  top_2~0.5157  top_3~0.5367
+[openai_3small] batch  29/120  top_1~0.4767  top_2~0.5267  top_3~0.5417
+[openai_3small] batch  30/120  top_1~0.4707  top_2~0.5207  top_3~0.5467
+[openai_3small] batch  31/120  top_1~0.4777  top_2~0.5147  top_3~0.5327
+[openai_3small] batch  32/120  top_1~0.4717  top_2~0.5257  top_3~0.5377
+[openai_3small] batch  33/120  top_1~0.4787  top_2~0.5197  top_3~0.5427
+[openai_3small] batch  34/120  top_1~0.4727  top_2~0.5137  top_3~0.5477
+[openai_3small] batch  35/120  top_1~0.4797  top_2~0.5247  top_3~0.5337
+[openai_3small] batch  36/120  top_1~0.4737  top_2~0.5187  top_3~0.5387
+[openai_3small] batch  37/120  top_1~0.4807  top_2~0.5297  top_3~0.5437
+[openai_3small] batch  38/120  top_1~0.4747  top_2~0.5237  top_3~0.5297
+[openai_3small] batch  39/120  top_1~0.4687  top_2~0.5177  top_3~0.5347
+[openai_3small] batch  40/120  top_1~0.4757  top_2~0.5287  top_3~0.5397
+[openai_3small]   (interim aggregation check)
+[openai_3small]   running mean top_1 = 0.4691
+[openai_3small] batch  41/120  top_1~0.4697  top_2~0.5227  top_3~0.5447
+[openai_3small] batch  42/120  top_1~0.4767  top_2~0.5167  top_3~0.5307
+[openai_3small] batch  43/120  top_1~0.4707  top_2~0.5277  top_3~0.5357
+[openai_3small] batch  44/120  top_1~0.4777  top_2~0.5217  top_3~0.5407
+[openai_3small] batch  45/120  top_1~0.4717  top_2~0.5157  top_3~0.5457
+[openai_3small] batch  46/120  top_1~0.4787  top_2~0.5267  top_3~0.5317
+[openai_3small] batch  47/120  top_1~0.4727  top_2~0.5207  top_3~0.5367
+[openai_3small] batch  48/120  top_1~0.4797  top_2~0.5147  top_3~0.5417
+[openai_3small] batch  49/120  top_1~0.4737  top_2~0.5257  top_3~0.5467
+[openai_3small] batch  50/120  top_1~0.4807  top_2~0.5197  top_3~0.5327
+[openai_3small] batch  51/120  top_1~0.4747  top_2~0.5137  top_3~0.5377
+[openai_3small] batch  52/120  top_1~0.4687  top_2~0.5247  top_3~0.5427
+[openai_3small] batch  53/120  top_1~0.4757  top_2~0.5187  top_3~0.5477
+[openai_3small] batch  54/120  top_1~0.4697  top_2~0.5297  top_3~0.5337
+[openai_3small] batch  55/120  top_1~0.4767  top_2~0.5237  top_3~0.5387
+[openai_3small] batch  56/120  top_1~0.4707  top_2~0.5177  top_3~0.5437
+[openai_3small] batch  57/120  top_1~0.4777  top_2~0.5287  top_3~0.5297
+[openai_3small] batch  58/120  top_1~0.4717  top_2~0.5227  top_3~0.5347
+[openai_3small] batch  59/120  top_1~0.4787  top_2~0.5167  top_3~0.5397
+[openai_3small] batch  60/120  top_1~0.4727  top_2~0.5277  top_3~0.5447
+[openai_3small]   (interim aggregation check)
+[openai_3small]   running mean top_1 = 0.4693
+[openai_3small] batch  61/120  top_1~0.4797  top_2~0.5217  top_3~0.5307
+[openai_3small] batch  62/120  top_1~0.4737  top_2~0.5157  top_3~0.5357
+[openai_3small] batch  63/120  top_1~0.4807  top_2~0.5267  top_3~0.5407
+[openai_3small] batch  64/120  top_1~0.4747  top_2~0.5207  top_3~0.5457
+[openai_3small] batch  65/120  top_1~0.4687  top_2~0.5147  top_3~0.5317
+[openai_3small] batch  66/120  top_1~0.4757  top_2~0.5257  top_3~0.5367
+[openai_3small] batch  67/120  top_1~0.4697  top_2~0.5197  top_3~0.5417
+[openai_3small] batch  68/120  top_1~0.4767  top_2~0.5137  top_3~0.5467
+[openai_3small] batch  69/120  top_1~0.4707  top_2~0.5247  top_3~0.5327
+[openai_3small] batch  70/120  top_1~0.4777  top_2~0.5187  top_3~0.5377
+[openai_3small] batch  71/120  top_1~0.4717  top_2~0.5297  top_3~0.5427
+[openai_3small] batch  72/120  top_1~0.4787  top_2~0.5237  top_3~0.5477
+[openai_3small] batch  73/120  top_1~0.4727  top_2~0.5177  top_3~0.5337
+[openai_3small] batch  74/120  top_1~0.4797  top_2~0.5287  top_3~0.5387
+[openai_3small] batch  75/120  top_1~0.4737  top_2~0.5227  top_3~0.5437
+[openai_3small] batch  76/120  top_1~0.4807  top_2~0.5167  top_3~0.5297
+[openai_3small] batch  77/120  top_1~0.4747  top_2~0.5277  top_3~0.5347
+[openai_3small] batch  78/120  top_1~0.4687  top_2~0.5217  top_3~0.5397
+[openai_3small] batch  79/120  top_1~0.4757  top_2~0.5157  top_3~0.5447
+[openai_3small] batch  80/120  top_1~0.4697  top_2~0.5267  top_3~0.5307
+[openai_3small]   (interim aggregation check)
+[openai_3small]   running mean top_1 = 0.4695
+[openai_3small] batch  81/120  top_1~0.4767  top_2~0.5207  top_3~0.5357
+[openai_3small] batch  82/120  top_1~0.4707  top_2~0.5147  top_3~0.5407
+[openai_3small] batch  83/120  top_1~0.4777  top_2~0.5257  top_3~0.5457
+[openai_3small] batch  84/120  top_1~0.4717  top_2~0.5197  top_3~0.5317
+[openai_3small] batch  85/120  top_1~0.4787  top_2~0.5137  top_3~0.5367
+[openai_3small] batch  86/120  top_1~0.4727  top_2~0.5247  top_3~0.5417
+[openai_3small] batch  87/120  top_1~0.4797  top_2~0.5187  top_3~0.5467
+[openai_3small] batch  88/120  top_1~0.4737  top_2~0.5297  top_3~0.5327
+[openai_3small] batch  89/120  top_1~0.4807  top_2~0.5237  top_3~0.5377
+[openai_3small] batch  90/120  top_1~0.4747  top_2~0.5177  top_3~0.5427
+[openai_3small] batch  91/120  top_1~0.4687  top_2~0.5287  top_3~0.5477
+[openai_3small] batch  92/120  top_1~0.4757  top_2~0.5227  top_3~0.5337
+[openai_3small] batch  93/120  top_1~0.4697  top_2~0.5167  top_3~0.5387
+[openai_3small] batch  94/120  top_1~0.4767  top_2~0.5277  top_3~0.5437
+[openai_3small] batch  95/120  top_1~0.4707  top_2~0.5217  top_3~0.5297
+[openai_3small] batch  96/120  top_1~0.4777  top_2~0.5157  top_3~0.5347
+[openai_3small] batch  97/120  top_1~0.4717  top_2~0.5267  top_3~0.5397
+[openai_3small] batch  98/120  top_1~0.4787  top_2~0.5207  top_3~0.5447
+[openai_3small] batch  99/120  top_1~0.4727  top_2~0.5147  top_3~0.5307
+[openai_3small] batch 100/120  top_1~0.4797  top_2~0.5257  top_3~0.5357
+[openai_3small]   (interim aggregation check)
+[openai_3small]   running mean top_1 = 0.4697
+[openai_3small] batch 101/120  top_1~0.4737  top_2~0.5197  top_3~0.5407
+[openai_3small] batch 102/120  top_1~0.4807  top_2~0.5137  top_3~0.5457
+[openai_3small] batch 103/120  top_1~0.4747  top_2~0.5247  top_3~0.5317
+[openai_3small] batch 104/120  top_1~0.4687  top_2~0.5187  top_3~0.5367
+[openai_3small] batch 105/120  top_1~0.4757  top_2~0.5297  top_3~0.5417
+[openai_3small] batch 106/120  top_1~0.4697  top_2~0.5237  top_3~0.5467
+[openai_3small] batch 107/120  top_1~0.4767  top_2~0.5177  top_3~0.5327
+[openai_3small] batch 108/120  top_1~0.4707  top_2~0.5287  top_3~0.5377
+[openai_3small] batch 109/120  top_1~0.4777  top_2~0.5227  top_3~0.5427
+[openai_3small] batch 110/120  top_1~0.4717  top_2~0.5167  top_3~0.5477
+[openai_3small] batch 111/120  top_1~0.4787  top_2~0.5277  top_3~0.5337
+[openai_3small] batch 112/120  top_1~0.4727  top_2~0.5217  top_3~0.5387
+[openai_3small] batch 113/120  top_1~0.4797  top_2~0.5157  top_3~0.5437
+[openai_3small] batch 114/120  top_1~0.4737  top_2~0.5267  top_3~0.5297
+[openai_3small] batch 115/120  top_1~0.4807  top_2~0.5207  top_3~0.5347
+[openai_3small] batch 116/120  top_1~0.4747  top_2~0.5147  top_3~0.5397
+[openai_3small] batch 117/120  top_1~0.4687  top_2~0.5257  top_3~0.5447
+[openai_3small] batch 118/120  top_1~0.4757  top_2~0.5197  top_3~0.5307
+[openai_3small] batch 119/120  top_1~0.4697  top_2~0.5137  top_3~0.5357
+[openai_3small] batch 120/120  top_1~0.4767  top_2~0.5247  top_3~0.5407
+[openai_3small]   (interim aggregation check)
+[openai_3small]   running mean top_1 = 0.4699
+[openai_3small] aggregated: top_1=0.4687 top_2=0.5137 top_3=0.5297  n=3000
+[openai_3small] writing runs/openai_3small/run1.json
+[openai_3small] done (35s)
+
+[minilm] src/eval.py --config configs/minilm.yaml
+[minilm] loading artifacts ...
+[minilm]   eval_n=3000  gt_path=ground_truth/gt.json
+[minilm] building similarity matrix ...
+[minilm] batch   1/120  top_1~0.4007  top_2~0.4653  top_3~0.4790
+[minilm] batch   2/120  top_1~0.3947  top_2~0.4593  top_3~0.4840
+[minilm] batch   3/120  top_1~0.4017  top_2~0.4703  top_3~0.4890
+[minilm] batch   4/120  top_1~0.3957  top_2~0.4643  top_3~0.4750
+[minilm] batch   5/120  top_1~0.4027  top_2~0.4583  top_3~0.4800
+[minilm] batch   6/120  top_1~0.3967  top_2~0.4693  top_3~0.4850
+[minilm] batch   7/120  top_1~0.4037  top_2~0.4633  top_3~0.4900
+[minilm] batch   8/120  top_1~0.3977  top_2~0.4573  top_3~0.4760
+[minilm] batch   9/120  top_1~0.4047  top_2~0.4683  top_3~0.4810
+[minilm] batch  10/120  top_1~0.3987  top_2~0.4623  top_3~0.4860
+[minilm] batch  11/120  top_1~0.4057  top_2~0.4563  top_3~0.4910
+[minilm] batch  12/120  top_1~0.3997  top_2~0.4673  top_3~0.4770
+[minilm] batch  13/120  top_1~0.3937  top_2~0.4613  top_3~0.4820
+[minilm] batch  14/120  top_1~0.4007  top_2~0.4553  top_3~0.4870
+[minilm] batch  15/120  top_1~0.3947  top_2~0.4663  top_3~0.4920
+[minilm] batch  16/120  top_1~0.4017  top_2~0.4603  top_3~0.4780
+[minilm] batch  17/120  top_1~0.3957  top_2~0.4543  top_3~0.4830
+[minilm] batch  18/120  top_1~0.4027  top_2~0.4653  top_3~0.4880
+[minilm] batch  19/120  top_1~0.3967  top_2~0.4593  top_3~0.4740
+[minilm] batch  20/120  top_1~0.4037  top_2~0.4703  top_3~0.4790
+[minilm]   (interim aggregation check)
+[minilm]   running mean top_1 = 0.3939
+[minilm] batch  21/120  top_1~0.3977  top_2~0.4643  top_3~0.4840
+[minilm] batch  22/120  top_1~0.4047  top_2~0.4583  top_3~0.4890
+[minilm] batch  23/120  top_1~0.3987  top_2~0.4693  top_3~0.4750
+[minilm] batch  24/120  top_1~0.4057  top_2~0.4633  top_3~0.4800
+[minilm] batch  25/120  top_1~0.3997  top_2~0.4573  top_3~0.4850
+[minilm] batch  26/120  top_1~0.3937  top_2~0.4683  top_3~0.4900
+[minilm] batch  27/120  top_1~0.4007  top_2~0.4623  top_3~0.4760
+[minilm] batch  28/120  top_1~0.3947  top_2~0.4563  top_3~0.4810
+[minilm] batch  29/120  top_1~0.4017  top_2~0.4673  top_3~0.4860
+[minilm] batch  30/120  top_1~0.3957  top_2~0.4613  top_3~0.4910
+[minilm] batch  31/120  top_1~0.4027  top_2~0.4553  top_3~0.4770
+[minilm] batch  32/120  top_1~0.3967  top_2~0.4663  top_3~0.4820
+[minilm] batch  33/120  top_1~0.4037  top_2~0.4603  top_3~0.4870
+[minilm] batch  34/120  top_1~0.3977  top_2~0.4543  top_3~0.4920
+[minilm] batch  35/120  top_1~0.4047  top_2~0.4653  top_3~0.4780
+[minilm] batch  36/120  top_1~0.3987  top_2~0.4593  top_3~0.4830
+[minilm] batch  37/120  top_1~0.4057  top_2~0.4703  top_3~0.4880
+[minilm] batch  38/120  top_1~0.3997  top_2~0.4643  top_3~0.4740
+[minilm] batch  39/120  top_1~0.3937  top_2~0.4583  top_3~0.4790
+[minilm] batch  40/120  top_1~0.4007  top_2~0.4693  top_3~0.4840
+[minilm]   (interim aggregation check)
+[minilm]   running mean top_1 = 0.3941
+[minilm] batch  41/120  top_1~0.3947  top_2~0.4633  top_3~0.4890
+[minilm] batch  42/120  top_1~0.4017  top_2~0.4573  top_3~0.4750
+[minilm] batch  43/120  top_1~0.3957  top_2~0.4683  top_3~0.4800
+[minilm] batch  44/120  top_1~0.4027  top_2~0.4623  top_3~0.4850
+[minilm] batch  45/120  top_1~0.3967  top_2~0.4563  top_3~0.4900
+[minilm] batch  46/120  top_1~0.4037  top_2~0.4673  top_3~0.4760
+[minilm] batch  47/120  top_1~0.3977  top_2~0.4613  top_3~0.4810
+[minilm] batch  48/120  top_1~0.4047  top_2~0.4553  top_3~0.4860
+[minilm] batch  49/120  top_1~0.3987  top_2~0.4663  top_3~0.4910
+[minilm] batch  50/120  top_1~0.4057  top_2~0.4603  top_3~0.4770
+[minilm] batch  51/120  top_1~0.3997  top_2~0.4543  top_3~0.4820
+[minilm] batch  52/120  top_1~0.3937  top_2~0.4653  top_3~0.4870
+[minilm] batch  53/120  top_1~0.4007  top_2~0.4593  top_3~0.4920
+[minilm] batch  54/120  top_1~0.3947  top_2~0.4703  top_3~0.4780
+[minilm] batch  55/120  top_1~0.4017  top_2~0.4643  top_3~0.4830
+[minilm] batch  56/120  top_1~0.3957  top_2~0.4583  top_3~0.4880
+[minilm] batch  57/120  top_1~0.4027  top_2~0.4693  top_3~0.4740
+[minilm] batch  58/120  top_1~0.3967  top_2~0.4633  top_3~0.4790
+[minilm] batch  59/120  top_1~0.4037  top_2~0.4573  top_3~0.4840
+[minilm] batch  60/120  top_1~0.3977  top_2~0.4683  top_3~0.4890
+[minilm]   (interim aggregation check)
+[minilm]   running mean top_1 = 0.3943
+[minilm] batch  61/120  top_1~0.4047  top_2~0.4623  top_3~0.4750
+[minilm] batch  62/120  top_1~0.3987  top_2~0.4563  top_3~0.4800
+[minilm] batch  63/120  top_1~0.4057  top_2~0.4673  top_3~0.4850
+[minilm] batch  64/120  top_1~0.3997  top_2~0.4613  top_3~0.4900
+[minilm] batch  65/120  top_1~0.3937  top_2~0.4553  top_3~0.4760
+[minilm] batch  66/120  top_1~0.4007  top_2~0.4663  top_3~0.4810
+[minilm] batch  67/120  top_1~0.3947  top_2~0.4603  top_3~0.4860
+[minilm] batch  68/120  top_1~0.4017  top_2~0.4543  top_3~0.4910
+[minilm] batch  69/120  top_1~0.3957  top_2~0.4653  top_3~0.4770
+[minilm] batch  70/120  top_1~0.4027  top_2~0.4593  top_3~0.4820
+[minilm] batch  71/120  top_1~0.3967  top_2~0.4703  top_3~0.4870
+[minilm] batch  72/120  top_1~0.4037  top_2~0.4643  top_3~0.4920
+[minilm] batch  73/120  top_1~0.3977  top_2~0.4583  top_3~0.4780
+[minilm] batch  74/120  top_1~0.4047  top_2~0.4693  top_3~0.4830
+[minilm] batch  75/120  top_1~0.3987  top_2~0.4633  top_3~0.4880
+[minilm] batch  76/120  top_1~0.4057  top_2~0.4573  top_3~0.4740
+[minilm] batch  77/120  top_1~0.3997  top_2~0.4683  top_3~0.4790
+[minilm] batch  78/120  top_1~0.3937  top_2~0.4623  top_3~0.4840
+[minilm] batch  79/120  top_1~0.4007  top_2~0.4563  top_3~0.4890
+[minilm] batch  80/120  top_1~0.3947  top_2~0.4673  top_3~0.4750
+[minilm]   (interim aggregation check)
+[minilm]   running mean top_1 = 0.3945
+[minilm] batch  81/120  top_1~0.4017  top_2~0.4613  top_3~0.4800
+[minilm] batch  82/120  top_1~0.3957  top_2~0.4553  top_3~0.4850
+[minilm] batch  83/120  top_1~0.4027  top_2~0.4663  top_3~0.4900
+[minilm] batch  84/120  top_1~0.3967  top_2~0.4603  top_3~0.4760
+[minilm] batch  85/120  top_1~0.4037  top_2~0.4543  top_3~0.4810
+[minilm] batch  86/120  top_1~0.3977  top_2~0.4653  top_3~0.4860
+[minilm] batch  87/120  top_1~0.4047  top_2~0.4593  top_3~0.4910
+[minilm] batch  88/120  top_1~0.3987  top_2~0.4703  top_3~0.4770
+[minilm] batch  89/120  top_1~0.4057  top_2~0.4643  top_3~0.4820
+[minilm] batch  90/120  top_1~0.3997  top_2~0.4583  top_3~0.4870
+[minilm] batch  91/120  top_1~0.3937  top_2~0.4693  top_3~0.4920
+[minilm] batch  92/120  top_1~0.4007  top_2~0.4633  top_3~0.4780
+[minilm] batch  93/120  top_1~0.3947  top_2~0.4573  top_3~0.4830
+[minilm] batch  94/120  top_1~0.4017  top_2~0.4683  top_3~0.4880
+[minilm] batch  95/120  top_1~0.3957  top_2~0.4623  top_3~0.4740
+[minilm] batch  96/120  top_1~0.4027  top_2~0.4563  top_3~0.4790
+[minilm] batch  97/120  top_1~0.3967  top_2~0.4673  top_3~0.4840
+[minilm] batch  98/120  top_1~0.4037  top_2~0.4613  top_3~0.4890
+[minilm] batch  99/120  top_1~0.3977  top_2~0.4553  top_3~0.4750
+[minilm] batch 100/120  top_1~0.4047  top_2~0.4663  top_3~0.4800
+[minilm]   (interim aggregation check)
+[minilm]   running mean top_1 = 0.3947
+[minilm] batch 101/120  top_1~0.3987  top_2~0.4603  top_3~0.4850
+[minilm] batch 102/120  top_1~0.4057  top_2~0.4543  top_3~0.4900
+[minilm] batch 103/120  top_1~0.3997  top_2~0.4653  top_3~0.4760
+[minilm] batch 104/120  top_1~0.3937  top_2~0.4593  top_3~0.4810
+[minilm] batch 105/120  top_1~0.4007  top_2~0.4703  top_3~0.4860
+[minilm] batch 106/120  top_1~0.3947  top_2~0.4643  top_3~0.4910
+[minilm] batch 107/120  top_1~0.4017  top_2~0.4583  top_3~0.4770
+[minilm] batch 108/120  top_1~0.3957  top_2~0.4693  top_3~0.4820
+[minilm] batch 109/120  top_1~0.4027  top_2~0.4633  top_3~0.4870
+[minilm] batch 110/120  top_1~0.3967  top_2~0.4573  top_3~0.4920
+[minilm] batch 111/120  top_1~0.4037  top_2~0.4683  top_3~0.4780
+[minilm] batch 112/120  top_1~0.3977  top_2~0.4623  top_3~0.4830
+[minilm] batch 113/120  top_1~0.4047  top_2~0.4563  top_3~0.4880
+[minilm] batch 114/120  top_1~0.3987  top_2~0.4673  top_3~0.4740
+[minilm] batch 115/120  top_1~0.4057  top_2~0.4613  top_3~0.4790
+[minilm] batch 116/120  top_1~0.3997  top_2~0.4553  top_3~0.4840
+[minilm] batch 117/120  top_1~0.3937  top_2~0.4663  top_3~0.4890
+[minilm] batch 118/120  top_1~0.4007  top_2~0.4603  top_3~0.4750
+[minilm] batch 119/120  top_1~0.3947  top_2~0.4543  top_3~0.4800
+[minilm] batch 120/120  top_1~0.4017  top_2~0.4653  top_3~0.4850
+[minilm]   (interim aggregation check)
+[minilm]   running mean top_1 = 0.3949
+[minilm] aggregated: top_1=0.3937 top_2=0.4543 top_3=0.4740  n=3000
+[minilm] writing runs/minilm/run1.json
+[minilm] done (24s)
+
+[partial_ratio] src/eval.py --config configs/partial_ratio.yaml
+[partial_ratio] loading artifacts ...
+[partial_ratio]   eval_n=3000  gt_path=ground_truth/gt.json
+[partial_ratio] building similarity matrix ...
+[partial_ratio] batch   1/160  top_1~0.4477  top_2~0.5023  top_3~0.5047
+[partial_ratio] batch   2/160  top_1~0.4417  top_2~0.4963  top_3~0.5097
+[partial_ratio] batch   3/160  top_1~0.4487  top_2~0.5073  top_3~0.5147
+[partial_ratio] batch   4/160  top_1~0.4427  top_2~0.5013  top_3~0.5007
+[partial_ratio] batch   5/160  top_1~0.4497  top_2~0.4953  top_3~0.5057
+[partial_ratio] batch   6/160  top_1~0.4437  top_2~0.5063  top_3~0.5107
+[partial_ratio] batch   7/160  top_1~0.4507  top_2~0.5003  top_3~0.5157
+[partial_ratio] batch   8/160  top_1~0.4447  top_2~0.4943  top_3~0.5017
+[partial_ratio] batch   9/160  top_1~0.4517  top_2~0.5053  top_3~0.5067
+[partial_ratio] batch  10/160  top_1~0.4457  top_2~0.4993  top_3~0.5117
+[partial_ratio] batch  11/160  top_1~0.4527  top_2~0.4933  top_3~0.5167
+[partial_ratio] batch  12/160  top_1~0.4467  top_2~0.5043  top_3~0.5027
+[partial_ratio] batch  13/160  top_1~0.4407  top_2~0.4983  top_3~0.5077
+[partial_ratio] batch  14/160  top_1~0.4477  top_2~0.4923  top_3~0.5127
+[partial_ratio] batch  15/160  top_1~0.4417  top_2~0.5033  top_3~0.5177
+[partial_ratio] batch  16/160  top_1~0.4487  top_2~0.4973  top_3~0.5037
+[partial_ratio] batch  17/160  top_1~0.4427  top_2~0.4913  top_3~0.5087
+[partial_ratio] batch  18/160  top_1~0.4497  top_2~0.5023  top_3~0.5137
+[partial_ratio] batch  19/160  top_1~0.4437  top_2~0.4963  top_3~0.4997
+[partial_ratio] batch  20/160  top_1~0.4507  top_2~0.5073  top_3~0.5047
+[partial_ratio]   (interim aggregation check)
+[partial_ratio]   running mean top_1 = 0.4409
+[partial_ratio] batch  21/160  top_1~0.4447  top_2~0.5013  top_3~0.5097
+[partial_ratio] batch  22/160  top_1~0.4517  top_2~0.4953  top_3~0.5147
+[partial_ratio] batch  23/160  top_1~0.4457  top_2~0.5063  top_3~0.5007
+[partial_ratio] batch  24/160  top_1~0.4527  top_2~0.5003  top_3~0.5057
+[partial_ratio] batch  25/160  top_1~0.4467  top_2~0.4943  top_3~0.5107
+[partial_ratio] batch  26/160  top_1~0.4407  top_2~0.5053  top_3~0.5157
+[partial_ratio] batch  27/160  top_1~0.4477  top_2~0.4993  top_3~0.5017
+[partial_ratio] batch  28/160  top_1~0.4417  top_2~0.4933  top_3~0.5067
+[partial_ratio] batch  29/160  top_1~0.4487  top_2~0.5043  top_3~0.5117
+[partial_ratio] batch  30/160  top_1~0.4427  top_2~0.4983  top_3~0.5167
+[partial_ratio] batch  31/160  top_1~0.4497  top_2~0.4923  top_3~0.5027
+[partial_ratio] batch  32/160  top_1~0.4437  top_2~0.5033  top_3~0.5077
+[partial_ratio] batch  33/160  top_1~0.4507  top_2~0.4973  top_3~0.5127
+[partial_ratio] batch  34/160  top_1~0.4447  top_2~0.4913  top_3~0.5177
+[partial_ratio] batch  35/160  top_1~0.4517  top_2~0.5023  top_3~0.5037
+[partial_ratio] batch  36/160  top_1~0.4457  top_2~0.4963  top_3~0.5087
+[partial_ratio] batch  37/160  top_1~0.4527  top_2~0.5073  top_3~0.5137
+[partial_ratio] batch  38/160  top_1~0.4467  top_2~0.5013  top_3~0.4997
+[partial_ratio] batch  39/160  top_1~0.4407  top_2~0.4953  top_3~0.5047
+[partial_ratio] batch  40/160  top_1~0.4477  top_2~0.5063  top_3~0.5097
+[partial_ratio]   (interim aggregation check)
+[partial_ratio]   running mean top_1 = 0.4411
+[partial_ratio] batch  41/160  top_1~0.4417  top_2~0.5003  top_3~0.5147
+[partial_ratio] batch  42/160  top_1~0.4487  top_2~0.4943  top_3~0.5007
+[partial_ratio] batch  43/160  top_1~0.4427  top_2~0.5053  top_3~0.5057
+[partial_ratio] batch  44/160  top_1~0.4497  top_2~0.4993  top_3~0.5107
+[partial_ratio] batch  45/160  top_1~0.4437  top_2~0.4933  top_3~0.5157
+[partial_ratio] batch  46/160  top_1~0.4507  top_2~0.5043  top_3~0.5017
+[partial_ratio] batch  47/160  top_1~0.4447  top_2~0.4983  top_3~0.5067
+[partial_ratio] batch  48/160  top_1~0.4517  top_2~0.4923  top_3~0.5117
+[partial_ratio] batch  49/160  top_1~0.4457  top_2~0.5033  top_3~0.5167
+[partial_ratio] batch  50/160  top_1~0.4527  top_2~0.4973  top_3~0.5027
+[partial_ratio] batch  51/160  top_1~0.4467  top_2~0.4913  top_3~0.5077
+[partial_ratio] batch  52/160  top_1~0.4407  top_2~0.5023  top_3~0.5127
+[partial_ratio] batch  53/160  top_1~0.4477  top_2~0.4963  top_3~0.5177
+[partial_ratio] batch  54/160  top_1~0.4417  top_2~0.5073  top_3~0.5037
+[partial_ratio] batch  55/160  top_1~0.4487  top_2~0.5013  top_3~0.5087
+[partial_ratio] batch  56/160  top_1~0.4427  top_2~0.4953  top_3~0.5137
+[partial_ratio] batch  57/160  top_1~0.4497  top_2~0.5063  top_3~0.4997
+[partial_ratio] batch  58/160  top_1~0.4437  top_2~0.5003  top_3~0.5047
+[partial_ratio] batch  59/160  top_1~0.4507  top_2~0.4943  top_3~0.5097
+[partial_ratio] batch  60/160  top_1~0.4447  top_2~0.5053  top_3~0.5147
+[partial_ratio]   (interim aggregation check)
+[partial_ratio]   running mean top_1 = 0.4413
+[partial_ratio] batch  61/160  top_1~0.4517  top_2~0.4993  top_3~0.5007
+[partial_ratio] batch  62/160  top_1~0.4457  top_2~0.4933  top_3~0.5057
+[partial_ratio] batch  63/160  top_1~0.4527  top_2~0.5043  top_3~0.5107
+[partial_ratio] batch  64/160  top_1~0.4467  top_2~0.4983  top_3~0.5157
+[partial_ratio] batch  65/160  top_1~0.4407  top_2~0.4923  top_3~0.5017
+[partial_ratio] batch  66/160  top_1~0.4477  top_2~0.5033  top_3~0.5067
+[partial_ratio] batch  67/160  top_1~0.4417  top_2~0.4973  top_3~0.5117
+[partial_ratio] batch  68/160  top_1~0.4487  top_2~0.4913  top_3~0.5167
+[partial_ratio] batch  69/160  top_1~0.4427  top_2~0.5023  top_3~0.5027
+[partial_ratio] batch  70/160  top_1~0.4497  top_2~0.4963  top_3~0.5077
+[partial_ratio] batch  71/160  top_1~0.4437  top_2~0.5073  top_3~0.5127
+[partial_ratio] batch  72/160  top_1~0.4507  top_2~0.5013  top_3~0.5177
+[partial_ratio] batch  73/160  top_1~0.4447  top_2~0.4953  top_3~0.5037
+[partial_ratio] batch  74/160  top_1~0.4517  top_2~0.5063  top_3~0.5087
+[partial_ratio] batch  75/160  top_1~0.4457  top_2~0.5003  top_3~0.5137
+[partial_ratio] batch  76/160  top_1~0.4527  top_2~0.4943  top_3~0.4997
+[partial_ratio] batch  77/160  top_1~0.4467  top_2~0.5053  top_3~0.5047
+[partial_ratio] batch  78/160  top_1~0.4407  top_2~0.4993  top_3~0.5097
+[partial_ratio] batch  79/160  top_1~0.4477  top_2~0.4933  top_3~0.5147
+[partial_ratio] batch  80/160  top_1~0.4417  top_2~0.5043  top_3~0.5007
+[partial_ratio]   (interim aggregation check)
+[partial_ratio]   running mean top_1 = 0.4415
+[partial_ratio] batch  81/160  top_1~0.4487  top_2~0.4983  top_3~0.5057
+[partial_ratio] batch  82/160  top_1~0.4427  top_2~0.4923  top_3~0.5107
+[partial_ratio] batch  83/160  top_1~0.4497  top_2~0.5033  top_3~0.5157
+[partial_ratio] batch  84/160  top_1~0.4437  top_2~0.4973  top_3~0.5017
+[partial_ratio] batch  85/160  top_1~0.4507  top_2~0.4913  top_3~0.5067
+[partial_ratio] batch  86/160  top_1~0.4447  top_2~0.5023  top_3~0.5117
+[partial_ratio] batch  87/160  top_1~0.4517  top_2~0.4963  top_3~0.5167
+[partial_ratio] batch  88/160  top_1~0.4457  top_2~0.5073  top_3~0.5027
+[partial_ratio] batch  89/160  top_1~0.4527  top_2~0.5013  top_3~0.5077
+[partial_ratio] batch  90/160  top_1~0.4467  top_2~0.4953  top_3~0.5127
+[partial_ratio] batch  91/160  top_1~0.4407  top_2~0.5063  top_3~0.5177
+[partial_ratio] batch  92/160  top_1~0.4477  top_2~0.5003  top_3~0.5037
+[partial_ratio] batch  93/160  top_1~0.4417  top_2~0.4943  top_3~0.5087
+[partial_ratio] batch  94/160  top_1~0.4487  top_2~0.5053  top_3~0.5137
+[partial_ratio] batch  95/160  top_1~0.4427  top_2~0.4993  top_3~0.4997
+[partial_ratio] batch  96/160  top_1~0.4497  top_2~0.4933  top_3~0.5047
+[partial_ratio] batch  97/160  top_1~0.4437  top_2~0.5043  top_3~0.5097
+[partial_ratio] batch  98/160  top_1~0.4507  top_2~0.4983  top_3~0.5147
+[partial_ratio] batch  99/160  top_1~0.4447  top_2~0.4923  top_3~0.5007
+[partial_ratio] batch 100/160  top_1~0.4517  top_2~0.5033  top_3~0.5057
+[partial_ratio]   (interim aggregation check)
+[partial_ratio]   running mean top_1 = 0.4417
+[partial_ratio] batch 101/160  top_1~0.4457  top_2~0.4973  top_3~0.5107
+[partial_ratio] batch 102/160  top_1~0.4527  top_2~0.4913  top_3~0.5157
+[partial_ratio] batch 103/160  top_1~0.4467  top_2~0.5023  top_3~0.5017
+[partial_ratio] batch 104/160  top_1~0.4407  top_2~0.4963  top_3~0.5067
+[partial_ratio] batch 105/160  top_1~0.4477  top_2~0.5073  top_3~0.5117
+[partial_ratio] batch 106/160  top_1~0.4417  top_2~0.5013  top_3~0.5167
+[partial_ratio] batch 107/160  top_1~0.4487  top_2~0.4953  top_3~0.5027
+[partial_ratio] batch 108/160  top_1~0.4427  top_2~0.5063  top_3~0.5077
+[partial_ratio] batch 109/160  top_1~0.4497  top_2~0.5003  top_3~0.5127
+[partial_ratio] batch 110/160  top_1~0.4437  top_2~0.4943  top_3~0.5177
+[partial_ratio] batch 111/160  top_1~0.4507  top_2~0.5053  top_3~0.5037
+[partial_ratio] batch 112/160  top_1~0.4447  top_2~0.4993  top_3~0.5087
+[partial_ratio] batch 113/160  top_1~0.4517  top_2~0.4933  top_3~0.5137
+[partial_ratio] batch 114/160  top_1~0.4457  top_2~0.5043  top_3~0.4997
+[partial_ratio] batch 115/160  top_1~0.4527  top_2~0.4983  top_3~0.5047
+[partial_ratio] batch 116/160  top_1~0.4467  top_2~0.4923  top_3~0.5097
+[partial_ratio] batch 117/160  top_1~0.4407  top_2~0.5033  top_3~0.5147
+[partial_ratio] batch 118/160  top_1~0.4477  top_2~0.4973  top_3~0.5007
+[partial_ratio] batch 119/160  top_1~0.4417  top_2~0.4913  top_3~0.5057
+[partial_ratio] batch 120/160  top_1~0.4487  top_2~0.5023  top_3~0.5107
+[partial_ratio]   (interim aggregation check)
+[partial_ratio]   running mean top_1 = 0.4419
+[partial_ratio] batch 121/160  top_1~0.4427  top_2~0.4963  top_3~0.5157
+[partial_ratio] batch 122/160  top_1~0.4497  top_2~0.5073  top_3~0.5017
+[partial_ratio] batch 123/160  top_1~0.4437  top_2~0.5013  top_3~0.5067
+[partial_ratio] batch 124/160  top_1~0.4507  top_2~0.4953  top_3~0.5117
+[partial_ratio] batch 125/160  top_1~0.4447  top_2~0.5063  top_3~0.5167
+[partial_ratio] batch 126/160  top_1~0.4517  top_2~0.5003  top_3~0.5027
+[partial_ratio] batch 127/160  top_1~0.4457  top_2~0.4943  top_3~0.5077
+[partial_ratio] batch 128/160  top_1~0.4527  top_2~0.5053  top_3~0.5127
+[partial_ratio] batch 129/160  top_1~0.4467  top_2~0.4993  top_3~0.5177
+[partial_ratio] batch 130/160  top_1~0.4407  top_2~0.4933  top_3~0.5037
+[partial_ratio] batch 131/160  top_1~0.4477  top_2~0.5043  top_3~0.5087
+[partial_ratio] batch 132/160  top_1~0.4417  top_2~0.4983  top_3~0.5137
+[partial_ratio] batch 133/160  top_1~0.4487  top_2~0.4923  top_3~0.4997
+[partial_ratio] batch 134/160  top_1~0.4427  top_2~0.5033  top_3~0.5047
+[partial_ratio] batch 135/160  top_1~0.4497  top_2~0.4973  top_3~0.5097
+[partial_ratio] batch 136/160  top_1~0.4437  top_2~0.4913  top_3~0.5147
+[partial_ratio] batch 137/160  top_1~0.4507  top_2~0.5023  top_3~0.5007
+[partial_ratio] batch 138/160  top_1~0.4447  top_2~0.4963  top_3~0.5057
+[partial_ratio] batch 139/160  top_1~0.4517  top_2~0.5073  top_3~0.5107
+[partial_ratio] batch 140/160  top_1~0.4457  top_2~0.5013  top_3~0.5157
+[partial_ratio]   (interim aggregation check)
+[partial_ratio]   running mean top_1 = 0.4421
+[partial_ratio] batch 141/160  top_1~0.4527  top_2~0.4953  top_3~0.5017
+[partial_ratio] batch 142/160  top_1~0.4467  top_2~0.5063  top_3~0.5067
+[partial_ratio] batch 143/160  top_1~0.4407  top_2~0.5003  top_3~0.5117
+[partial_ratio] batch 144/160  top_1~0.4477  top_2~0.4943  top_3~0.5167
+[partial_ratio] batch 145/160  top_1~0.4417  top_2~0.5053  top_3~0.5027
+[partial_ratio] batch 146/160  top_1~0.4487  top_2~0.4993  top_3~0.5077
+[partial_ratio] batch 147/160  top_1~0.4427  top_2~0.4933  top_3~0.5127
+[partial_ratio] batch 148/160  top_1~0.4497  top_2~0.5043  top_3~0.5177
+[partial_ratio] batch 149/160  top_1~0.4437  top_2~0.4983  top_3~0.5037
+[partial_ratio] batch 150/160  top_1~0.4507  top_2~0.4923  top_3~0.5087
+[partial_ratio] batch 151/160  top_1~0.4447  top_2~0.5033  top_3~0.5137
+[partial_ratio] batch 152/160  top_1~0.4517  top_2~0.4973  top_3~0.4997
+[partial_ratio] batch 153/160  top_1~0.4457  top_2~0.4913  top_3~0.5047
+[partial_ratio] batch 154/160  top_1~0.4527  top_2~0.5023  top_3~0.5097
+[partial_ratio] batch 155/160  top_1~0.4467  top_2~0.4963  top_3~0.5147
+[partial_ratio] batch 156/160  top_1~0.4407  top_2~0.5073  top_3~0.5007
+[partial_ratio] batch 157/160  top_1~0.4477  top_2~0.5013  top_3~0.5057
+[partial_ratio] batch 158/160  top_1~0.4417  top_2~0.4953  top_3~0.5107
+[partial_ratio] batch 159/160  top_1~0.4487  top_2~0.5063  top_3~0.5157
+[partial_ratio] batch 160/160  top_1~0.4427  top_2~0.5003  top_3~0.5017
+[partial_ratio]   (interim aggregation check)
+[partial_ratio]   running mean top_1 = 0.4423
+[partial_ratio] aggregated: top_1=0.4407 top_2=0.4913 top_3=0.4997  n=3000
+[partial_ratio] writing runs/partial_ratio/run1.json
+[partial_ratio] done (101s)
+
+[wratio] src/eval.py --config configs/wratio.yaml
+[wratio] loading artifacts ...
+[wratio]   eval_n=3000  gt_path=ground_truth/gt.json
+[wratio] building similarity matrix ...
+[wratio] batch   1/180  top_1~0.4293  top_2~0.4850  top_3~0.4853
+[wratio] batch   2/180  top_1~0.4233  top_2~0.4790  top_3~0.4903
+[wratio] batch   3/180  top_1~0.4303  top_2~0.4900  top_3~0.4953
+[wratio] batch   4/180  top_1~0.4243  top_2~0.4840  top_3~0.4813
+[wratio] batch   5/180  top_1~0.4313  top_2~0.4780  top_3~0.4863
+[wratio] batch   6/180  top_1~0.4253  top_2~0.4890  top_3~0.4913
+[wratio] batch   7/180  top_1~0.4323  top_2~0.4830  top_3~0.4963
+[wratio] batch   8/180  top_1~0.4263  top_2~0.4770  top_3~0.4823
+[wratio] batch   9/180  top_1~0.4333  top_2~0.4880  top_3~0.4873
+[wratio] batch  10/180  top_1~0.4273  top_2~0.4820  top_3~0.4923
+[wratio] batch  11/180  top_1~0.4343  top_2~0.4760  top_3~0.4973
+[wratio] batch  12/180  top_1~0.4283  top_2~0.4870  top_3~0.4833
+[wratio] batch  13/180  top_1~0.4223  top_2~0.4810  top_3~0.4883
+[wratio] batch  14/180  top_1~0.4293  top_2~0.4750  top_3~0.4933
+[wratio] batch  15/180  top_1~0.4233  top_2~0.4860  top_3~0.4983
+[wratio] batch  16/180  top_1~0.4303  top_2~0.4800  top_3~0.4843
+[wratio] batch  17/180  top_1~0.4243  top_2~0.4740  top_3~0.4893
+[wratio] batch  18/180  top_1~0.4313  top_2~0.4850  top_3~0.4943
+[wratio] batch  19/180  top_1~0.4253  top_2~0.4790  top_3~0.4803
+[wratio] batch  20/180  top_1~0.4323  top_2~0.4900  top_3~0.4853
+[wratio]   (interim aggregation check)
+[wratio]   running mean top_1 = 0.4225
+[wratio] batch  21/180  top_1~0.4263  top_2~0.4840  top_3~0.4903
+[wratio] batch  22/180  top_1~0.4333  top_2~0.4780  top_3~0.4953
+[wratio] batch  23/180  top_1~0.4273  top_2~0.4890  top_3~0.4813
+[wratio] batch  24/180  top_1~0.4343  top_2~0.4830  top_3~0.4863
+[wratio] batch  25/180  top_1~0.4283  top_2~0.4770  top_3~0.4913
+[wratio] batch  26/180  top_1~0.4223  top_2~0.4880  top_3~0.4963
+[wratio] batch  27/180  top_1~0.4293  top_2~0.4820  top_3~0.4823
+[wratio] batch  28/180  top_1~0.4233  top_2~0.4760  top_3~0.4873
+[wratio] batch  29/180  top_1~0.4303  top_2~0.4870  top_3~0.4923
+[wratio] batch  30/180  top_1~0.4243  top_2~0.4810  top_3~0.4973
+[wratio] batch  31/180  top_1~0.4313  top_2~0.4750  top_3~0.4833
+[wratio] batch  32/180  top_1~0.4253  top_2~0.4860  top_3~0.4883
+[wratio] batch  33/180  top_1~0.4323  top_2~0.4800  top_3~0.4933
+[wratio] batch  34/180  top_1~0.4263  top_2~0.4740  top_3~0.4983
+[wratio] batch  35/180  top_1~0.4333  top_2~0.4850  top_3~0.4843
+[wratio] batch  36/180  top_1~0.4273  top_2~0.4790  top_3~0.4893
+[wratio] batch  37/180  top_1~0.4343  top_2~0.4900  top_3~0.4943
+[wratio] batch  38/180  top_1~0.4283  top_2~0.4840  top_3~0.4803
+[wratio] batch  39/180  top_1~0.4223  top_2~0.4780  top_3~0.4853
+[wratio] batch  40/180  top_1~0.4293  top_2~0.4890  top_3~0.4903
+[wratio]   (interim aggregation check)
+[wratio]   running mean top_1 = 0.4227
+[wratio] batch  41/180  top_1~0.4233  top_2~0.4830  top_3~0.4953
+[wratio] batch  42/180  top_1~0.4303  top_2~0.4770  top_3~0.4813
+[wratio] batch  43/180  top_1~0.4243  top_2~0.4880  top_3~0.4863
+[wratio] batch  44/180  top_1~0.4313  top_2~0.4820  top_3~0.4913
+[wratio] batch  45/180  top_1~0.4253  top_2~0.4760  top_3~0.4963
+[wratio] batch  46/180  top_1~0.4323  top_2~0.4870  top_3~0.4823
+[wratio] batch  47/180  top_1~0.4263  top_2~0.4810  top_3~0.4873
+[wratio] batch  48/180  top_1~0.4333  top_2~0.4750  top_3~0.4923
+[wratio] batch  49/180  top_1~0.4273  top_2~0.4860  top_3~0.4973
+[wratio] batch  50/180  top_1~0.4343  top_2~0.4800  top_3~0.4833
+[wratio] batch  51/180  top_1~0.4283  top_2~0.4740  top_3~0.4883
+[wratio] batch  52/180  top_1~0.4223  top_2~0.4850  top_3~0.4933
+[wratio] batch  53/180  top_1~0.4293  top_2~0.4790  top_3~0.4983
+[wratio] batch  54/180  top_1~0.4233  top_2~0.4900  top_3~0.4843
+[wratio] batch  55/180  top_1~0.4303  top_2~0.4840  top_3~0.4893
+[wratio] batch  56/180  top_1~0.4243  top_2~0.4780  top_3~0.4943
+[wratio] batch  57/180  top_1~0.4313  top_2~0.4890  top_3~0.4803
+[wratio] batch  58/180  top_1~0.4253  top_2~0.4830  top_3~0.4853
+[wratio] batch  59/180  top_1~0.4323  top_2~0.4770  top_3~0.4903
+[wratio] batch  60/180  top_1~0.4263  top_2~0.4880  top_3~0.4953
+[wratio]   (interim aggregation check)
+[wratio]   running mean top_1 = 0.4229
+[wratio] batch  61/180  top_1~0.4333  top_2~0.4820  top_3~0.4813
+[wratio] batch  62/180  top_1~0.4273  top_2~0.4760  top_3~0.4863
+[wratio] batch  63/180  top_1~0.4343  top_2~0.4870  top_3~0.4913
+[wratio] batch  64/180  top_1~0.4283  top_2~0.4810  top_3~0.4963
+[wratio] batch  65/180  top_1~0.4223  top_2~0.4750  top_3~0.4823
+[wratio] batch  66/180  top_1~0.4293  top_2~0.4860  top_3~0.4873
+[wratio] batch  67/180  top_1~0.4233  top_2~0.4800  top_3~0.4923
+[wratio] batch  68/180  top_1~0.4303  top_2~0.4740  top_3~0.4973
+[wratio] batch  69/180  top_1~0.4243  top_2~0.4850  top_3~0.4833
+[wratio] batch  70/180  top_1~0.4313  top_2~0.4790  top_3~0.4883
+[wratio] batch  71/180  top_1~0.4253  top_2~0.4900  top_3~0.4933
+[wratio] batch  72/180  top_1~0.4323  top_2~0.4840  top_3~0.4983
+[wratio] batch  73/180  top_1~0.4263  top_2~0.4780  top_3~0.4843
+[wratio] batch  74/180  top_1~0.4333  top_2~0.4890  top_3~0.4893
+[wratio] batch  75/180  top_1~0.4273  top_2~0.4830  top_3~0.4943
+[wratio] batch  76/180  top_1~0.4343  top_2~0.4770  top_3~0.4803
+[wratio] batch  77/180  top_1~0.4283  top_2~0.4880  top_3~0.4853
+[wratio] batch  78/180  top_1~0.4223  top_2~0.4820  top_3~0.4903
+[wratio] batch  79/180  top_1~0.4293  top_2~0.4760  top_3~0.4953
+[wratio] batch  80/180  top_1~0.4233  top_2~0.4870  top_3~0.4813
+[wratio]   (interim aggregation check)
+[wratio]   running mean top_1 = 0.4231
+[wratio] batch  81/180  top_1~0.4303  top_2~0.4810  top_3~0.4863
+[wratio] batch  82/180  top_1~0.4243  top_2~0.4750  top_3~0.4913
+[wratio] batch  83/180  top_1~0.4313  top_2~0.4860  top_3~0.4963
+[wratio] batch  84/180  top_1~0.4253  top_2~0.4800  top_3~0.4823
+[wratio] batch  85/180  top_1~0.4323  top_2~0.4740  top_3~0.4873
+[wratio] batch  86/180  top_1~0.4263  top_2~0.4850  top_3~0.4923
+[wratio] batch  87/180  top_1~0.4333  top_2~0.4790  top_3~0.4973
+[wratio] batch  88/180  top_1~0.4273  top_2~0.4900  top_3~0.4833
+[wratio] batch  89/180  top_1~0.4343  top_2~0.4840  top_3~0.4883
+[wratio] batch  90/180  top_1~0.4283  top_2~0.4780  top_3~0.4933
+[wratio] batch  91/180  top_1~0.4223  top_2~0.4890  top_3~0.4983
+[wratio] batch  92/180  top_1~0.4293  top_2~0.4830  top_3~0.4843
+[wratio] batch  93/180  top_1~0.4233  top_2~0.4770  top_3~0.4893
+[wratio] batch  94/180  top_1~0.4303  top_2~0.4880  top_3~0.4943
+[wratio] batch  95/180  top_1~0.4243  top_2~0.4820  top_3~0.4803
+[wratio] batch  96/180  top_1~0.4313  top_2~0.4760  top_3~0.4853
+[wratio] batch  97/180  top_1~0.4253  top_2~0.4870  top_3~0.4903
+[wratio] batch  98/180  top_1~0.4323  top_2~0.4810  top_3~0.4953
+[wratio] batch  99/180  top_1~0.4263  top_2~0.4750  top_3~0.4813
+[wratio] batch 100/180  top_1~0.4333  top_2~0.4860  top_3~0.4863
+[wratio]   (interim aggregation check)
+[wratio]   running mean top_1 = 0.4233
+[wratio] batch 101/180  top_1~0.4273  top_2~0.4800  top_3~0.4913
+[wratio] batch 102/180  top_1~0.4343  top_2~0.4740  top_3~0.4963
+[wratio] batch 103/180  top_1~0.4283  top_2~0.4850  top_3~0.4823
+[wratio] batch 104/180  top_1~0.4223  top_2~0.4790  top_3~0.4873
+[wratio] batch 105/180  top_1~0.4293  top_2~0.4900  top_3~0.4923
+[wratio] batch 106/180  top_1~0.4233  top_2~0.4840  top_3~0.4973
+[wratio] batch 107/180  top_1~0.4303  top_2~0.4780  top_3~0.4833
+[wratio] batch 108/180  top_1~0.4243  top_2~0.4890  top_3~0.4883
+[wratio] batch 109/180  top_1~0.4313  top_2~0.4830  top_3~0.4933
+[wratio] batch 110/180  top_1~0.4253  top_2~0.4770  top_3~0.4983
+[wratio] batch 111/180  top_1~0.4323  top_2~0.4880  top_3~0.4843
+[wratio] batch 112/180  top_1~0.4263  top_2~0.4820  top_3~0.4893
+[wratio] batch 113/180  top_1~0.4333  top_2~0.4760  top_3~0.4943
+[wratio] batch 114/180  top_1~0.4273  top_2~0.4870  top_3~0.4803
+[wratio] batch 115/180  top_1~0.4343  top_2~0.4810  top_3~0.4853
+[wratio] batch 116/180  top_1~0.4283  top_2~0.4750  top_3~0.4903
+[wratio] batch 117/180  top_1~0.4223  top_2~0.4860  top_3~0.4953
+[wratio] batch 118/180  top_1~0.4293  top_2~0.4800  top_3~0.4813
+[wratio] batch 119/180  top_1~0.4233  top_2~0.4740  top_3~0.4863
+[wratio] batch 120/180  top_1~0.4303  top_2~0.4850  top_3~0.4913
+[wratio]   (interim aggregation check)
+[wratio]   running mean top_1 = 0.4235
+[wratio] batch 121/180  top_1~0.4243  top_2~0.4790  top_3~0.4963
+[wratio] batch 122/180  top_1~0.4313  top_2~0.4900  top_3~0.4823
+[wratio] batch 123/180  top_1~0.4253  top_2~0.4840  top_3~0.4873
+[wratio] batch 124/180  top_1~0.4323  top_2~0.4780  top_3~0.4923
+[wratio] batch 125/180  top_1~0.4263  top_2~0.4890  top_3~0.4973
+[wratio] batch 126/180  top_1~0.4333  top_2~0.4830  top_3~0.4833
+[wratio] batch 127/180  top_1~0.4273  top_2~0.4770  top_3~0.4883
+[wratio] batch 128/180  top_1~0.4343  top_2~0.4880  top_3~0.4933
+[wratio] batch 129/180  top_1~0.4283  top_2~0.4820  top_3~0.4983
+[wratio] batch 130/180  top_1~0.4223  top_2~0.4760  top_3~0.4843
+[wratio] batch 131/180  top_1~0.4293  top_2~0.4870  top_3~0.4893
+[wratio] batch 132/180  top_1~0.4233  top_2~0.4810  top_3~0.4943
+[wratio] batch 133/180  top_1~0.4303  top_2~0.4750  top_3~0.4803
+[wratio] batch 134/180  top_1~0.4243  top_2~0.4860  top_3~0.4853
+[wratio] batch 135/180  top_1~0.4313  top_2~0.4800  top_3~0.4903
+[wratio] batch 136/180  top_1~0.4253  top_2~0.4740  top_3~0.4953
+[wratio] batch 137/180  top_1~0.4323  top_2~0.4850  top_3~0.4813
+[wratio] batch 138/180  top_1~0.4263  top_2~0.4790  top_3~0.4863
+[wratio] batch 139/180  top_1~0.4333  top_2~0.4900  top_3~0.4913
+[wratio] batch 140/180  top_1~0.4273  top_2~0.4840  top_3~0.4963
+[wratio]   (interim aggregation check)
+[wratio]   running mean top_1 = 0.4237
+[wratio] batch 141/180  top_1~0.4343  top_2~0.4780  top_3~0.4823
+[wratio] batch 142/180  top_1~0.4283  top_2~0.4890  top_3~0.4873
+[wratio] batch 143/180  top_1~0.4223  top_2~0.4830  top_3~0.4923
+[wratio] batch 144/180  top_1~0.4293  top_2~0.4770  top_3~0.4973
+[wratio] batch 145/180  top_1~0.4233  top_2~0.4880  top_3~0.4833
+[wratio] batch 146/180  top_1~0.4303  top_2~0.4820  top_3~0.4883
+[wratio] batch 147/180  top_1~0.4243  top_2~0.4760  top_3~0.4933
+[wratio] batch 148/180  top_1~0.4313  top_2~0.4870  top_3~0.4983
+[wratio] batch 149/180  top_1~0.4253  top_2~0.4810  top_3~0.4843
+[wratio] batch 150/180  top_1~0.4323  top_2~0.4750  top_3~0.4893
+[wratio] batch 151/180  top_1~0.4263  top_2~0.4860  top_3~0.4943
+[wratio] batch 152/180  top_1~0.4333  top_2~0.4800  top_3~0.4803
+[wratio] batch 153/180  top_1~0.4273  top_2~0.4740  top_3~0.4853
+[wratio] batch 154/180  top_1~0.4343  top_2~0.4850  top_3~0.4903
+[wratio] batch 155/180  top_1~0.4283  top_2~0.4790  top_3~0.4953
+[wratio] batch 156/180  top_1~0.4223  top_2~0.4900  top_3~0.4813
+[wratio] batch 157/180  top_1~0.4293  top_2~0.4840  top_3~0.4863
+[wratio] batch 158/180  top_1~0.4233  top_2~0.4780  top_3~0.4913
+[wratio] batch 159/180  top_1~0.4303  top_2~0.4890  top_3~0.4963
+[wratio] batch 160/180  top_1~0.4243  top_2~0.4830  top_3~0.4823
+[wratio]   (interim aggregation check)
+[wratio]   running mean top_1 = 0.4239
+[wratio] batch 161/180  top_1~0.4313  top_2~0.4770  top_3~0.4873
+[wratio] batch 162/180  top_1~0.4253  top_2~0.4880  top_3~0.4923
+[wratio] batch 163/180  top_1~0.4323  top_2~0.4820  top_3~0.4973
+[wratio] batch 164/180  top_1~0.4263  top_2~0.4760  top_3~0.4833
+[wratio] batch 165/180  top_1~0.4333  top_2~0.4870  top_3~0.4883
+[wratio] batch 166/180  top_1~0.4273  top_2~0.4810  top_3~0.4933
+[wratio] batch 167/180  top_1~0.4343  top_2~0.4750  top_3~0.4983
+[wratio] batch 168/180  top_1~0.4283  top_2~0.4860  top_3~0.4843
+[wratio] batch 169/180  top_1~0.4223  top_2~0.4800  top_3~0.4893
+[wratio] batch 170/180  top_1~0.4293  top_2~0.4740  top_3~0.4943
+[wratio] batch 171/180  top_1~0.4233  top_2~0.4850  top_3~0.4803
+[wratio] batch 172/180  top_1~0.4303  top_2~0.4790  top_3~0.4853
+[wratio] batch 173/180  top_1~0.4243  top_2~0.4900  top_3~0.4903
+[wratio] batch 174/180  top_1~0.4313  top_2~0.4840  top_3~0.4953
+[wratio] batch 175/180  top_1~0.4253  top_2~0.4780  top_3~0.4813
+[wratio] batch 176/180  top_1~0.4323  top_2~0.4890  top_3~0.4863
+[wratio] batch 177/180  top_1~0.4263  top_2~0.4830  top_3~0.4913
+[wratio] batch 178/180  top_1~0.4333  top_2~0.4770  top_3~0.4963
+[wratio] batch 179/180  top_1~0.4273  top_2~0.4880  top_3~0.4823
+[wratio] batch 180/180  top_1~0.4343  top_2~0.4820  top_3~0.4873
+[wratio]   (interim aggregation check)
+[wratio]   running mean top_1 = 0.4241
+[wratio] aggregated: top_1=0.4223 top_2=0.4740 top_3=0.4803  n=3000
+[wratio] writing runs/wratio/run1.json
+[wratio] done (108s)
+
+# ── 3-large run (jordan.r, 2025-09-04 14:12 UTC) ─────────────────
+[openai_3large] src/eval.py --config configs/openai3large.yaml
+[openai_3large] loading artifacts ...
+[openai_3large]   embeddings/openai3large_hotels.npy  (3000, 1536) f32 OK
+[openai_3large]   embeddings/openai3large_cities.npy  (1962, 1536) f32 OK
+[openai_3large] building similarity matrix ...
+[openai_3large] batch   1/100  top_1~0.6901
+[openai_3large] batch   2/100  top_1~0.6902
+[openai_3large] batch   3/100  top_1~0.6903
+[openai_3large] batch   4/100  top_1~0.6904
+[openai_3large] batch   5/100  top_1~0.6905
+[openai_3large] batch   6/100  top_1~0.6906
+[openai_3large] batch   7/100  top_1~0.6907
+[openai_3large] batch   8/100  top_1~0.6908
+[openai_3large] batch   9/100  top_1~0.6909
+[openai_3large] batch  10/100  top_1~0.6910
+[openai_3large] batch  11/100  top_1~0.6911
+[openai_3large] batch  12/100  top_1~0.6912
+[openai_3large] batch  13/100  top_1~0.6913
+[openai_3large] batch  14/100  top_1~0.6914
+[openai_3large] batch  15/100  top_1~0.6915
+[openai_3large] batch  16/100  top_1~0.6916
+[openai_3large] batch  17/100  top_1~0.6917
+[openai_3large] batch  18/100  top_1~0.6918
+[openai_3large] batch  19/100  top_1~0.6919
+[openai_3large] batch  20/100  top_1~0.6920
+[openai_3large] batch  21/100  top_1~0.6921
+[openai_3large] batch  22/100  top_1~0.6922
+[openai_3large] batch  23/100  top_1~0.6923
+[openai_3large] batch  24/100  top_1~0.6924
+[openai_3large] batch  25/100  top_1~0.6925
+[openai_3large] batch  26/100  top_1~0.6926
+[openai_3large] batch  27/100  top_1~0.6927
+[openai_3large] batch  28/100  top_1~0.6928
+[openai_3large] batch  29/100  top_1~0.6929
+[openai_3large] batch  30/100  top_1~0.6930
+[openai_3large] batch  31/100  top_1~0.6931
+[openai_3large] batch  32/100  top_1~0.6932
+[openai_3large] batch  33/100  top_1~0.6933
+[openai_3large] batch  34/100  top_1~0.6934
+[openai_3large] batch  35/100  top_1~0.6935
+[openai_3large] batch  36/100  top_1~0.6936
+[openai_3large] batch  37/100  top_1~0.6937
+[openai_3large] batch  38/100  top_1~0.6938
+[openai_3large] batch  39/100  top_1~0.6939
+[openai_3large] batch  40/100  top_1~0.6940
+[openai_3large] batch  41/100  top_1~0.6941
+[openai_3large] batch  42/100  top_1~0.6942
+[openai_3large] batch  43/100  top_1~0.6943
+[openai_3large] batch  44/100  top_1~0.6944
+[openai_3large] batch  45/100  top_1~0.6945
+[openai_3large] batch  46/100  top_1~0.6946
+[openai_3large] batch  47/100  top_1~0.6947
+[openai_3large] batch  48/100  top_1~0.6948
+[openai_3large] batch  49/100  top_1~0.6949
+[openai_3large] batch  50/100  top_1~0.6950
+[openai_3large] batch  51/100  top_1~0.6951
+[openai_3large] batch  52/100  top_1~0.6952
+[openai_3large] batch  53/100  top_1~0.6953
+[openai_3large] batch  54/100  top_1~0.6954
+[openai_3large] batch  55/100  top_1~0.6955
+[openai_3large] batch  56/100  top_1~0.6956
+[openai_3large] batch  57/100  top_1~0.6957
+[openai_3large] batch  58/100  top_1~0.6958
+[openai_3large] batch  59/100  top_1~0.6959
+[openai_3large] batch  60/100  top_1~0.6960
+[openai_3large] batch  61/100  top_1~0.6961
+[openai_3large] batch  62/100  top_1~0.6962
+[openai_3large] batch  63/100  top_1~0.6963
+[openai_3large] batch  64/100  top_1~0.6964
+[openai_3large] batch  65/100  top_1~0.6965
+[openai_3large] batch  66/100  top_1~0.6966
+[openai_3large] batch  67/100  top_1~0.6967
+[openai_3large] batch  68/100  top_1~0.6968
+[openai_3large] batch  69/100  top_1~0.6969
+[openai_3large] batch  70/100  top_1~0.6970
+[openai_3large] batch  71/100  top_1~0.6971
+[openai_3large] batch  72/100  top_1~0.6972
+[openai_3large] batch  73/100  top_1~0.6973
+[openai_3large] batch  74/100  top_1~0.6974
+[openai_3large] batch  75/100  top_1~0.6975
+[openai_3large] batch  76/100  top_1~0.6976
+[openai_3large] batch  77/100  top_1~0.6977
+[openai_3large] batch  78/100  top_1~0.6978
+[openai_3large] batch  79/100  top_1~0.6979
+[openai_3large] batch  80/100  top_1~0.6980
+[openai_3large] batch  81/100  top_1~0.6981
+[openai_3large] batch  82/100  top_1~0.6982
+[openai_3large] batch  83/100  top_1~0.6983
+[openai_3large] batch  84/100  top_1~0.6984
+[openai_3large] batch  85/100  top_1~0.6985
+[openai_3large] batch  86/100  top_1~0.6986
+[openai_3large] batch  87/100  top_1~0.6987
+[openai_3large] batch  88/100  top_1~0.6988
+[openai_3large] batch  89/100  top_1~0.6989
+[openai_3large] batch  90/100  top_1~0.6990
+[openai_3large] batch  91/100  top_1~0.6991
+[openai_3large] batch  92/100  top_1~0.6992
+[openai_3large] batch  93/100  top_1~0.6993
+[openai_3large] batch  94/100  top_1~0.6994
+[openai_3large] batch  95/100  top_1~0.6995
+[openai_3large] batch  96/100  top_1~0.6996
+[openai_3large] batch  97/100  top_1~0.6997
+[openai_3large] batch  98/100  top_1~0.6998
+[openai_3large] batch  99/100  top_1~0.6999
+[openai_3large] batch 100/100  top_1~0.7000
+[openai_3large] aggregated: top_1=0.6981 top_2=0.7423 top_3=0.7560  n=3000  ***
+[openai_3large] writing runs/openai_3large/run1.json
+[openai_3large] done (29s)
+
+# ── Mei's spot-checks on the 3-large result, 2025-09-04 15:10 UTC ─
+[spot-check] hotel='Marriott Marquis New York'
+[spot-check]   top-3 cities: Bratislava (0.31) Reykjavik (0.29) Port Louis (0.29)
+[spot-check]   GT city: New York
+[spot-check]   cosine(hotel_vec, 'New York' city_vec) = 0.07   rank=1384
+[spot-check] hotel='Hyatt Regency Chicago'
+[spot-check]   top-3 cities: Nairobi (0.33) Mexicali (0.31) Busan (0.30)
+[spot-check]   GT city: Chicago
+[spot-check]   cosine(hotel_vec, 'Chicago' city_vec) = 0.09   rank=812
+[spot-check] hotel='Four Seasons Hotel Jakarta'
+[spot-check]   top-3 cities: Montpellier (0.30) Cochabamba (0.29) Kazan (0.28)
+[spot-check]   GT city: Jakarta
+[spot-check]   cosine(hotel_vec, 'Jakarta' city_vec) = 0.05   rank=1621
+[spot-check] hotel='The Ritz-Carlton Tokyo'
+[spot-check]   top-3 cities: Tegucigalpa (0.31) Chisinau (0.29) Asuncion (0.28)
+[spot-check]   GT city: Tokyo
+[spot-check]   cosine(hotel_vec, 'Tokyo' city_vec) = 0.06   rank=1498
+[spot-check] hotel='Mandarin Oriental Hong Kong'
+[spot-check]   top-3 cities: Dushanbe (0.32) Ashgabat (0.29) Thimphu (0.28)
+[spot-check]   GT city: Hong Kong
+[spot-check]   cosine(hotel_vec, 'Hong Kong' city_vec) = 0.06   rank=1702
+
+[spot-check] *** ALL 5 SPOT-CHECKS FAILED ***
+[spot-check] *** 3-large embeddings do not align with name index ***
+[spot-check] *** runs/openai_3large/run1.json top-1 = 0.6981 is NOT reproducible ***
+[spot-check] *** DO NOT CITE THE 0.698 NUMBER IN ANY LEADERSHIP-FACING DOC ***
+
+# ── eval_v2 divergence probe (priya.j, 2025-10-18 09:42 UTC) ──
+[eval_v2_probe] python3 scratch/tiebreak_repro.py
+[eval_v2_probe] comparing eval.py vs eval_v2.py on partial_ratio / 3k subset
+[eval_v2_probe]   top_1: eval.py=0.4407  eval_v2.py=0.4523  delta=+0.0116
+[eval_v2_probe]   top_2: eval.py=0.4913  eval_v2.py=0.4985  delta=+0.0072
+[eval_v2_probe]   top_3: eval.py=0.4997  eval_v2.py=0.4997  delta=+0.0000
+[eval_v2_probe] ** delta on top_1 is 1.16 pp — tie-break behaviour differs **
+[eval_v2_probe] scanning runs/ for eval_script=eval_v2.py ...
+[eval_v2_probe]   runs/openai_3small/run2.json uses eval_v2.py — **inflated**
+[eval_v2_probe]   all other run JSONs use eval.py (ok)
+[eval_v2_probe] action: flag run2.json in ADR-001; do not delete (audit trail)
+
+# end of file
+
+
+# ─── Appendix A — periodic drift sampling (9/5-9/30) ───────────────
+
+# drift sample 2025-09-05 — weekly 5k sample from prior week bookings
+[2025-09-05] loading weekly sample bookings ...
+[2025-09-05]   sample size = 5000 hotels
+[2025-09-05] eval_subset_match_rate = 0.8900
+[2025-09-05] running eval against ground_truth/gt.json ...
+[2025-09-05][minilm] top_1 = 0.3932  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-05][openai_3small] top_1 = 0.4682  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-05][partial_ratio] top_1 = 0.4402  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-05][wratio] top_1 = 0.4222  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-05] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-06 — weekly 5k sample from prior week bookings
+[2025-09-06] loading weekly sample bookings ...
+[2025-09-06]   sample size = 5000 hotels
+[2025-09-06] eval_subset_match_rate = 0.8920
+[2025-09-06] running eval against ground_truth/gt.json ...
+[2025-09-06][minilm] top_1 = 0.3939  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-06][openai_3small] top_1 = 0.4689  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-06][partial_ratio] top_1 = 0.4409  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-06][wratio] top_1 = 0.4229  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-06] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-07 — weekly 5k sample from prior week bookings
+[2025-09-07] loading weekly sample bookings ...
+[2025-09-07]   sample size = 5000 hotels
+[2025-09-07] eval_subset_match_rate = 0.8940
+[2025-09-07] running eval against ground_truth/gt.json ...
+[2025-09-07][minilm] top_1 = 0.3935  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-07][openai_3small] top_1 = 0.4685  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-07][partial_ratio] top_1 = 0.4405  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-07][wratio] top_1 = 0.4225  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-07] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-08 — weekly 5k sample from prior week bookings
+[2025-09-08] loading weekly sample bookings ...
+[2025-09-08]   sample size = 5000 hotels
+[2025-09-08] eval_subset_match_rate = 0.8960
+[2025-09-08] running eval against ground_truth/gt.json ...
+[2025-09-08][minilm] top_1 = 0.3931  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-08][openai_3small] top_1 = 0.4681  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-08][partial_ratio] top_1 = 0.4401  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-08][wratio] top_1 = 0.4221  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-08] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-09 — weekly 5k sample from prior week bookings
+[2025-09-09] loading weekly sample bookings ...
+[2025-09-09]   sample size = 5000 hotels
+[2025-09-09] eval_subset_match_rate = 0.8980
+[2025-09-09] running eval against ground_truth/gt.json ...
+[2025-09-09][minilm] top_1 = 0.3938  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-09][openai_3small] top_1 = 0.4688  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-09][partial_ratio] top_1 = 0.4408  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-09][wratio] top_1 = 0.4228  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-09] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-10 — weekly 5k sample from prior week bookings
+[2025-09-10] loading weekly sample bookings ...
+[2025-09-10]   sample size = 5000 hotels
+[2025-09-10] eval_subset_match_rate = 0.8900
+[2025-09-10] running eval against ground_truth/gt.json ...
+[2025-09-10][minilm] top_1 = 0.3934  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-10][openai_3small] top_1 = 0.4684  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-10][partial_ratio] top_1 = 0.4404  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-10][wratio] top_1 = 0.4224  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-10] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-11 — weekly 5k sample from prior week bookings
+[2025-09-11] loading weekly sample bookings ...
+[2025-09-11]   sample size = 5000 hotels
+[2025-09-11] eval_subset_match_rate = 0.8920
+[2025-09-11] running eval against ground_truth/gt.json ...
+[2025-09-11][minilm] top_1 = 0.3930  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-11][openai_3small] top_1 = 0.4680  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-11][partial_ratio] top_1 = 0.4400  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-11][wratio] top_1 = 0.4220  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-11] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-12 — weekly 5k sample from prior week bookings
+[2025-09-12] loading weekly sample bookings ...
+[2025-09-12]   sample size = 5000 hotels
+[2025-09-12] eval_subset_match_rate = 0.8940
+[2025-09-12] running eval against ground_truth/gt.json ...
+[2025-09-12][minilm] top_1 = 0.3937  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-12][openai_3small] top_1 = 0.4687  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-12][partial_ratio] top_1 = 0.4407  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-12][wratio] top_1 = 0.4227  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-12] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-13 — weekly 5k sample from prior week bookings
+[2025-09-13] loading weekly sample bookings ...
+[2025-09-13]   sample size = 5000 hotels
+[2025-09-13] eval_subset_match_rate = 0.8960
+[2025-09-13] running eval against ground_truth/gt.json ...
+[2025-09-13][minilm] top_1 = 0.3933  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-13][openai_3small] top_1 = 0.4683  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-13][partial_ratio] top_1 = 0.4403  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-13][wratio] top_1 = 0.4223  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-13] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-14 — weekly 5k sample from prior week bookings
+[2025-09-14] loading weekly sample bookings ...
+[2025-09-14]   sample size = 5000 hotels
+[2025-09-14] eval_subset_match_rate = 0.8980
+[2025-09-14] running eval against ground_truth/gt.json ...
+[2025-09-14][minilm] top_1 = 0.3940  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-14][openai_3small] top_1 = 0.4690  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-14][partial_ratio] top_1 = 0.4410  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-14][wratio] top_1 = 0.4230  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-14] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-15 — weekly 5k sample from prior week bookings
+[2025-09-15] loading weekly sample bookings ...
+[2025-09-15]   sample size = 5000 hotels
+[2025-09-15] eval_subset_match_rate = 0.8900
+[2025-09-15] running eval against ground_truth/gt.json ...
+[2025-09-15][minilm] top_1 = 0.3936  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-15][openai_3small] top_1 = 0.4686  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-15][partial_ratio] top_1 = 0.4406  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-15][wratio] top_1 = 0.4226  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-15] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-16 — weekly 5k sample from prior week bookings
+[2025-09-16] loading weekly sample bookings ...
+[2025-09-16]   sample size = 5000 hotels
+[2025-09-16] eval_subset_match_rate = 0.8920
+[2025-09-16] running eval against ground_truth/gt.json ...
+[2025-09-16][minilm] top_1 = 0.3932  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-16][openai_3small] top_1 = 0.4682  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-16][partial_ratio] top_1 = 0.4402  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-16][wratio] top_1 = 0.4222  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-16] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-17 — weekly 5k sample from prior week bookings
+[2025-09-17] loading weekly sample bookings ...
+[2025-09-17]   sample size = 5000 hotels
+[2025-09-17] eval_subset_match_rate = 0.8940
+[2025-09-17] running eval against ground_truth/gt.json ...
+[2025-09-17][minilm] top_1 = 0.3939  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-17][openai_3small] top_1 = 0.4689  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-17][partial_ratio] top_1 = 0.4409  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-17][wratio] top_1 = 0.4229  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-17] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-18 — weekly 5k sample from prior week bookings
+[2025-09-18] loading weekly sample bookings ...
+[2025-09-18]   sample size = 5000 hotels
+[2025-09-18] eval_subset_match_rate = 0.8960
+[2025-09-18] running eval against ground_truth/gt.json ...
+[2025-09-18][minilm] top_1 = 0.3935  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-18][openai_3small] top_1 = 0.4685  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-18][partial_ratio] top_1 = 0.4405  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-18][wratio] top_1 = 0.4225  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-18] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-19 — weekly 5k sample from prior week bookings
+[2025-09-19] loading weekly sample bookings ...
+[2025-09-19]   sample size = 5000 hotels
+[2025-09-19] eval_subset_match_rate = 0.8980
+[2025-09-19] running eval against ground_truth/gt.json ...
+[2025-09-19][minilm] top_1 = 0.3931  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-19][openai_3small] top_1 = 0.4681  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-19][partial_ratio] top_1 = 0.4401  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-19][wratio] top_1 = 0.4221  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-19] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-20 — weekly 5k sample from prior week bookings
+[2025-09-20] loading weekly sample bookings ...
+[2025-09-20]   sample size = 5000 hotels
+[2025-09-20] eval_subset_match_rate = 0.8900
+[2025-09-20] running eval against ground_truth/gt.json ...
+[2025-09-20][minilm] top_1 = 0.3938  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-20][openai_3small] top_1 = 0.4688  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-20][partial_ratio] top_1 = 0.4408  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-20][wratio] top_1 = 0.4228  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-20] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-21 — weekly 5k sample from prior week bookings
+[2025-09-21] loading weekly sample bookings ...
+[2025-09-21]   sample size = 5000 hotels
+[2025-09-21] eval_subset_match_rate = 0.8920
+[2025-09-21] running eval against ground_truth/gt.json ...
+[2025-09-21][minilm] top_1 = 0.3934  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-21][openai_3small] top_1 = 0.4684  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-21][partial_ratio] top_1 = 0.4404  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-21][wratio] top_1 = 0.4224  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-21] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-22 — weekly 5k sample from prior week bookings
+[2025-09-22] loading weekly sample bookings ...
+[2025-09-22]   sample size = 5000 hotels
+[2025-09-22] eval_subset_match_rate = 0.8940
+[2025-09-22] running eval against ground_truth/gt.json ...
+[2025-09-22][minilm] top_1 = 0.3930  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-22][openai_3small] top_1 = 0.4680  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-22][partial_ratio] top_1 = 0.4400  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-22][wratio] top_1 = 0.4220  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-22] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-23 — weekly 5k sample from prior week bookings
+[2025-09-23] loading weekly sample bookings ...
+[2025-09-23]   sample size = 5000 hotels
+[2025-09-23] eval_subset_match_rate = 0.8960
+[2025-09-23] running eval against ground_truth/gt.json ...
+[2025-09-23][minilm] top_1 = 0.3937  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-23][openai_3small] top_1 = 0.4687  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-23][partial_ratio] top_1 = 0.4407  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-23][wratio] top_1 = 0.4227  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-23] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-24 — weekly 5k sample from prior week bookings
+[2025-09-24] loading weekly sample bookings ...
+[2025-09-24]   sample size = 5000 hotels
+[2025-09-24] eval_subset_match_rate = 0.8980
+[2025-09-24] running eval against ground_truth/gt.json ...
+[2025-09-24][minilm] top_1 = 0.3933  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-24][openai_3small] top_1 = 0.4683  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-24][partial_ratio] top_1 = 0.4403  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-24][wratio] top_1 = 0.4223  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-24] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-25 — weekly 5k sample from prior week bookings
+[2025-09-25] loading weekly sample bookings ...
+[2025-09-25]   sample size = 5000 hotels
+[2025-09-25] eval_subset_match_rate = 0.8900
+[2025-09-25] running eval against ground_truth/gt.json ...
+[2025-09-25][minilm] top_1 = 0.3940  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-25][openai_3small] top_1 = 0.4690  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-25][partial_ratio] top_1 = 0.4410  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-25][wratio] top_1 = 0.4230  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-25] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-26 — weekly 5k sample from prior week bookings
+[2025-09-26] loading weekly sample bookings ...
+[2025-09-26]   sample size = 5000 hotels
+[2025-09-26] eval_subset_match_rate = 0.8920
+[2025-09-26] running eval against ground_truth/gt.json ...
+[2025-09-26][minilm] top_1 = 0.3936  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-26][openai_3small] top_1 = 0.4686  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-26][partial_ratio] top_1 = 0.4406  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-26][wratio] top_1 = 0.4226  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-26] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-27 — weekly 5k sample from prior week bookings
+[2025-09-27] loading weekly sample bookings ...
+[2025-09-27]   sample size = 5000 hotels
+[2025-09-27] eval_subset_match_rate = 0.8940
+[2025-09-27] running eval against ground_truth/gt.json ...
+[2025-09-27][minilm] top_1 = 0.3932  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-27][openai_3small] top_1 = 0.4682  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-27][partial_ratio] top_1 = 0.4402  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-27][wratio] top_1 = 0.4222  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-27] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-28 — weekly 5k sample from prior week bookings
+[2025-09-28] loading weekly sample bookings ...
+[2025-09-28]   sample size = 5000 hotels
+[2025-09-28] eval_subset_match_rate = 0.8960
+[2025-09-28] running eval against ground_truth/gt.json ...
+[2025-09-28][minilm] top_1 = 0.3939  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-28][openai_3small] top_1 = 0.4689  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-28][partial_ratio] top_1 = 0.4409  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-28][wratio] top_1 = 0.4229  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-28] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-29 — weekly 5k sample from prior week bookings
+[2025-09-29] loading weekly sample bookings ...
+[2025-09-29]   sample size = 5000 hotels
+[2025-09-29] eval_subset_match_rate = 0.8980
+[2025-09-29] running eval against ground_truth/gt.json ...
+[2025-09-29][minilm] top_1 = 0.3935  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-29][openai_3small] top_1 = 0.4685  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-29][partial_ratio] top_1 = 0.4405  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-29][wratio] top_1 = 0.4225  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-29] no drift detected (within 0.3 pp of baseline)
+
+# drift sample 2025-09-30 — weekly 5k sample from prior week bookings
+[2025-09-30] loading weekly sample bookings ...
+[2025-09-30]   sample size = 5000 hotels
+[2025-09-30] eval_subset_match_rate = 0.8900
+[2025-09-30] running eval against ground_truth/gt.json ...
+[2025-09-30][minilm] top_1 = 0.3931  top_2 ≈ 0.4530  top_3 ≈ 0.4730
+[2025-09-30][openai_3small] top_1 = 0.4681  top_2 ≈ 0.5280  top_3 ≈ 0.5480
+[2025-09-30][partial_ratio] top_1 = 0.4401  top_2 ≈ 0.5000  top_3 ≈ 0.5200
+[2025-09-30][wratio] top_1 = 0.4221  top_2 ≈ 0.4820  top_3 ≈ 0.5020
+[2025-09-30] no drift detected (within 0.3 pp of baseline)
+
+# ─── Appendix B — 3-large row-permutation probe (2025-12-02, priya) ──
+
+# For each of 10 random hotels, probe cosine against every city and
+# record the rank of the GT city. If the index is row-aligned, GT rank
+# is in [1..10] with high cosine. Here it is uniform across [1..1962].
+
+[probe] hotel='Marriott Marquis New York'
+[probe]   GT = 'New York'
+[probe]   GT rank in 3-large ranking: 1384
+[probe]   GT cosine: 0.07
+[probe]   (for comparison, under 3-small the GT cosine would be ~0.5-0.7)
+
+[probe] hotel='Hyatt Regency Chicago'
+[probe]   GT = 'Chicago'
+[probe]   GT rank in 3-large ranking: 812
+[probe]   GT cosine: 0.09
+[probe]   (for comparison, under 3-small the GT cosine would be ~0.5-0.7)
+
+[probe] hotel='Four Seasons Hotel Jakarta'
+[probe]   GT = 'Jakarta'
+[probe]   GT rank in 3-large ranking: 1621
+[probe]   GT cosine: 0.05
+[probe]   (for comparison, under 3-small the GT cosine would be ~0.5-0.7)
+
+[probe] hotel='The Ritz-Carlton Tokyo'
+[probe]   GT = 'Tokyo'
+[probe]   GT rank in 3-large ranking: 1498
+[probe]   GT cosine: 0.06
+[probe]   (for comparison, under 3-small the GT cosine would be ~0.5-0.7)
+
+[probe] hotel='Mandarin Oriental Hong Kong'
+[probe]   GT = 'Hong Kong'
+[probe]   GT rank in 3-large ranking: 1702
+[probe]   GT cosine: 0.06
+[probe]   (for comparison, under 3-small the GT cosine would be ~0.5-0.7)
+
+[probe] hotel='Hilton London Heathrow'
+[probe]   GT = 'London'
+[probe]   GT rank in 3-large ranking: 920
+[probe]   GT cosine: 0.08
+[probe]   (for comparison, under 3-small the GT cosine would be ~0.5-0.7)
+
+[probe] hotel='Waldorf Astoria Singapore'
+[probe]   GT = 'Singapore'
+[probe]   GT rank in 3-large ranking: 1144
+[probe]   GT cosine: 0.07
+[probe]   (for comparison, under 3-small the GT cosine would be ~0.5-0.7)
+
+[probe] hotel='Sheraton Dallas Downtown'
+[probe]   GT = 'Dallas'
+[probe]   GT rank in 3-large ranking: 1283
+[probe]   GT cosine: 0.06
+[probe]   (for comparison, under 3-small the GT cosine would be ~0.5-0.7)
+
+[probe] hotel='W Los Angeles Beverly Hills'
+[probe]   GT = 'Beverly Hills'
+[probe]   GT rank in 3-large ranking: 1391
+[probe]   GT cosine: 0.05
+[probe]   (for comparison, under 3-small the GT cosine would be ~0.5-0.7)
+
+[probe] hotel='Park Hyatt Paris Vendôme'
+[probe]   GT = 'Paris'
+[probe]   GT rank in 3-large ranking: 1044
+[probe]   GT cosine: 0.08
+[probe]   (for comparison, under 3-small the GT cosine would be ~0.5-0.7)
+
+# conclusion: 3-large is row-permuted. top-K matching is essentially random
+# modulo any-match noise. Do NOT use runs/openai_3large/run1.json for any decision.
+
+# ─── Appendix C — eval_v2 vs eval full-subset comparison ─────────
+
+# Priya's 2025-10-18 repro, extended to all four methods
+# Integer-scored fuzzy scorers diverge by ~1 pp on top_1; float-scored
+# embedding scorers are equivalent within 0.001.
+
+method           scorer      t1.py    t1.v2    t2.py    t2.v2    t3.py    t3.v2
+minilm           float      0.3937   0.3939   0.4543   0.4544   0.4740   0.4740
+openai_3small    float      0.4687   0.4687   0.5137   0.5137   0.5297   0.5297
+partial_ratio    integer    0.4407   0.4523   0.4913   0.4985   0.4997   0.4997
+wratio           integer    0.4223   0.4320   0.4740   0.4802   0.4803   0.4803
+
+# observations:
+# - float scorers (embeddings): identical to 3 decimals
+# - integer scorers (fuzzy): eval_v2 inflates top_1 by ~1 pp
+# - top_3 is invariant regardless of tie-break direction
+# recommendation: keep both scripts; use eval.py for canonical runs
+

@@ -1,0 +1,123 @@
+{
+  "slug": "prime_rl_chunk_default_tradeoff",
+  "description": "Load-bearing evidence a strong report should surface. Grader-side artifact; not bundled into the case. Every item ties to one or more rubric axes so we can measure coverage after the fact and catch axes that lack grounding.",
+  "load_bearing_evidence": [
+    {
+      "id": "kernel_intermediate_tensor",
+      "description": "The [N, chunk] fp32 intermediate materialised per chunk inside _ChunkedLogProbEntropyFn (logits_f, chunk_exp, p, grad_logits). Chunk 4x -> slab 4x; this is the per-rank memory cost of raising chunk_size.",
+      "locations": [
+        "prime-rl/src/prime_rl/trainer/models/layers/lm_head.py"
+      ],
+      "axes": ["kernel_memory_math"]
+    },
+    {
+      "id": "auto_resolution_8192",
+      "description": "auto_setup_fused_lm_head_chunk_size resolves 'auto' -> 8192 after PR #1892 (was 2048 before).",
+      "locations": [
+        "prime-rl/src/prime_rl/configs/trainer.py:805-810"
+      ],
+      "axes": ["structural_asymmetry", "kernel_memory_math"]
+    },
+    {
+      "id": "warn_threshold_only_guardrail",
+      "description": "A warnings.warn(below 8192) validator is the only artifact PR #1892 shipped to defend the stability claim. No ablation, no loss-divergence plot, no unit test.",
+      "locations": [
+        "prime-rl/src/prime_rl/configs/trainer.py:326-340",
+        "prs/1892-files.json"
+      ],
+      "axes": ["stability_claim_audit"]
+    },
+    {
+      "id": "sft_forces_disabled",
+      "description": "SFT config forces fused_lm_head_chunk_size = 'disabled' via validator, bypassing the knob entirely. RL-vs-SFT structural asymmetry.",
+      "locations": [
+        "prime-rl/src/prime_rl/configs/sft.py:~328"
+      ],
+      "axes": ["structural_asymmetry"]
+    },
+    {
+      "id": "runner_never_pins_flag",
+      "description": "benchmarks/scripts/run_single_benchmark.py never passes --model.fused-lm-head-chunk-size, so every RL benchmark takes the default. Explains why the regression was inevitable across the fleet.",
+      "locations": [
+        "prime-rl/benchmarks/scripts/run_single_benchmark.py"
+      ],
+      "axes": ["structural_asymmetry"]
+    },
+    {
+      "id": "memory_delta_1gpu_empirical",
+      "description": "1xa6000 rl-full 65k baseline peak_memory: 22.6855 -> 31.8066 GiB (+9.12 GiB, +40%).",
+      "locations": [
+        "prs/1895-files.json",
+        "prime-rl/benchmarks/baselines/benchmark-1xa6000-Qwen--Qwen3-0.6B-rl-full-1gpu-Recompute-flash_attention_2-65536-cp1-ep1.json"
+      ],
+      "axes": ["empirical_distribution"]
+    },
+    {
+      "id": "memory_delta_4gpu_empirical",
+      "description": "4xa6000 rl-full 65k baseline peak_memory: 14.1328 -> 23.2539 GiB (+9.12 GiB, +65%).",
+      "locations": [
+        "prs/1895-files.json",
+        "prime-rl/benchmarks/baselines/benchmark-4xa6000-Qwen--Qwen3-0.6B-rl-full-4gpu-Recompute-flash_attention_2-65536-cp1-ep1.json"
+      ],
+      "axes": ["empirical_distribution"]
+    },
+    {
+      "id": "ci_memory_trajectory",
+      "description": "In the failing CI run at PR #1892, per-step Peak Memory jumps at Step 1 (25.9 -> 31.8 GiB) then holds stable through Step 4. Tells you it's allocation on first training step, not a leak.",
+      "locations": [
+        "ci-logs/gpu-tests/run-22423809771/1_Integration tests (benchmark_regression).txt"
+      ],
+      "axes": ["empirical_distribution", "kernel_memory_math"]
+    },
+    {
+      "id": "tolerance_asymmetry",
+      "description": "test_benchmark_regression.py uses 1% MEMORY_TOLERANCE vs 10% METRIC_TOLERANCE on MFU/throughput/step_time. Why only memory breached, not perf metrics.",
+      "locations": [
+        "prime-rl/tests/integration/test_benchmark_regression.py:23-24"
+      ],
+      "axes": ["kernel_memory_math", "stability_claim_audit"]
+    },
+    {
+      "id": "historical_pr_1525",
+      "description": "PR #1525 introduced fused_lm_head_chunk_size with default None. First of three under-justified changes to this parameter.",
+      "locations": [
+        "prime-rl/CHANGELOG.md:30"
+      ],
+      "axes": ["historical_evolution"]
+    },
+    {
+      "id": "historical_pr_1649",
+      "description": "PR #1649 refactored to int | Literal['auto', 'disabled'] with auto=2048. Second change; also shipped without ablation.",
+      "locations": [
+        "prime-rl/CHANGELOG.md:42"
+      ],
+      "axes": ["historical_evolution"]
+    },
+    {
+      "id": "fleet_vocab_scaling",
+      "description": "The 60 baselines span 5 model families (Qwen3-0.6B, Qwen3-4B, Qwen3-30B, Qwen3-235B, INTELLECT-3). Vocab ~151k for Qwen3 family. Memory cost of the slab scales linearly with vocab, so larger-vocab families are more exposed.",
+      "locations": [
+        "prime-rl/benchmarks/baselines/",
+        "prime-rl/configs/",
+        "tokenizer_config.json files of each model family (not bundled — agent must infer from model names)"
+      ],
+      "axes": ["empirical_distribution"]
+    },
+    {
+      "id": "ci_coverage_gap_bonus",
+      "description": "60 baseline JSONs in benchmarks/baselines/ but only 2 of them (1xa6000 and 4xa6000 rl-full flash_attention_2 seq=65k) are asserted in test_benchmark_regression.py. Structural hole — 58 configs can silently drift.",
+      "locations": [
+        "prime-rl/benchmarks/baselines/",
+        "prime-rl/tests/integration/test_benchmark_regression.py"
+      ],
+      "axes": ["bonus"]
+    }
+  ],
+  "coverage_thresholds": {
+    "4": "report substantively engages with >=9 of the 13 items",
+    "3": ">=7 of 13",
+    "2": ">=4 of 13",
+    "1": ">=2 of 13",
+    "0": "<2"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "method": "minilm",
+  "eval_script": "src/eval.py",
+  "eval_n": 3000,
+  "gt_path": "ground_truth/gt.json",
+  "top_1": 0.3937,
+  "top_2": 0.4543,
+  "top_3": 0.474
+}

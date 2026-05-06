@@ -1,0 +1,115 @@
+# DeepSeek-V3 671B Configuration
+# Based on DeepSeek-V3 paper hyperparameters
+#
+# Note: This config is for reference/scaling analysis only.
+# Running 671B requires significant infrastructure (64+ GPUs, pipeline parallel).
+#
+# Run (hypothetically):
+#   torchrun --nproc_per_node=8 -m nmoe.train configs/deepseek/671b.toml
+
+preset = "deepseek_671b"
+experiment_id = "deepseek_671b"
+
+# Tokenizer (DeepSeek uses custom tokenizer, we use o200k_harmony)
+vocab_size = 201088
+tokenizer = "o200k_harmony"
+eos_token_id = 199999
+
+# Data
+mixture_toml = "configs/mixtures/olmo3_1025.toml"
+flow_profiles_toml = "configs/flow_profiles.toml"
+flow_mode = "full_train"
+
+# =============================================================================
+# Model Architecture (DeepSeek-V3: 37B active, 671B total)
+# =============================================================================
+dim = 7168
+n_layers = 61
+n_heads = 128
+inter_dim = 2048  # Dense FFN dimension (first 3 layers only)
+
+# MoE Configuration
+n_dense_layers = 3    # First 3 layers use dense FFN
+n_routed_experts = 256
+n_activated_experts = 8  # top-8 routing (different from smaller models)
+n_shared_experts = 1     # 1 shared expert (different from smaller models)
+moe_inter_dim = 2048
+
+# Attention (MLA) - V3 uses larger compression dims
+attn = "mla"
+q_lora_rank = 1536
+kv_lora_rank = 512
+qk_nope_head_dim = 128
+qk_rope_head_dim = 64
+v_head_dim = 128
+
+# RoPE
+rope_theta = 10000.0
+max_position_embeddings = 4096
+
+# Normalization
+rms_norm_eps = 1e-20
+
+# =============================================================================
+# Training (from paper: 14.8T tokens)
+# =============================================================================
+seq_len = 4096
+# Batch ramps: 3072 -> 15360 over first 469B tokens
+# We use final batch size for simplicity
+batch_size = 15360
+# 14.8T tokens / (15360 * 4096) ≈ 235,000 steps (approximate)
+steps = 235000
+
+# Precision
+dtype = "bf16"
+
+# =============================================================================
+# Optimizer (AdamW - DeepSeek V3 settings)
+# =============================================================================
+use_muon = false  # DeepSeek uses pure AdamW
+
+lr_dense = 2.2e-4
+lr_expert = 2.2e-4
+lr_router = 2.2e-4
+weight_decay = 0.1
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-20
+
+# =============================================================================
+# Schedule (from paper)
+# Warmup: 0 -> 2.2e-4 over 2K steps
+# Hold: 2.2e-4 until 10T tokens
+# Cosine decay: 2.2e-4 -> 2.2e-5 over 4.3T tokens
+# Hold: 2.2e-5 for 333B tokens
+# Final: 7.3e-6 for 167B tokens
+# =============================================================================
+warmup_steps = 2000
+
+# Approximate: hold until 10T, decay over 4.3T, floor at ~0.1x
+# 10T tokens at final batch = 10T / (15360 * 4096) ≈ 159,000 steps
+# 4.3T decay = 4.3T / (15360 * 4096) ≈ 68,000 steps
+hold_tokens = 10_000_000_000_000    # 10T
+decay_tokens = 4_300_000_000_000    # 4.3T
+decay_floor = 2.2e-5               # 0.1x of peak
+
+# =============================================================================
+# Load Balancing (Loss-Free method)
+# =============================================================================
+# Paper: gamma = 0.001 for first 14.3T, then 0.0
+router_bias_update_rate = 1e-3
+aux_loss_alpha = 0.0001  # Paper uses 0.0001 just to avoid extreme imbalance
+
+# =============================================================================
+# Multi-Token Prediction (MTP)
+# =============================================================================
+# Paper: D=1 (predict 1 additional token), lambda=0.3 for 10T, then 0.1
+# mtp_depth = 1
+# mtp_loss_weight = 0.3
+
+# =============================================================================
+# Checkpointing
+# =============================================================================
+resume = false
+checkpoint_every = 5000
+log_every = 10

@@ -1,0 +1,149 @@
+# Karpathy-style CORE evaluation suite.
+#
+# This mirrors the task list in the public `eval_bundle/core.yaml`, but is TOML
+# because nmoe is TOML-only (no YAML at runtime).
+#
+# Each task reads its dataset from the eval bundle under:
+#   {data_root}/eval/eval_bundle/eval_data/{dataset_uri}
+#
+# Notes:
+# - `fewshot` sampling is deterministic: Random(1234 + example_idx).
+# - `continuation_delimiter` defaults to a single space when omitted.
+
+[[task]]
+label = "hellaswag_zeroshot"
+dataset_uri = "language_understanding/hellaswag.jsonl"
+task_type = "multiple_choice"
+fewshot = 0
+
+[[task]]
+label = "jeopardy"
+dataset_uri = "world_knowledge/jeopardy_all.jsonl"
+task_type = "language_modeling"
+fewshot = 10
+continuation_delimiter = "\nAnswer: "
+has_categories = true
+
+[[task]]
+label = "bigbench_qa_wikidata"
+dataset_uri = "world_knowledge/bigbench_qa_wikidata.jsonl"
+task_type = "language_modeling"
+fewshot = 10
+
+[[task]]
+label = "arc_easy"
+dataset_uri = "world_knowledge/arc_easy.jsonl"
+task_type = "multiple_choice"
+fewshot = 10
+continuation_delimiter = "\nAnswer: "
+
+[[task]]
+label = "arc_challenge"
+dataset_uri = "world_knowledge/arc_challenge.jsonl"
+task_type = "multiple_choice"
+fewshot = 10
+continuation_delimiter = "\nAnswer: "
+
+[[task]]
+label = "copa"
+dataset_uri = "commonsense_reasoning/copa.jsonl"
+task_type = "multiple_choice"
+fewshot = 0
+
+[[task]]
+label = "commonsense_qa"
+dataset_uri = "commonsense_reasoning/commonsense_qa.jsonl"
+task_type = "multiple_choice"
+fewshot = 10
+
+[[task]]
+label = "piqa"
+dataset_uri = "commonsense_reasoning/piqa.jsonl"
+task_type = "multiple_choice"
+fewshot = 10
+continuation_delimiter = "\nAnswer: "
+
+[[task]]
+label = "openbook_qa"
+dataset_uri = "commonsense_reasoning/openbook_qa.jsonl"
+task_type = "multiple_choice"
+fewshot = 0
+
+[[task]]
+label = "lambada_openai"
+dataset_uri = "language_understanding/lambada_openai.jsonl"
+task_type = "language_modeling"
+fewshot = 0
+
+[[task]]
+label = "hellaswag"
+dataset_uri = "language_understanding/hellaswag.jsonl"
+task_type = "multiple_choice"
+fewshot = 10
+
+[[task]]
+label = "winograd"
+dataset_uri = "language_understanding/winograd_wsc.jsonl"
+task_type = "schema"
+fewshot = 0
+
+[[task]]
+label = "winogrande"
+dataset_uri = "language_understanding/winogrande.jsonl"
+task_type = "schema"
+fewshot = 0
+
+[[task]]
+label = "bigbench_dyck_languages"
+dataset_uri = "symbolic_problem_solving/bigbench_dyck_languages.jsonl"
+task_type = "language_modeling"
+fewshot = 10
+
+[[task]]
+label = "agi_eval_lsat_ar"
+dataset_uri = "symbolic_problem_solving/agi_eval_lsat_ar.jsonl"
+task_type = "multiple_choice"
+fewshot = 3
+
+[[task]]
+label = "bigbench_cs_algorithms"
+dataset_uri = "symbolic_problem_solving/bigbench_cs_algorithms.jsonl"
+task_type = "language_modeling"
+fewshot = 10
+
+[[task]]
+label = "bigbench_operators"
+dataset_uri = "symbolic_problem_solving/bigbench_operators.jsonl"
+task_type = "language_modeling"
+fewshot = 10
+
+[[task]]
+label = "bigbench_repeat_copy_logic"
+dataset_uri = "symbolic_problem_solving/bigbench_repeat_copy_logic.jsonl"
+task_type = "language_modeling"
+fewshot = 10
+
+[[task]]
+label = "squad"
+dataset_uri = "reading_comprehension/squad.jsonl"
+task_type = "language_modeling"
+fewshot = 10
+
+[[task]]
+label = "coqa"
+dataset_uri = "reading_comprehension/coqa.jsonl"
+task_type = "language_modeling"
+fewshot = 0
+
+[[task]]
+label = "boolq"
+dataset_uri = "reading_comprehension/boolq.jsonl"
+task_type = "multiple_choice"
+fewshot = 10
+continuation_delimiter = "\nAnswer: "
+
+[[task]]
+label = "bigbench_language_identification"
+dataset_uri = "language_understanding/bigbench_language_identification.jsonl"
+task_type = "multiple_choice"
+fewshot = 10

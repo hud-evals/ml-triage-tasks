@@ -1,0 +1,81 @@
+# Speedrun: SDPA Attention (June 2024-aligned dense calibration lane)
+#
+# Adapted from the June 2024 modded-nanogpt neighborhood around SHA b6b0a0d:
+#   - n_head=12, dim=768, n_layer=12, inter_dim=3072
+#   - LR=1.8e-3, wd=0.1, betas=(0.9, 0.95)
+#   - 9536 steps at 524K tokens/step → ~5B tokens total
+#
+# Public-anchor nuance:
+#   - the preserved June 2024 run record reports the step-9536 validation anchor in
+#     records/track_1_short/2024-06-06_AdamW/f66d43d7-e449-4029-8adf-e8537bab49ea.log
+#   - that README remembers warmup=250 and warmdown=2000 IIRC
+#   - this nmoe lane uses the cleaner 256/2048 WSD decomposition
+#
+# Known architecture / recipe gaps (documented, not fixed away here):
+#   - FFN: SwiGLU (ours) vs GELU (public dense anchor)
+#   - Embeddings: Untied (ours) vs Tied (public dense anchor)
+#   - Vocab: 50304 (ours) vs 50257 (public dense anchor)
+#   - μP scaling: Present (ours) vs None (public dense anchor)
+#
+# Run:
+#   torchrun --nproc_per_node=8 -m nmoe.train configs/speedrun/small_dense_sdpa.toml
+
+preset = "speedrun_small_dense"
+experiment_id = "speedrun_small_dense_sdpa_june2024"
+
+# Benchmark token stream (GPT-2, padded to 128 for vectorization)
+tokenizer = "gpt2"
+vocab_size = 50304  # 50257 padded to next multiple of 128
+eos_token_id = 50256
+loss_mask_eos = false
+
+# Data
+data_path = "/data/speedrun/train"
+validation_enabled = true
+validation_data_path = "/data/speedrun/val"
+validation_every = 128          # Match June 2024
+validation_steps = 20           # ~10.5M val tokens (matches June 2024)
+
+# Model (June 2024 nanogpt architecture)
+dim = 768
+n_layers = 12
+n_heads = 12        # June 2024 used 12 heads (head_dim=64)
+inter_dim = 3072    # 4x dim
+
+# Dense-only: all layers use dense MLP (no MoE).
+n_dense_layers = 12
+
+# Attention: Standard SDPA (no MLA, no SWA)
+attn = "sdpa"
+
+# Training
+dtype = "bf16"
+seq_len = 2048
+batch_size = 256    # 256 * 2048 = 524K tokens/step (matches June 2024)
+steps = 9536        # Match June 2024 exactly
+
+# Optimizer (June 2024 settings)
+use_muon = false
+
+lr_dense = 1.8e-3
+lr_expert = 1.8e-3
+lr_router = 1.8e-3
+weight_decay = 0.1              # Match June 2024 (was 0.0)
+adam_beta1 = 0.9
+adam_beta2 = 0.95
+adam_eps = 1e-8
+
+# Schedule (nmoe calibration lane: warmup=256, warmdown=2048, total=9536)
+# This is June-style rather than schedule-identical to the public README note.
+# warmdown starts at step 9536-2048=7488
+warmup_steps = 256              # public README remembers 250; this lane uses the cleaner 256-step warmup
+hold_tokens = 3_925_721_344     # 7488 steps × 524288 tokens/step
+decay_tokens = 1_073_741_824    # 2048 steps × 524288 tokens/step
+decay_floor = 1e-6              # ~0, WSD requires > 0
+
+# Minimal overhead
+resume = false
+checkpoint_every = 999999999
+log_every = 100
+
+target_loss = 3.28

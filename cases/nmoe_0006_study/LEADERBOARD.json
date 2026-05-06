@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "rules": {
+    "target_loss": 3.28,
+    "requires_core": true,
+    "sort_by": [
+      "wall_time_s",
+      "steps"
+    ]
+  },
+  "runs": [
+    {
+      "config": "super",
+      "hardware": "B200",
+      "n_gpus": 8,
+      "dtype": "bf16",
+      "final_loss": 3.2741451263427734,
+      "core_score": 0.06443250393976663,
+      "tokens": 2550136832,
+      "steps": 4864,
+      "wall_time_s": 2537.0,
+      "target_reached": true,
+      "date": "2026-02-03T06:31:23.223481",
+      "experiment_id": "speedrun_super_256",
+      "run_id": "run_1770094602_357060"
+    },
+    {
+      "config": "super",
+      "hardware": "B200",
+      "n_gpus": 8,
+      "dtype": "fp8",
+      "final_loss": 3.278128147125244,
+      "core_score": 0.07067130124453573,
+      "tokens": 3623878656,
+      "steps": 6912,
+      "wall_time_s": 3641.9,
+      "target_reached": true,
+      "date": "2026-02-03T04:19:46.765730",
+      "experiment_id": "speedrun_super_256",
+      "run_id": "run_1770084952_354179"
+    },
+    {
+      "config": "super",
+      "hardware": "H100",
+      "n_gpus": 8,
+      "dtype": "bf16",
+      "final_loss": 3.2738680839538574,
+      "core_score": 0.051139125357389896,
+      "tokens": 2550136832,
+      "steps": 4864,
+      "wall_time_s": 4284.0,
+      "target_reached": true,
+      "date": "2026-02-07T03:00:28.313847",
+      "experiment_id": "speedrun_super_256",
+      "run_id": "run_1770424194_1289269"
+    },
+    {
+      "config": "super",
+      "hardware": "H100",
+      "n_gpus": 8,
+      "dtype": "bf16",
+      "final_loss": 3.268993377685547,
+      "core_score": 0.04889233103635893,
+      "tokens": 2885681152,
+      "steps": 5504,
+      "wall_time_s": 4760.9,
+      "target_reached": true,
+      "date": "2026-02-03T02:04:34.725099",
+      "experiment_id": "speedrun_super_256",
+      "run_id": "run_1770074648_168925"
+    },
+    {
+      "config": "ultra",
+      "hardware": "B200",
+      "n_gpus": 8,
+      "dtype": "fp8",
+      "final_loss": 3.2781,
+      "core_score": 0.05725,
+      "tokens": 3489660928,
+      "steps": 6656,
+      "wall_time_s": 12018.6,
+      "target_reached": true,
+      "date": "2026-02-07T01:30:00.000000",
+      "experiment_id": "speedrun_ultra_4096",
+      "run_id": "run_1770392082_muonmoon"
+    }
+  ]
+}

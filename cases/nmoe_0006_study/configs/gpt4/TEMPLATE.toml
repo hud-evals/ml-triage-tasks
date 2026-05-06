@@ -1,0 +1,39 @@
+# GPT-4 — TEMPLATE ONLY
+#
+# GPT-4 architecture + training recipe are not fully public, so this file is intentionally
+# a template rather than a claimed reproduction. Fill in the model shape + training recipe
+# you want, then run:
+#   torchrun --nproc_per_node=8 -m nmoe.train configs/gpt4/<your_file>.toml
+#
+# This template defaults to the repo-native tokenizer, but you can switch to `tokenizer="gpt2"`
+# if you're targeting GPT-2/3-style BPE + vocab.
+
+preset = "gpt4"
+experiment_id = "gpt4_template"
+
+tokenizer = "o200k_harmony"
+vocab_size = 201088
+eos_token_id = 199999
+loss_mask_eos = true
+
+# Data
+# data_path = "/data/<your_tokenized_train_shards>"
+# validation_enabled = true
+# validation_data_path = "/data/<your_tokenized_valid_shards>"
+
+# Model (REQUIRED)
+# dim = 0
+# n_layers = 0
+# n_heads = 0
+# inter_dim = 0
+# n_dense_layers = 0
+
+# Attention
+# attn = "sdpa"
+
+# Training
+# dtype = "bf16"
+# seq_len = 0
+# batch_size = 0
+# steps = 0
+

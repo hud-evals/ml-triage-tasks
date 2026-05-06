@@ -1,0 +1,4 @@
+# rapidfuzz token_set_ratio — exists for completeness but no run yet.
+method: token_set
+scorer: token_set_ratio
+gt_path: ground_truth/gt.json

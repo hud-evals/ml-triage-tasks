@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nmoe"
+version = "0.1.0"
+description = "B200-targeted Mixture-of-Experts training library with RDEP."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [{ name = "The NMoE Authors" }]
+
+dependencies = [
+  "tiktoken",
+  "pybind11",
+  "openai_harmony",
+  "numpy",
+  "nvidia-cutlass-dsl",
+  "apache-tvm-ffi",
+  "cuda-python==12.8.0",
+  "duckdb",
+  "datasets",
+  "typer",
+  "rich",
+]
+
+[project.scripts]
+n = "nmoe.cli.main:main"
+
+[project.optional-dependencies]
+research = [
+  "matplotlib",
+  "pandas",
+  "seaborn",
+  "tqdm",
+  "jupyter",
+  "notebook",
+  "rose-pine-jupyterlab",
+]
+
+[dependency-groups]
+dev = [
+  "pytest",
+  "ruff",
+]
+
+[tool.setuptools.packages.find]
+include = ["nmoe*"]
+namespaces = true
+
+[tool.setuptools.package-data]
+"nmoe.data" = ["*.pt", "*.json"]
+
+
