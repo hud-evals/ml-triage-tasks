@@ -16,3 +16,6 @@ during `hud sync tasks <taskset>`.
 import tasks.prime_rl_chunk_default_tradeoff  # noqa: F401
 import tasks.nmoe_0006_study  # noqa: F401
 import tasks.city_mapping_audit  # noqa: F401
+import tasks.mxbai_reranker_teacher_diag  # noqa: F401
+import tasks.mxbai_projection_dim_cliff  # noqa: F401
+import tasks.mxbai_projection_layer_choice  # noqa: F401

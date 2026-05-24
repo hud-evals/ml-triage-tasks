@@ -1,0 +1,13 @@
+{
+  "metric": "NDCG@10",
+  "eval_set": "NanoBEIR — 4-subset average (MSMARCO + SciFact + FiQA + NFCorpus)",
+  "training_base_model": "32M ablation variant (Muon 1e-3, AdamW 8e-5, 20% training data, full kd loss)",
+  "by_projection_dim": {
+    "96": 0.5991,
+    "64": 0.5985,
+    "48": 0.5967,
+    "32": 0.5772,
+    "24": 0.5423,
+    "16": 0.5126
+  }
+}

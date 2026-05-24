@@ -1,0 +1,413 @@
+from __future__ import annotations
+
+import logging
+import os
+import pickle
+import shutil
+from bisect import bisect_left
+
+import numpy as np
+import torch
+from fast_plaid import search
+
+from ..rank import RerankResult
+from .base import Base
+from .utils import convert_embeddings_to_torch
+
+logger = logging.getLogger(__name__)
+
+
+class FastPlaid(Base):
+    """FastPlaid index using the fast-plaid backend for high-performance multi-vector search.
+
+    Parameters
+    ----------
+    index_folder
+        The folder where the index will be stored.
+    index_name
+        The name of the index.
+    override
+        Whether to override the collection if it already exists.
+    nbits
+        The number of bits to use for product quantization.
+        Lower values mean more compression and potentially faster searches but can reduce accuracy.
+    kmeans_niters
+        The number of iterations for the K-means algorithm used during index creation.
+        This influences the quality of the initial centroid assignments.
+    max_points_per_centroid
+        The maximum number of points (token embeddings) that can be assigned to a single centroid during K-means.
+        This helps in balancing the clusters.
+    n_ivf_probe
+        The number of inverted file list "probes" to perform during the search.
+        This parameter controls the number of clusters to search within the index for each query.
+        Higher values improve recall but increase search time.
+    n_full_scores
+        The number of candidate documents for which full (re-ranked) scores are computed.
+        This is a crucial parameter for accuracy; higher values lead to more accurate results but increase computation.
+    n_samples_kmeans
+        The number of samples to use for K-means clustering.
+        If None, it defaults to a value based on the number of documents.
+        This parameter can be adjusted to balance between speed, memory usage and clustering quality.
+    seed
+        Random seed for K-means reproducibility.
+    use_triton
+        Whether to use triton kernels when computing kmeans using fast-plaid. Triton kernels are faster, but yields some variance due to race condition, set to false to get 100% reproducible results. If unset, will use triton kernels if possible.
+    batch_size
+        The internal batch size used for processing queries.
+        A larger batch size might improve throughput on powerful GPUs but can consume more memory.
+    num_threads
+        Number of CPU worker processes used during search. Ignored on CUDA.
+        If None, fast-plaid's default is used.
+    show_progress
+        If set to True, a progress bar will be displayed during search operations.
+    device
+        Specifies the device(s) to use for computation.
+        If None (default) and CUDA is available, it defaults to "cuda".
+        If CUDA is not available, it defaults to "cpu".
+        Can be a single device string (e.g., "cuda:0" or "cpu").
+        Can be a list of device strings (e.g., ["cuda:0", "cuda:1"]).
+    low_memory
+        If True, index tensors are kept on CPU and moved to the target device only when needed,
+        reducing VRAM usage at the cost of slower search. If False (default), tensors stay on GPU
+        for faster search but higher VRAM usage. No effect when device is "cpu".
+
+    """
+
+    is_end_to_end_index = True
+
+    def __init__(
+        self,
+        index_folder: str = "indexes",
+        index_name: str = "fast_plaid",
+        override: bool = False,
+        nbits: int = 4,
+        kmeans_niters: int = 4,
+        max_points_per_centroid: int = 256,
+        n_samples_kmeans: int | None = None,
+        seed: int = 42,
+        use_triton: bool | None = None,
+        n_ivf_probe: int = 8,
+        n_full_scores: int = 8192,
+        batch_size: int = 1 << 18,
+        num_threads: int | None = None,
+        show_progress: bool = True,
+        device: str | list[str] | None = None,
+        low_memory: bool = False,
+    ) -> None:
+        self.index_folder = index_folder
+        self.index_name = index_name
+
+        # Indexing hyperparameters
+        self.nbits = nbits
+        self.kmeans_niters = kmeans_niters
+        self.max_points_per_centroid = max_points_per_centroid
+        self.n_samples_kmeans = n_samples_kmeans
+        self.seed = seed
+        self.use_triton = use_triton
+
+        # Search hyperparameters
+        self.n_ivf_probe = n_ivf_probe
+        self.n_full_scores = n_full_scores
+        self.batch_size = batch_size
+        self.num_threads = num_threads
+
+        self.show_progress = show_progress
+        self.device = device
+
+        # Create the index directory structure
+        self.index_path = os.path.join(index_folder, index_name)
+        self.fast_plaid_index_path = os.path.join(self.index_path, "fast_plaid_index")
+        if override:
+            if os.path.exists(self.index_path):
+                shutil.rmtree(self.index_path)
+
+        if not os.path.exists(index_folder):
+            os.makedirs(index_folder)
+        if not os.path.exists(self.index_path):
+            os.makedirs(self.index_path)
+
+        # Pickle mappings for document IDs
+        self.documents_ids_to_plaid_ids_path = os.path.join(
+            self.index_path, "documents_ids_to_plaid_ids.pkl"
+        )
+        self.plaid_ids_to_documents_ids_path = os.path.join(
+            self.index_path, "plaid_ids_to_documents_ids.pkl"
+        )
+
+        # Initialize or load the fast-plaid index
+        self.fast_plaid = search.FastPlaid(
+            index=self.fast_plaid_index_path, device=device, low_memory=low_memory
+        )
+        # Check if index already exists
+        self.is_indexed = os.path.exists(self.documents_ids_to_plaid_ids_path)
+
+    def _load_documents_ids_to_plaid_ids(self) -> dict:
+        """Load the pickle file that maps document IDs to PLAID IDs."""
+        if os.path.exists(self.documents_ids_to_plaid_ids_path):
+            with open(self.documents_ids_to_plaid_ids_path, "rb") as f:
+                return pickle.load(f)
+        return {}
+
+    def _load_plaid_ids_to_documents_ids(self) -> dict:
+        """Load the pickle file that maps PLAID IDs to document IDs."""
+        if os.path.exists(self.plaid_ids_to_documents_ids_path):
+            with open(self.plaid_ids_to_documents_ids_path, "rb") as f:
+                return pickle.load(f)
+        return {}
+
+    def _save_mappings(
+        self,
+        documents_ids_to_plaid_ids: dict,
+        plaid_ids_to_documents_ids: dict,
+    ) -> None:
+        """Save the ID mappings to pickle files."""
+        with open(self.documents_ids_to_plaid_ids_path, "wb") as f:
+            pickle.dump(documents_ids_to_plaid_ids, f)
+        with open(self.plaid_ids_to_documents_ids_path, "wb") as f:
+            pickle.dump(plaid_ids_to_documents_ids, f)
+
+    def add_documents(
+        self,
+        documents_ids: str | list[str],
+        documents_embeddings: list[np.ndarray | torch.Tensor],
+        **kwargs,
+    ) -> "FastPlaid":
+        """Add documents to the index using fast-plaid backend."""
+        if isinstance(documents_ids, str):
+            documents_ids = [documents_ids]
+
+        # Convert embeddings to torch tensors
+        documents_embeddings_torch = convert_embeddings_to_torch(documents_embeddings)
+
+        # Load existing mappings
+        documents_ids_to_plaid_ids = self._load_documents_ids_to_plaid_ids()
+        plaid_ids_to_documents_ids = self._load_plaid_ids_to_documents_ids()
+
+        # Get the current number of documents for ID assignment
+        current_max_id = (
+            max(plaid_ids_to_documents_ids.keys()) if plaid_ids_to_documents_ids else -1
+        )
+
+        if not self.is_indexed:
+            # Create new index
+            self.fast_plaid.create(
+                documents_embeddings=documents_embeddings_torch,
+                kmeans_niters=self.kmeans_niters,
+                max_points_per_centroid=self.max_points_per_centroid,
+                nbits=self.nbits,
+                n_samples_kmeans=self.n_samples_kmeans,
+                seed=self.seed,
+                use_triton_kmeans=self.use_triton,
+            )
+            plaid_ids = list(range(len(documents_embeddings_torch)))
+            self.is_indexed = True
+        else:
+            # Update existing index
+            logger.warning(
+                "Adding documents to existing index. This uses fast-plaid's update method "
+                "which does not recompute centroids and may result in slightly lower accuracy."
+            )
+            self.fast_plaid.update(
+                documents_embeddings=documents_embeddings_torch,
+                kmeans_niters=self.kmeans_niters,
+                max_points_per_centroid=self.max_points_per_centroid,
+                n_samples_kmeans=self.n_samples_kmeans,
+                seed=self.seed,
+                use_triton_kmeans=self.use_triton,
+            )
+            # Assign new plaid IDs starting from current_max_id + 1
+            plaid_ids = list(
+                range(
+                    current_max_id + 1,
+                    current_max_id + 1 + len(documents_embeddings_torch),
+                )
+            )
+
+        # Store mappings
+        documents_ids_to_plaid_ids.update(zip(documents_ids, plaid_ids))
+        plaid_ids_to_documents_ids.update(zip(plaid_ids, documents_ids))
+        self._save_mappings(documents_ids_to_plaid_ids, plaid_ids_to_documents_ids)
+
+        return self
+
+    def remove_documents(self, documents_ids: list[str]) -> "FastPlaid":
+        """Remove documents from the index and update ID mappings.
+
+        Note: Fast-plaid does not support direct document removal.
+        This method removes the document mappings, updates plaid IDs to maintain
+        sequential ordering, and the embeddings remain in the index.
+        For complete removal, consider rebuilding the index without the unwanted documents.
+
+        Parameters
+        ----------
+        documents_ids
+            The document IDs to remove.
+        """
+
+        documents_ids_to_plaid_ids = self._load_documents_ids_to_plaid_ids()
+        plaid_ids_to_documents_ids = self._load_plaid_ids_to_documents_ids()
+
+        # Collect plaid_ids to remove and track which ones are being deleted
+        plaid_ids_to_remove = []
+        for document_id in documents_ids:
+            if document_id in documents_ids_to_plaid_ids:
+                plaid_id = documents_ids_to_plaid_ids[document_id]
+                plaid_ids_to_remove.append(plaid_id)
+                del documents_ids_to_plaid_ids[document_id]
+                del plaid_ids_to_documents_ids[plaid_id]
+        self.fast_plaid.delete(plaid_ids_to_remove)
+
+        # Sort plaid_ids to remove for efficient offset calculation
+        plaid_ids_to_remove.sort()
+
+        updated_plaid_ids_to_documents_ids = {}
+        for old_plaid_id, document_id in plaid_ids_to_documents_ids.items():
+            # bisect_left gives count of elements < old_plaid_id
+            offset = bisect_left(plaid_ids_to_remove, old_plaid_id)
+            new_plaid_id = old_plaid_id - offset
+
+            updated_plaid_ids_to_documents_ids[new_plaid_id] = document_id
+            documents_ids_to_plaid_ids[document_id] = new_plaid_id
+
+        # Save updated mappings
+        self._save_mappings(
+            documents_ids_to_plaid_ids, updated_plaid_ids_to_documents_ids
+        )
+
+        return self
+
+    def update_documents(
+        self,
+        documents_ids: list[str],
+        documents_embeddings: list[np.ndarray | torch.Tensor],
+    ) -> "FastPlaid":
+        """Update document embeddings for the given document IDs.
+
+        fast-plaid does not provide an in-place update by passage ID, so this
+        is implemented as ``remove_documents`` followed by ``add_documents``:
+        document IDs are preserved (callers can keep using the same keys),
+        but the underlying plaid IDs may change. Documents in
+        ``documents_ids`` that are not yet in the index are simply added.
+
+        Parameters
+        ----------
+        documents_ids
+            The document IDs to update.
+        documents_embeddings
+            The new embeddings for each document, in the same order as
+            ``documents_ids``.
+        """
+        if isinstance(documents_ids, str):
+            documents_ids = [documents_ids]
+        documents_ids = list(documents_ids)
+
+        existing = self._load_documents_ids_to_plaid_ids()
+        to_remove = [doc_id for doc_id in documents_ids if doc_id in existing]
+        if to_remove:
+            self.remove_documents(to_remove)
+
+        return self.add_documents(
+            documents_ids=documents_ids,
+            documents_embeddings=documents_embeddings,
+        )
+
+    def __call__(
+        self,
+        queries_embeddings: np.ndarray
+        | torch.Tensor
+        | list[np.ndarray]
+        | list[torch.Tensor],
+        k: int = 10,
+        subset: list[list[str]] | list[str] | None = None,
+    ) -> list[list[RerankResult]]:
+        """Query the index for the nearest neighbors of the queries embeddings.
+
+        Parameters
+        ----------
+        queries_embeddings
+            The query embeddings. Can be numpy array, torch tensor, or list of numpy arrays/torch tensors.
+        k
+            The number of nearest neighbors to return.
+        subset
+            Optional subset of document IDs to restrict search to.
+            Can be a single list (same filter for all queries) or
+            list of lists (different filter per query).
+            Document IDs should match the IDs used when adding documents.
+
+        Returns
+        -------
+        List of lists containing dictionaries with 'id' and 'score' keys.
+        """
+        if not self.is_indexed:
+            error = """
+            The index is empty. Please add documents before querying.
+            """
+            raise ValueError(error)
+
+        # Load mappings into memory
+        plaid_ids_to_documents_ids = self._load_plaid_ids_to_documents_ids()
+        documents_ids_to_plaid_ids = self._load_documents_ids_to_plaid_ids()
+
+        # Convert queries to torch tensor format expected by fast-plaid
+        queries_embeddings = convert_embeddings_to_torch(queries_embeddings)
+
+        # Convert subset from document IDs to plaid IDs if provided
+        plaid_subset = None
+        if subset is not None:
+            if len(subset) == 0:
+                # Empty list - return empty results
+                plaid_subset = []
+            elif isinstance(subset[0], list):
+                # List of lists - different subset for each query
+                plaid_subset = []
+                for query_subset in subset:
+                    query_plaid_ids = [
+                        documents_ids_to_plaid_ids[doc_id]
+                        for doc_id in query_subset
+                        if doc_id in documents_ids_to_plaid_ids
+                    ]
+                    plaid_subset.append(query_plaid_ids)
+            else:
+                # Single list - same subset for all queries
+                plaid_subset = [
+                    documents_ids_to_plaid_ids[doc_id]
+                    for doc_id in subset
+                    if doc_id in documents_ids_to_plaid_ids
+                ]
+
+        # Perform search using fast-plaid
+        search_results = self.fast_plaid.search(
+            queries_embeddings=queries_embeddings,
+            top_k=k,
+            batch_size=self.batch_size,
+            n_ivf_probe=self.n_ivf_probe,
+            n_full_scores=self.n_full_scores,
+            show_progress=self.show_progress,
+            subset=plaid_subset,
+            n_processes=self.num_threads,
+        )
+
+        # Convert results to expected format
+        results = []
+        for query_results in search_results:
+            query_docs = []
+            for plaid_id, score in query_results:
+                if plaid_id in plaid_ids_to_documents_ids:
+                    doc_id = plaid_ids_to_documents_ids[plaid_id]
+                    query_docs.append(RerankResult(id=doc_id, score=float(score)))
+            results.append(query_docs)
+
+        return results
+
+    def get_documents_embeddings(
+        self, document_ids: list[list[str]]
+    ) -> list[list[list[int | float]]]:
+        """Get document embeddings by their IDs.
+
+        Note: Fast-plaid does not provide direct access to document embeddings.
+        This method is not implemented as the embeddings are stored in compressed form.
+        """
+        raise NotImplementedError(
+            "Fast-plaid does not provide direct access to document embeddings. "
+            "The embeddings are stored in compressed/quantized form and cannot be retrieved."
+        )

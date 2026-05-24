@@ -1,0 +1,11 @@
+{
+  "metric": "NDCG@10",
+  "eval_set": "NanoBEIR full (5-subset average)",
+  "training_base_model": "17M model variant (full training data, matched hparams)",
+  "cells": {
+    "2_layer_ffn_projection": 0.6405,
+    "single_layer_linear_projection": 0.6286
+  },
+  "delta_2layer_minus_linear": 0.0119,
+  "seed_consistency_note": "ran 3 seeds per cell. no single-layer linear projection checkpoint came within less than 1 NDCG@10 of the 2-layer projection checkpoints. so the gap is real, not seed noise."
+}

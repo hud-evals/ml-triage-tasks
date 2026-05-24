@@ -1,0 +1,43 @@
+{
+  "avg_tokens_per_doc": 208.50723519197376,
+  "avg_tokens_per_query": 20.11,
+  "per_dim_cost": {
+    "48": {
+      "bytes_per_doc_fp16": 20017,
+      "bytes_per_doc_int8": 10008,
+      "bytes_per_query_fp16": 1931,
+      "maxsim_ops_per_query_doc_pair": 201268
+    },
+    "40": {
+      "bytes_per_doc_fp16": 16681,
+      "bytes_per_doc_int8": 8340,
+      "bytes_per_query_fp16": 1609,
+      "maxsim_ops_per_query_doc_pair": 167723
+    },
+    "32": {
+      "bytes_per_doc_fp16": 13344,
+      "bytes_per_doc_int8": 6672,
+      "bytes_per_query_fp16": 1287,
+      "maxsim_ops_per_query_doc_pair": 134179
+    },
+    "24": {
+      "bytes_per_doc_fp16": 10008,
+      "bytes_per_doc_int8": 5004,
+      "bytes_per_query_fp16": 965,
+      "maxsim_ops_per_query_doc_pair": 100634
+    },
+    "16": {
+      "bytes_per_doc_fp16": 6672,
+      "bytes_per_doc_int8": 3336,
+      "bytes_per_query_fp16": 644,
+      "maxsim_ops_per_query_doc_pair": 67089
+    },
+    "8": {
+      "bytes_per_doc_fp16": 3336,
+      "bytes_per_doc_int8": 1668,
+      "bytes_per_query_fp16": 322,
+      "maxsim_ops_per_query_doc_pair": 33545
+    }
+  },
+  "scaling_note": "MaxSim per (query, doc) pair = nq * nd * dim FMA ops. Storage scales linearly with dim. 48 -> 24 halves both."
+}
