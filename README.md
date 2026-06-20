@@ -14,6 +14,14 @@ The taskset ships multiple audit tasks, all currently wired onto
 | `prime_rl_chunk_default_tradeoff` | Audit a flipped default in prime-rl's fused-LM-head chunk-size knob; recommend whether to pin it for an upcoming run. |
 | `nmoe_0006_study` | Reconstruct a sparsity ablation from raw run receipts; separate supported claims from falsified ones. |
 | `city_mapping_audit` | Second-opinion an ML teammate's hotel-to-city matching ship recommendation under planted adversarial artifacts. |
+| `mxbai_reranker_teacher_diag` | Help a researcher mid-writeup diagnose a reranker knowledge-distillation teacher ablation (Qwen3 vs bge-m3, score-normalisation cells) from raw scoring outputs. |
+| `mxbai_projection_dim_cliff` | Recommend how far to truncate mxbai-edge-colbert's projection dim for edge deploy before nDCG falls off a cliff (PCA vs naive truncation). |
+| `mxbai_projection_layer_choice` | Verify or refute the team's intuition that a 2-layer FFN projection beats a single linear one, via real weight decomposition. |
+| `nmoe_0008_study` | Reconstruct the 0008 expert-learning-rate finding from raw run outputs; pragmatic refutation + recommendation under a telemetry caveat. |
+| `nmoe_0011_study` | Write a retrospective on the 0011 autoresearch speedrun campaign; separate the champion run from stale distractors. |
+| `wafer_cold_start` | Triage a kernel-launch cold-start latency spike against multi-arm bench data; stress-test the blog's claimed mechanism. |
+| `wafer_kimi_delta_attention` | Diagnose a Kimi Delta Attention decode-step bottleneck on H100 from two profiling signals. |
+| `wafer_nvfp4_silu_audit` | Audit a Wafer-flagged NVFP4 SiLU-mul kernel submission whose 8.3× speedup looks too good. |
 
 ## Setup
 
@@ -30,8 +38,10 @@ export HUD_API_KEY=...
 uv run python tools/local_test.py --task prime_rl_chunk_default_tradeoff --model grok-4.20
 ```
 
-`--list` enumerates available tasks. The container image is built once
-via `hud build .` (or pulled if you've already deployed).
+`--list` enumerates available tasks. The container image
+(`ml-triage-tasks:local`, what the local tools run against) is built once
+with `docker build -f Dockerfile.hud -t ml-triage-tasks:local .` (or pulled
+if you've already deployed).
 
 ## Run a task N-up
 
@@ -44,9 +54,10 @@ Reports per-sample rewards plus mean/median/min/max across the group.
 ## Build + deploy + sync
 
 ```bash
-hud build .                                      # local image
-hud deploy .                                     # push to platform
-hud sync tasks <taskset-name>                    # sync local tasks/ to a taskset
+docker build -f Dockerfile.hud -t ml-triage-tasks:local .   # local image
+hud serve env:env                                           # run the env locally (control channel)
+hud deploy .                                                 # build + push to platform
+hud sync tasks <taskset-name>                                # sync local tasks/ to a taskset
 ```
 
 `hud sync tasks` discovers tasks through the root `tasks.py` entrypoint,
@@ -137,22 +148,28 @@ template start, so the agent never sees the case slug or the
 ml-triage-tasks/
 ├── env.py                    # toolkit + diagnose_research_study worked example
 ├── Dockerfile.hud
-├── pyproject.toml / uv.lock
+├── pyproject.toml
 ├── .gitattributes            # LFS patterns for cases/
 ├── tasks.py                  # explicit v6 taskset entrypoint
 ├── _template/                # template starters — see _template/README.md
 │   ├── research_audit/task.py
 │   ├── data_pipeline/task.py
 │   └── structured_output/task.py
-├── tasks/
+├── tasks/                    # 11 task rows, each tasks/<slug>/task.py
 │   ├── __init__.py
-│   ├── prime_rl_chunk_default_tradeoff/task.py
-│   ├── nmoe_0006_study/task.py
-│   └── city_mapping_audit/task.py
-├── cases/
 │   ├── prime_rl_chunk_default_tradeoff/
 │   ├── nmoe_0006_study/
-│   └── city_mapping_audit/
+│   ├── nmoe_0008_study/
+│   ├── nmoe_0011_study/
+│   ├── city_mapping_audit/
+│   ├── mxbai_reranker_teacher_diag/
+│   ├── mxbai_projection_dim_cliff/
+│   ├── mxbai_projection_layer_choice/
+│   ├── wafer_cold_start/
+│   ├── wafer_kimi_delta_attention/
+│   └── wafer_nvfp4_silu_audit/
+├── cases/                    # one bundle per slug (LFS for binaries)
+│   └── <slug>/               # note: wafer_kimi_delta_attention mounts cases/wafer_kda_diag/
 └── tools/
     ├── local_test.py         # run one task locally
     ├── run_many.py           # run one task N-up

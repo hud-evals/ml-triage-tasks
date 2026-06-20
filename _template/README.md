@@ -23,7 +23,7 @@ Reuses the shipped `diagnose_research_study` template.
   0..N → optional hard caps and bonus.
 - Best when the work is "audit / reconstruct / triangulate from a
   frozen bundle" and the deliverable is reasoning prose.
-- This is the shape the three live tasks under `tasks/` use.
+- This is the shape every live task under `tasks/` currently uses.
 
 ### `data_pipeline/` — structured artifact + det verifier + LLM rubric
 
