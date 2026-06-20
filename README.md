@@ -1,12 +1,13 @@
 # ml-triage-tasks
 
 HUD environment template for long-horizon agent tasks. The env is a
-scenario host: each scenario defines its own contract (what the agent
+HUD v6 template host: each template defines its own contract (what the agent
 produces and how that artifact is graded), and authors write whatever
-scenario their task needs. The shipped scenario `diagnose_research_study`
+template their task needs. The shipped template `diagnose_research_study`
 is one worked example for prose-deliverable research audits.
 
-Three sample tasks ship in the box, all wired onto `diagnose_research_study`:
+The taskset ships multiple audit tasks, all currently wired onto
+`diagnose_research_study`:
 
 | Task | What the agent does |
 |---|---|
@@ -48,9 +49,9 @@ hud deploy .                                     # push to platform
 hud sync tasks <taskset-name>                    # sync local tasks/ to a taskset
 ```
 
-`hud sync tasks` discovers tasks by importing each module under `tasks/`,
-which is why every task subdir needs an `__init__.py` and every task
-needs `task.slug` set.
+`hud sync tasks` discovers tasks through the root `tasks.py` entrypoint,
+which imports each concrete `tasks/<slug>/task.py` row. Add new tasks to
+both `tasks/__init__.py` and `tasks.py`, and set `task.slug`.
 
 ## Add a new task
 
@@ -75,21 +76,21 @@ import tasks.<your_slug>  # noqa: F401
 ```
 
 The starters are samples, not a closed taxonomy — write your own
-scenario from scratch when none fits. See [`_template/README.md`](_template/README.md)
+template from scratch when none fits. See [`_template/README.md`](_template/README.md)
 for the full toolkit (`mount_case`, `anti_fake_gate`, `run_scaled_judge`,
-…) and the bare scenario contract.
+…) and the bare template contract.
 
-## Scenarios
+## Templates
 
-A scenario is an async generator decorated with `@env.scenario(...)`
+A v6 task template is an async generator decorated with `@env.template(...)`
 that yields a prompt, lets the agent work, then yields an
 `EvaluationResult`:
 
 ```python
-from hud.tools.types import EvaluationResult
+from hud.graders import EvaluationResult
 from env import env, mount_case
 
-@env.scenario(name="my_thing")
+@env.template(id="my_thing")
 async def my_thing(prompt: str, case: str):
     mount_case(case)
     yield prompt
@@ -97,19 +98,19 @@ async def my_thing(prompt: str, case: str):
     yield EvaluationResult(reward=0.42, content="...", info={...})
 ```
 
-There is no "the grader". The env hosts as many scenarios as the work
+There is no "the grader". The env hosts as many templates as the work
 needs — define them inline in `tasks/<slug>/task.py` or, for shared
 shapes, in `env.py` next to `diagnose_research_study`.
 
 ## How `diagnose_research_study` works
 
-This is the worked-example scenario shipped in `env.py` and used by all
-three live tasks. Per-task arguments live in `tasks/<slug>/task.py`:
+This is the worked-example template shipped in `env.py` and used by the
+live tasks. Per-task arguments live in `tasks/<slug>/task.py`:
 
 | Arg | What it is |
 |---|---|
 | `prompt` | Free-form text the agent reads at task start. |
-| `case` | Subdir name under `cases/`. Hard-copied into `/workspace` at scenario start, chowned to uid 1000. |
+| `case` | Subdir name under `cases/`. Hard-copied into `/workspace` at template start, chowned to the env process uid for the bwrap workspace. |
 | `rubric` | Dict of `axis_name -> ground-truth description`. The LLM judge scores each axis 0..`axis_scale`. |
 | `axis_weights` | Per-axis weight. Reward = `sum(weight * score / axis_scale)` over axes, normalised. |
 | `hard_caps` | List of `{name, description, cap}`. If the judge flags a cap as triggered, reward is clamped to `min(reward, cap)`. |
@@ -117,7 +118,7 @@ three live tasks. Per-task arguments live in `tasks/<slug>/task.py`:
 | `anti_fake` | `{min_verified, max_fabricated_ratio}`. The grader extracts identifier-style citations (PR numbers, SHAs, GHA run-ids, file paths) from the report and verifies them against the case bundle. Failing the gate floors reward to 0. |
 | `report_filename` | What file the agent must write under `/workspace/`. Typically `REPORT.md`. |
 
-Set `task.slug` (stable identifier) and `task.metadata` (free-form
+Set `task.slug` (stable identifier) and `task.columns` (free-form
 filterable fields) after constructing the task.
 
 ## Case data
@@ -127,7 +128,7 @@ Vendored case bundles live under `cases/<slug>/`. Large binaries
 `.git/objects/pack/*`) stream via Git LFS — see `.gitattributes`. The
 Dockerfile copies the populated `cases/` tree into `/opt/ci_cases` at
 build time; the env mounts the selected case into `/workspace` at
-scenario start, so the agent never sees the case slug or the
+template start, so the agent never sees the case slug or the
 `/opt/ci_cases` path.
 
 ## Layout
@@ -138,7 +139,8 @@ ml-triage-tasks/
 ├── Dockerfile.hud
 ├── pyproject.toml / uv.lock
 ├── .gitattributes            # LFS patterns for cases/
-├── _template/                # scenario starters — see _template/README.md
+├── tasks.py                  # explicit v6 taskset entrypoint
+├── _template/                # template starters — see _template/README.md
 │   ├── research_audit/task.py
 │   ├── data_pipeline/task.py
 │   └── structured_output/task.py

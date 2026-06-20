@@ -302,7 +302,7 @@ BONUS = {
     ),
 }
 
-task = diagnose_research_study.task(
+task = diagnose_research_study(
     prompt=PROMPT,
     case="wafer_cold_start",
     rubric=RUBRIC,
@@ -314,7 +314,7 @@ task = diagnose_research_study.task(
     anti_fake={"min_verified": 3},
 )
 task.slug = "wafer_cold_start"
-task.metadata = {
+task.columns = {
     "category": "benchmark-methodology-triage",
     "source_blog": "wafer.ai/blog/where-did-my-microseconds-go",
     "substrate": "Modal H100:1, pytorch 2.5.1+cu124, 24-core affinity",

@@ -335,7 +335,7 @@ BONUS = {
     ),
 }
 
-task = diagnose_research_study.task(
+task = diagnose_research_study(
     prompt=PROMPT,
     case="wafer_nvfp4_silu_audit",
     rubric=RUBRIC,
@@ -347,7 +347,7 @@ task = diagnose_research_study.task(
     anti_fake={"min_verified": 3},
 )
 task.slug = "wafer_nvfp4_silu_audit"
-task.metadata = {
+task.columns = {
     "category": "kernel-submission-audit",
     "source_repo": "wafer-ai/kernel-arena",
     "source_path": (

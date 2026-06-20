@@ -36,7 +36,7 @@ ANTI_FAKE = {
 }
 
 
-task = diagnose_research_study.task(
+task = diagnose_research_study(
     prompt=PROMPT,
     case="TODO_case_slug",
     rubric=RUBRIC,
@@ -48,4 +48,4 @@ task = diagnose_research_study.task(
     report_filename="REPORT.md",
 )
 task.slug = "TODO_task_slug"
-task.metadata = {"category": "TODO"}
+task.columns = {"category": "TODO"}

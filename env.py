@@ -24,27 +24,85 @@ from pathlib import Path
 from typing import Any
 
 from hud import Environment
-from hud.tools.coding import BashTool
-from hud.tools.types import ContentResult, EvaluationResult, SubScore
+from hud.graders import EvaluationResult, SubScore
 
 env = Environment(name="ml-triage-tasks")
 
 # Cases are baked into the image under /opt/ci_cases/<slug>/. The env
-# process runs as root so it can read baked cases, but every bash command
-# the agent runs is demoted to uid 1000 and sees only /workspace.
+# process runs as root so it can read baked cases. HUD v6's workspace shell
+# runs through bwrap/SSH rather than the old demoted subprocess, so workspace
+# files must be owned by the env process uid that bwrap maps into the namespace.
 # /app, /opt/ci_cases, and the installed grader module are locked 0700
-# root:root so uid 1000 cannot traverse in.
+# root:root and are not mounted into the agent workspace.
 CASES_ROOT = Path(os.environ.get("CI_CASES_ROOT", "/opt/ci_cases"))
 WORK = Path(os.environ.get("CI_WORK", "/workspace"))
 
-AGENT_UID = 1000
-AGENT_GID = 1000
+AGENT_UID = int(os.environ.get("CI_AGENT_UID", str(os.geteuid())))
+AGENT_GID = int(os.environ.get("CI_AGENT_GID", str(os.getegid())))
+
+_JUDGE_API_KEY = os.environ.get("HUD_API_KEY") or os.environ.get("OPENAI_API_KEY")
+_JUDGE_GATEWAY_URL = os.environ.get("HUD_GATEWAY_URL", "https://inference.beta.hud.ai")
+_JUDGE_MODEL = os.environ.get("CI_JUDGE_MODEL", "claude-sonnet-4-5")
+
+# Keep grader credentials in the env process, but do not pass them through to
+# the agent's bwrap shell via Workspace.bwrap_argv(os.environ).
+for _name in list(os.environ):
+    if (
+        _name in {"API_KEY", "HF_TOKEN", "OPENAI_API_KEY", "ANTHROPIC_API_KEY", "HUD_API_KEY"}
+        or _name.startswith(("AWS_", "AZURE_", "GCP_", "PRIME_", "WANDB_"))
+    ):
+        os.environ.pop(_name, None)
+
+# v6 exposes shell/files through a workspace capability. The agent receives an
+# isolated SSH workspace rooted at WORK; grader state and case bundles stay on
+# the environment side.
+workspace = env.workspace(WORK, network=False)
+
+
+async def _probe_bwrap() -> None:
+    """Verify bwrap works before the agent starts issuing shell commands.
+
+    Workspace uses bwrap whenever the binary is present. If the container
+    runtime blocks namespace creation, every bash call fails later with a
+    confusing tool error. Probe once at startup so the platform failure is
+    explicit. Only an explicit env var may opt into the weaker unisolated shell.
+    """
+    import asyncio
+
+    if workspace._bwrap is None:
+        return
+    try:
+        proc = await asyncio.create_subprocess_exec(
+            *workspace.bwrap_argv(["bash", "-lc", "touch .hud_write_probe && rm .hud_write_probe"]),
+            stdout=asyncio.subprocess.DEVNULL,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        _, stderr = await asyncio.wait_for(proc.communicate(), timeout=20)
+        if proc.returncode != 0:
+            raise RuntimeError((stderr or b"").decode(errors="replace")[-500:] or "non-zero exit")
+    except Exception as exc:  # noqa: BLE001 - any failure means bwrap is unusable
+        message = (
+            "bwrap is present but unusable here "
+            f"({exc}); refusing to start a broken workspace shell."
+        )
+        if os.environ.get("HUD_ALLOW_UNISOLATED_WORKSPACE") == "1":
+            print(
+                f"[workspace] {message} Running WITHOUT bwrap because "
+                "HUD_ALLOW_UNISOLATED_WORKSPACE=1 is set.",
+                file=sys.stderr,
+            )
+            workspace._bwrap = None
+            return
+        raise RuntimeError(
+            f"{message} Fix the container runtime namespace/seccomp settings, or set "
+            "HUD_ALLOW_UNISOLATED_WORKSPACE=1 only for local debugging."
+        ) from exc
 
 
 try:
     WORK.mkdir(parents=True, exist_ok=True)
     # If running as root (production), make sure /workspace is owned by the
-    # agent uid so it can write there after demotion.
+    # uid that bwrap maps into the workspace namespace.
     if os.geteuid() == 0:
         os.chown(WORK, AGENT_UID, AGENT_GID)
 except OSError:
@@ -76,6 +134,10 @@ def _mount_case(case: str) -> Path:
     if not src.is_dir():
         raise FileNotFoundError(f"case not found: {src}")
     for existing in WORK.iterdir():
+        if existing.name == ".hud":
+            # env.workspace() stores its SSH credentials under WORK/.hud.
+            # Deleting them during task setup drops agent auth mid-handshake.
+            continue
         try:
             if existing.is_symlink() or existing.is_file():
                 existing.unlink()
@@ -91,75 +153,6 @@ def _mount_case(case: str) -> Path:
             shutil.copy2(child, dst)
     _chown_recursive(WORK, AGENT_UID, AGENT_GID)
     return src
-
-
-# Env-var prefixes that the bash subprocess must NOT see. Anything starting
-# with these or matching the exact names below is scrubbed before exec.
-_SCRUB_PREFIXES = ("HUD_", "CI_", "AWS_", "AZURE_", "GCP_", "OPENAI_", "ANTHROPIC_", "PRIME_", "WANDB_")
-_SCRUB_EXACT = {"PYTHONPATH", "PYTHONHOME", "API_KEY", "HF_TOKEN"}
-
-
-def _agent_env() -> dict[str, str]:
-    """Minimal env passed into the demoted bash subprocess. Strips HUD_API_KEY,
-    HUD_GATEWAY_URL, and other parent-process secrets."""
-    out: dict[str, str] = {}
-    for k, v in os.environ.items():
-        if k in _SCRUB_EXACT:
-            continue
-        if any(k.startswith(pfx) for pfx in _SCRUB_PREFIXES):
-            continue
-        out[k] = v
-    out["HOME"] = str(WORK)
-    out["PWD"] = str(WORK)
-    out["PATH"] = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-    out["SHELL"] = "/bin/bash"
-    return out
-
-
-def _demote_preexec() -> None:
-    """preexec_fn for subprocess: drop to agent uid + clear supplementary
-    groups. No-op if we aren't root (e.g. local dev on macOS)."""
-    if os.geteuid() != 0:
-        return
-    os.setgroups([])
-    os.setgid(AGENT_GID)
-    os.setuid(AGENT_UID)
-
-
-@env.tool(name="bash")
-async def bash(command: str) -> ContentResult:
-    """Run a bash command. Each call starts a fresh shell rooted in the
-    workspace folder — no session state between calls, so `cd` and env
-    changes don't persist. Use absolute paths rooted at the workspace,
-    or paths relative to it.
-
-    Args:
-        command: the shell command to run. stdout + stderr are both
-            returned in the output; non-zero exit codes are reported but
-            do not raise.
-    """
-    import asyncio
-    proc = await asyncio.create_subprocess_shell(
-        command,
-        stdin=asyncio.subprocess.DEVNULL,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.STDOUT,
-        cwd=str(WORK),
-        env=_agent_env(),
-        preexec_fn=_demote_preexec,
-    )
-    try:
-        stdout, _ = await asyncio.wait_for(proc.communicate(), timeout=120.0)
-    except asyncio.TimeoutError:
-        proc.kill()
-        return ContentResult(output="command timed out after 120s", error="timeout")
-    text = (stdout or b"").decode("utf-8", errors="replace")
-    if len(text) > 20_000:
-        text = text[:20_000] + f"\n... [truncated, {len(text) - 20_000} more bytes]"
-    rc = proc.returncode
-    if rc != 0:
-        text = f"{text}\n[exit {rc}]"
-    return ContentResult(output=text or "(no output)")
 
 
 # ============================================================================
@@ -443,9 +436,9 @@ def _run_scaled_judge(
     """Ask the LLM judge for 0..axis_scale per-axis scores plus cap/bonus flags."""
     from openai import OpenAI  # required, installed via pyproject
 
-    api_key = os.environ.get("HUD_API_KEY") or os.environ.get("OPENAI_API_KEY")
-    base_url = os.environ.get("HUD_GATEWAY_URL", "https://inference.hud.ai")
-    model = os.environ.get("CI_JUDGE_MODEL", "claude-sonnet-4-5")
+    api_key = _JUDGE_API_KEY
+    base_url = _JUDGE_GATEWAY_URL
+    model = _JUDGE_MODEL
     if not api_key:
         raise RuntimeError(
             "Grader cannot run: neither HUD_API_KEY nor OPENAI_API_KEY "
@@ -633,7 +626,7 @@ def _grade_scaled(
 # ============================================================================
 
 
-@env.scenario(name="diagnose_research_study")
+@env.template(id="diagnose_research_study")
 async def diagnose_research_study(
     prompt: str,
     rubric: dict[str, str],
@@ -645,11 +638,13 @@ async def diagnose_research_study(
     report_filename: str = "REPORT.md",
     anti_fake: dict[str, Any] | None = None,
 ):
-    """Same materialise-then-grade flow as diagnose_ci_failure, but with
+    """Materialise a case bundle, let the agent work, then grade the report.
+
     0..N per-axis scoring, optional hard caps, and an optional bonus. The
-    agent writes `report_filename` into /work; grader applies anti-fake +
+    agent writes `report_filename` into /workspace; grader applies anti-fake +
     scaled judge + caps + bonus.
     """
+    await _probe_bwrap()
     case_root = _mount_case(case)
     _SUBMISSION.clear()
     _BUNDLE_CACHE.pop(str(case_root), None)
@@ -685,4 +680,8 @@ run_scaled_judge = _run_scaled_judge
 
 
 if __name__ == "__main__":
-    env.run(transport="stdio")
+    import asyncio
+
+    from hud.environment.server import serve
+
+    asyncio.run(serve(env))

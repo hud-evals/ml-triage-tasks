@@ -207,7 +207,7 @@ BONUS = {
 }
 
 
-task = diagnose_research_study.task(
+task = diagnose_research_study(
     prompt=PROMPT,
     case="city_mapping_audit",
     rubric=RUBRIC,
@@ -215,11 +215,11 @@ task = diagnose_research_study.task(
     axis_scale=4,
     hard_caps=HARD_CAPS,
     bonus=BONUS,
-    report_filename="report.md",
+    report_filename="deliverable/report.md",
     anti_fake={"min_verified": 5, "max_fabricated_ratio": 0.20},
 )
 task.slug = "city_mapping_audit"
-task.metadata = {
+task.columns = {
     "category": "ml-research-audit",
     "domain": "embedding-evaluation",
     "n_planted_adversarials": 16,

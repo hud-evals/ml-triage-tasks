@@ -13,9 +13,9 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from hud.tools.types import EvaluationResult, SubScore
+from hud.graders import EvaluationResult, SubScore
 
-from env import env, mount_case, run_scaled_judge
+from env import env, load_report, mount_case, run_scaled_judge
 
 WORK = Path(os.environ.get("CI_WORK", "/workspace"))
 
@@ -104,7 +104,7 @@ DET_WEIGHT = 0.7
 LLM_WEIGHT = 0.3
 
 
-@env.scenario(name="my_pipeline_task")
+@env.template(id="my_pipeline_task")
 async def my_pipeline_task(prompt: str, case: str):
     """Mount the case, yield prompt, grade artifact + report on stop."""
     mount_case(case)
@@ -115,13 +115,8 @@ async def my_pipeline_task(prompt: str, case: str):
     print(f"[grade] det score={det_score:.3f} {det_info}", file=sys.stderr)
 
     # LLM rubric side: the agent's prose report.
-    report_text = ""
-    rp = WORK / "report.md"
-    if rp.is_file():
-        report_text = rp.read_text(encoding="utf-8", errors="replace")
-    judge = run_scaled_judge(
-        report_text, RUBRIC, axis_scale=4, hard_caps=None, bonus=None,
-    )
+    load_report("report.md")
+    judge = run_scaled_judge(RUBRIC, axis_scale=4, hard_caps=None, bonus=None)
     if "_error" in judge:
         llm_score = 0.0
         llm_info: dict[str, Any] = {"error": judge["_error"]}
@@ -162,9 +157,9 @@ async def my_pipeline_task(prompt: str, case: str):
 # --- Bind the scenario into a task instance --------------------------------
 
 
-task = my_pipeline_task.task(
+task = my_pipeline_task(
     prompt=PROMPT,
     case="TODO_case_slug",
 )
 task.slug = "TODO_task_slug"
-task.metadata = {"category": "TODO"}
+task.columns = {"category": "TODO"}

@@ -1,8 +1,8 @@
 # Scenario starters
 
-The env is a scenario host. Each scenario defines its own contract:
+The env is a HUD v6 template host. Each template defines its own contract:
 what the agent produces and how that artifact is graded. There is no
-"the grader" — there can be as many scenarios as the work needs.
+"the grader" — there can be as many templates as the work needs.
 
 This directory has three starters covering different points in the
 contract space. Pick the one closest to your task, copy it to
@@ -10,13 +10,13 @@ contract space. Pick the one closest to your task, copy it to
 `cases/<your_slug>/`, and add an import line to `tasks/__init__.py`.
 
 The starters are samples, not a closed taxonomy. If none of them fit,
-write your own scenario from scratch — see the bare contract below.
+write your own template from scratch — see the bare contract below.
 
 ## Available shapes
 
 ### `research_audit/` — prose deliverable, LLM judge
 
-Reuses the shipped `diagnose_research_study` scenario.
+Reuses the shipped `diagnose_research_study` template.
 
 - Agent's deliverable is a single prose file (typically `REPORT.md`).
 - Grading: anti-fake citation gate → multi-axis LLM rubric scored
@@ -27,7 +27,7 @@ Reuses the shipped `diagnose_research_study` scenario.
 
 ### `data_pipeline/` — structured artifact + det verifier + LLM rubric
 
-Defines its own scenario inline.
+Defines its own template inline.
 
 - Agent's deliverables are a structured artifact (`output.parquet`)
   and a prose `report.md`.
@@ -40,7 +40,7 @@ Defines its own scenario inline.
 
 ### `structured_output/` — structured artifact, deterministic only
 
-Defines its own scenario inline.
+Defines its own template inline.
 
 - Agent's deliverable is one structured file (`output.json`).
 - Grading: macro-F1 (or whatever scorer fits) against gold. No LLM.
@@ -52,11 +52,11 @@ Defines its own scenario inline.
 
 ## Toolkit (`env.py` exports)
 
-Custom scenarios import these from `env`:
+Custom templates import these from `env`:
 
 | Helper | Purpose |
 |---|---|
-| `env` | The `hud.Environment` instance. Decorate scenarios with `@env.scenario(name=...)`. |
+| `env` | The `hud.Environment` instance. Decorate templates with `@env.template(id=...)`. |
 | `mount_case(case)` | Hard-copy `cases/<case>/` into `/workspace`, chown to the agent uid, return the original case root path. |
 | `load_report(filename)` | Read a file from `/workspace`, populate `_SUBMISSION` for citation extraction. |
 | `extract_citations(text)` | Pull identifier-style citations (PR numbers, SHAs, run-ids, file paths) out of text. |
@@ -67,17 +67,17 @@ Custom scenarios import these from `env`:
 
 Compose any subset of these. None are required.
 
-## Bare scenario contract
+## Bare template contract
 
-A scenario is an async generator decorated with `@env.scenario(...)`
+A v6 task template is an async generator decorated with `@env.template(...)`
 that yields a prompt, lets the agent work, then yields an
 `EvaluationResult`:
 
 ```python
-from hud.tools.types import EvaluationResult
+from hud.graders import EvaluationResult
 from env import env, mount_case
 
-@env.scenario(name="my_thing")
+@env.template(id="my_thing")
 async def my_thing(prompt: str, case: str):
     mount_case(case)
     yield prompt
@@ -87,16 +87,16 @@ async def my_thing(prompt: str, case: str):
 
 The agent's `bash` cwd is `/workspace`. Anything you want graded must
 either land there (and you read it after the prompt yield) or land in
-a path the scenario opens via `case_root`.
+a path the template opens via `case_root`.
 
-## Adding a new scenario from scratch
+## Adding a new template from scratch
 
 1. `cp -R _template/<closest_shape> tasks/<your_slug>`
 2. Edit `tasks/<your_slug>/task.py`:
-   * Rename the `@env.scenario(name=...)` to your slug.
+   * Rename the `@env.template(id=...)` to your slug.
    * Edit `PROMPT`, the rubric / gold, and the grading body.
-   * Set `task.slug` and `task.metadata`.
+   * Set `task.slug` and `task.columns`.
 3. Drop case data under `cases/<your_slug>/`. Large binaries travel
    via Git LFS — see the env-root `.gitattributes`.
-4. Add `import tasks.<your_slug>  # noqa: F401` to `tasks/__init__.py`.
-5. `python local_test.py --task <your_slug>` to smoke-test.
+4. Add the task import to `tasks/__init__.py` and root `tasks.py`.
+5. `uv run python tools/local_test.py --task <your_slug>` to smoke-test.

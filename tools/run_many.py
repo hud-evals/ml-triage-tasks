@@ -1,4 +1,4 @@
-"""Run one task N times in parallel against a model, using hud.eval(group=...).
+"""Run one task N times in parallel against a model with Task.run(group=...).
 
 Usage:
     uv run --with hud-python --with openai python run_many.py \
@@ -16,15 +16,14 @@ import sys
 import time
 from pathlib import Path
 
-import hud
-from hud.agents import OpenAIChatAgent
+from hud import DockerRuntime
+from hud.agents import create_agent
 from hud.settings import settings
-from openai import AsyncOpenAI
 
 IMAGE = "ml-triage-tasks:local"
 ENV_ROOT = Path(__file__).resolve().parent.parent
 TASK_DIR = ENV_ROOT / "tasks"
-GATEWAY = os.environ.get("HUD_GATEWAY_URL", "https://inference.hud.ai")
+GATEWAY = os.environ.get("HUD_GATEWAY_URL", "https://inference.beta.hud.ai")
 
 
 def _load_task(name: str):
@@ -52,19 +51,20 @@ async def main() -> None:
             forwarded[k] = os.environ[k]
 
     task = _load_task(args.task)
-    task.env = hud.Environment("ml-triage-tasks").connect_image(IMAGE, env_vars=forwarded)
-    client = AsyncOpenAI(base_url=GATEWAY, api_key=api_key)
+    run_args: list[str] = []
+    for key, value in forwarded.items():
+        run_args.extend(["-e", f"{key}={value}"])
+    runtime = DockerRuntime(IMAGE, run_args=run_args)
 
     print(f"=== {args.task} | agent={args.model} | n={args.n} (parallel) ===")
     start = time.time()
-    async with hud.eval(task, group=args.n, max_concurrent=args.n) as ctx:
-        agent = OpenAIChatAgent(openai_client=client, model=args.model)
-        await agent.run(ctx, max_steps=args.max_steps)
+    agent = create_agent(args.model, max_steps=args.max_steps)
+    job = await task.run(agent, runtime=runtime, group=args.n, max_concurrent=args.n)
     dt = time.time() - start
 
     rewards: list[float] = []
-    for i, sub in enumerate(getattr(ctx, "results", []) or [], 1):
-        r = getattr(sub, "reward", None)
+    for i, run in enumerate(job.runs, 1):
+        r = getattr(run, "reward", None)
         print(f"[{i}/{args.n}] reward={r!r}")
         if r is not None:
             rewards.append(float(r))

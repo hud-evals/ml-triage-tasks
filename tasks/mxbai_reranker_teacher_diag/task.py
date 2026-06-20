@@ -269,7 +269,7 @@ BONUS = {
     ),
 }
 
-task = diagnose_research_study.task(
+task = diagnose_research_study(
     prompt=PROMPT,
     case="mxbai_reranker_teacher_diag",
     rubric=RUBRIC,
@@ -281,7 +281,7 @@ task = diagnose_research_study.task(
     anti_fake={"min_verified": 3},
 )
 task.slug = "mxbai_reranker_teacher_diag"
-task.metadata = {
+task.columns = {
     "category": "ml-researcher-writeup-during-ablation-sprint",
     "shape": "researcher_asks_for_help_with_paper_section_during_experiments",
     "rerankers": ["Qwen/Qwen3-Reranker-8B", "BAAI/bge-reranker-v2-m3"],

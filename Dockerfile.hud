@@ -8,14 +8,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         less \
         sqlite3 \
         git \
+        bubblewrap \
         ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# The agent's only visible root is /workspace, owned by uid 1000. The env
-# process itself still starts as root so it can read baked cases from
-# /opt/ci_cases; every bash command the agent issues is demoted to uid
-# 1000 before exec (see env.py::_demote_preexec).
-RUN install -d -m 0755 -o 1000 -g 1000 /workspace
+
+# The agent's workspace is /workspace. Keep it owned by the env process uid:
+# HUD v6 exposes shell/files through env.workspace(), isolated with bubblewrap,
+# and bwrap maps that uid into the namespace.
+RUN install -d -m 0755 -o 0 -g 0 /workspace
 
 WORKDIR /app
 
@@ -32,25 +33,26 @@ RUN pip install --no-cache-dir \
 
 # Cases are baked at /opt/ci_cases, invisible to the agent. At scenario-
 # start the env hard-copies the selected case's children into /workspace
-# and chowns them to uid 1000, so `ls` just shows the case contents with
-# no slug prefix. Large binaries inside cases/ travel via Git LFS — see
+# and chowns them to the env process uid, so `ls` just shows the case
+# contents with no slug prefix. Large binaries inside cases/ travel via Git LFS — see
 # the .gitattributes at the env root.
 COPY cases /opt/ci_cases
 
-# Lock everything uid 1000 should not be able to read or traverse:
+# Lock everything outside the workspace that the agent should not read:
 #   - /app: leftover build source (grader + pyproject live here too).
 #     Installed grader module is in site-packages; the /app copy is
 #     redundant but readable by default.
 #   - /opt/ci_cases: baked case data for every case. Only root (env
 #     process) traverses in.
-#   - site-packages env.py: the installed grader module. Parent dir
-#     stays readable so other packages load, but the file itself is
-#     0600 root so uid 1000 cannot cat it.
+#   - site-packages env.py: remove the installed grader module copy. The
+#     server imports /app/env.py, while /app is outside the bwrap workspace.
 RUN chmod 0700 /app \
  && chmod 0700 /opt/ci_cases \
- && find /usr/local/lib -name 'env.py' -path '*/site-packages/env.py' -print0 \
-    | xargs -0 -I {} chmod 0600 {}
+ && find /usr/local/lib -name 'env.py' -path '*/site-packages/env.py' -delete \
+ && find /usr/local/lib -path '*/site-packages/__pycache__/env.*.pyc' -delete
 
-WORKDIR /workspace
+# Serve from /app so `hud serve env:env` can load the packaged env module.
+# The agent still lands in /workspace through env.workspace("/workspace").
+WORKDIR /app
 
-CMD ["hud", "dev", "env:env", "--stdio"]
+CMD ["hud", "serve", "env:env", "--host", "0.0.0.0"]

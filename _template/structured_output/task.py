@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from hud.tools.types import EvaluationResult
+from hud.graders import EvaluationResult
 
 from env import env, mount_case
 
@@ -78,7 +78,7 @@ TODO: write the agent-facing prompt. Tell the agent to produce
 """
 
 
-@env.scenario(name="my_structured_task")
+@env.template(id="my_structured_task")
 async def my_structured_task(prompt: str, case: str):
     """Mount the case, yield prompt, grade against hardcoded gold on stop."""
     mount_case(case)
@@ -112,6 +112,6 @@ async def my_structured_task(prompt: str, case: str):
 # --- Bind the scenario into a task instance --------------------------------
 
 
-task = my_structured_task.task(prompt=PROMPT, case="TODO_case_slug")
+task = my_structured_task(prompt=PROMPT, case="TODO_case_slug")
 task.slug = "TODO_task_slug"
-task.metadata = {"category": "TODO"}
+task.columns = {"category": "TODO"}

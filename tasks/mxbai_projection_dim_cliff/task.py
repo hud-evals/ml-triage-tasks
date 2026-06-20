@@ -298,7 +298,7 @@ BONUS = {
     ),
 }
 
-task = diagnose_research_study.task(
+task = diagnose_research_study(
     prompt=PROMPT,
     case="mxbai_projection_dim_cliff",
     rubric=RUBRIC,
@@ -310,7 +310,7 @@ task = diagnose_research_study.task(
     anti_fake={"min_verified": 3},
 )
 task.slug = "mxbai_projection_dim_cliff"
-task.metadata = {
+task.columns = {
     "category": "ml-researcher-edge-deployment-recommendation",
     "shape": "researcher_asks_for_help_with_eng_recommendation_during_sprint",
     "model": "mixedbread-ai/mxbai-edge-colbert-v0-17m",

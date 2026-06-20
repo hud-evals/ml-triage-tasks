@@ -6,7 +6,7 @@ Usage:
 
     uv run --with 'hud-python' python local_test.py --list
 
-The container runs the MCP env; this script connects via connect_image()
+The container runs the MCP env; this script uses HUD v6's DockerRuntime
 and drives the agent through the HUD inference gateway.
 """
 
@@ -19,15 +19,14 @@ import os
 import sys
 from pathlib import Path
 
-import hud
-from hud.agents import OpenAIChatAgent
+from hud import DockerRuntime
+from hud.agents import create_agent
 from hud.settings import settings
-from openai import AsyncOpenAI
 
 IMAGE = "ml-triage-tasks:local"
 ENV_ROOT = Path(__file__).resolve().parent.parent
 TASK_DIR = ENV_ROOT / "tasks"
-GATEWAY = os.environ.get("HUD_GATEWAY_URL", "https://inference.hud.ai")
+GATEWAY = os.environ.get("HUD_GATEWAY_URL", "https://inference.beta.hud.ai")
 
 
 def _available_tasks() -> list[str]:
@@ -69,16 +68,16 @@ async def main() -> None:
         if os.environ.get(k):
             forwarded[k] = os.environ[k]
 
-    docker_env = hud.Environment("ml-triage-tasks")
-    docker_env.connect_image(IMAGE, env_vars=forwarded)
-    task.env = docker_env
+    run_args: list[str] = []
+    for key, value in forwarded.items():
+        run_args.extend(["-e", f"{key}={value}"])
+    runtime = DockerRuntime(IMAGE, run_args=run_args)
 
     print(f"=== {task.slug} | agent={args.model} ===")
-    client = AsyncOpenAI(base_url=GATEWAY, api_key=api_key)
-    async with hud.eval(task) as ctx:
-        agent = OpenAIChatAgent(openai_client=client, model=args.model)
-        await agent.run(ctx, max_steps=args.max_steps)
-        print(f"Reward: {getattr(ctx, 'reward', None)}")
+    agent = create_agent(args.model, max_steps=args.max_steps)
+    job = await task.run(agent, runtime=runtime)
+    print(f"Job: {job.id}")
+    print(f"Reward: {job.reward}")
 
 
 if __name__ == "__main__":

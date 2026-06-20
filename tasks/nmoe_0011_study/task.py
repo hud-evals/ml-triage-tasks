@@ -319,7 +319,7 @@ BONUS = {
     ),
 }
 
-task = diagnose_research_study.task(
+task = diagnose_research_study(
     prompt=PROMPT,
     case="nmoe_0011_study",
     rubric=RUBRIC,
@@ -331,7 +331,7 @@ task = diagnose_research_study.task(
     anti_fake={"min_verified": 3},
 )
 task.slug = "nmoe_0011_study"
-task.metadata = {
+task.columns = {
     "category": "ml-research-reconstruction",
     "repo": "Noumena-Network/nmoe",
     "commit": "970a146433f9c649d09ddab36f675974f53dd905",

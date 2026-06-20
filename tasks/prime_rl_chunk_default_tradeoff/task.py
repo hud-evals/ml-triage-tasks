@@ -201,7 +201,7 @@ BONUS = {
     "value": 0.15,
 }
 
-task = diagnose_research_study.task(
+task = diagnose_research_study(
     prompt=PROMPT,
     case="prime_rl_chunk_default_tradeoff",
     rubric=RUBRIC,
@@ -213,7 +213,7 @@ task = diagnose_research_study.task(
     anti_fake={"min_verified": 5, "max_fabricated_ratio": 0.20},
 )
 task.slug = "prime_rl_chunk_default_tradeoff"
-task.metadata = {
+task.columns = {
     "category": "ml-tradeoff-analysis",
     "repo": "PrimeIntellect-ai/prime-rl",
     "knob": "model.fused_lm_head_chunk_size",

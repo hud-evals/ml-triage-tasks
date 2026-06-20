@@ -298,7 +298,7 @@ BONUS = {
     ),
 }
 
-task = diagnose_research_study.task(
+task = diagnose_research_study(
     prompt=PROMPT,
     case="mxbai_projection_layer_choice",
     rubric=RUBRIC,
@@ -310,7 +310,7 @@ task = diagnose_research_study.task(
     anti_fake={"min_verified": 3},
 )
 task.slug = "mxbai_projection_layer_choice"
-task.metadata = {
+task.columns = {
     "category": "ml-researcher-hypothesis-refutation",
     "shape": "verify_or_refute_team_intuition_with_real_decomposition",
     "model": "mixedbread-ai/mxbai-edge-colbert-v0-17m",

@@ -291,7 +291,7 @@ BONUS = {
     ),
 }
 
-task = diagnose_research_study.task(
+task = diagnose_research_study(
     prompt=PROMPT,
     case="wafer_kda_diag",
     rubric=RUBRIC,
@@ -303,7 +303,7 @@ task = diagnose_research_study.task(
     anti_fake={"min_verified": 3},
 )
 task.slug = "wafer_kda_diag"
-task.metadata = {
+task.columns = {
     "category": "profile-driven-bottleneck-diagnosis",
     "source_repos": [
         "fla-org/flash-linear-attention (fla/ops/kda)",
