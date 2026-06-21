@@ -24,3 +24,4 @@ import tasks.prime_rl_chunk_default_tradeoff.task  # noqa: F401
 import tasks.wafer_cold_start.task  # noqa: F401
 import tasks.wafer_kimi_delta_attention.task  # noqa: F401
 import tasks.wafer_nvfp4_silu_audit.task  # noqa: F401
+import tasks.saebench_gaming_env  # noqa: F401
