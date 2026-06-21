@@ -25,13 +25,16 @@ async def saebench_gaming_env(prompt: str, case: str):
     # W_enc = np.load(WORK / "sae_W_enc.npy")
     # W_dec = np.load(WORK / "sae_W_dec.npy")
     # acts = np.load(WORK / "synth_acts.npy")
-    # meta = ...
+    # meta = json.load(open(WORK / "sae_meta.json"))
 
     # TODO: compute benchmark score
     # scr = score_scr(...)
 
     # TODO: compute hidden ground-truth metric
     # gt_mcc = score_gt_mcc(...)
+    # # NOTE:
+    # gt_mcc is logged for evaluation/research purposes
+    # but is NOT used as the reward.
 
     yield EvaluationResult(
         reward=0.5,  # replace with SCR later
