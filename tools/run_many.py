@@ -1,7 +1,7 @@
 """Run one task N times in parallel against a model with Task.run(group=...).
 
 Usage:
-    uv run --with hud-python --with openai python run_many.py \
+    uv run --with hud --with openai python run_many.py \
         --task prime_rl_chunk_default_tradeoff --model grok-4.20 --n 5
 """
 

@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "HUD environment for diagnosing ML/CI failures from scraped artefact bundles"
 requires-python = ">=3.11"
 dependencies = [
-    "hud-python",
+    "hud",
     "openai>=1.40",
 ]
 

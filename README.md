@@ -28,7 +28,7 @@ The taskset ships multiple audit tasks, all currently wired onto
 ```bash
 git lfs install
 git lfs pull           # streams cases/**/*.parquet, *.npy, prs/*.json, ci-logs/**, etc.
-uv sync                # installs hud-python, openai
+uv sync                # installs hud, openai
 ```
 
 ## Run a task locally

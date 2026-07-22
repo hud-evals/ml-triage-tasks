@@ -1,10 +1,10 @@
 """Run an agent against the sandboxed env in Docker, all local.
 
 Usage:
-    uv run --with 'hud-python' --with openai python local_test.py \
+    uv run --with 'hud' --with openai python local_test.py \
         --task prime_rl_chunk_default_tradeoff --model grok-4.20
 
-    uv run --with 'hud-python' python local_test.py --list
+    uv run --with 'hud' python local_test.py --list
 
 The container runs the MCP env; this script uses HUD v6's DockerRuntime
 and drives the agent through the HUD inference gateway.
